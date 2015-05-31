@@ -33,10 +33,10 @@
 
     app.config(function (/*$state,*/ $stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.when('/', '/ru/about');
-        $urlRouterProvider.when('/:language/', '/:language/about')
-        $urlRouterProvider.when('/:language', '/:language/about')
-        $urlRouterProvider.otherwise('/ru/about');
+        $urlRouterProvider.when('/', '/ru/main');
+        $urlRouterProvider.when('/:language/', '/:language/main')
+        $urlRouterProvider.when('/:language', '/:language/main')
+        $urlRouterProvider.otherwise('/ru/main');
 
         var shell = {
             name: 'shell',

@@ -14,33 +14,16 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" collapse="vm.navbarCollapsed">
             <ul class="nav navbar-nav" class="pull-left">
-                <li ui-sref-active="active" class="item active"><a ui-sref="shell.lang.content.main">{{ vm.data.MENU.MAIN | uppercase }}<span
+                <li class="item active" ui-sref-active="active"><a href="#">{{ vm.data.MENU.CEMENT | uppercase }}<span
                     class="sr-only">(current)</span></a>
                 </li>
-                <li ui-sref-active="active"><a href="#">{{ vm.data.MENU.PRODUCTS | uppercase }}</a>
-                </li>
-                <li ui-sref-active="active"><a href="#">{{ vm.data.MENU.PRICELIST | uppercase }}</a>
-                </li>
-                <li ui-sref-active="active" class="item"><a ui-sref="shell.lang.content.about">{{ vm.data.MENU.ABOUT | uppercase }}</a>
-                </li>
-                <li ui-sref-active="active"><a href="#">{{ vm.data.MENU.PARTNERS | uppercase }}</a>
-                </li>
-                <li ui-sref-active="active" class="item"><a ui-sref="shell.lang.content.jobs">{{ vm.data.MENU.JOBS | uppercase }}</a>
-                </li>
-                <li ui-sref-active="active" class="item"><a ui-sref="shell.lang.content.contact">{{ vm.data.MENU.CONTACT | uppercase }}</a>
-                </li>
+                <li class="item" ui-sref-active="active"><a href="#">{{ vm.data.MENU.POTASSIUM | uppercase }}</a></li>
+                <li class="item" ui-sref-active="active"><a href="#">{{ vm.data.MENU.MIXES | uppercase }}</a></li>
+                <li class="item" ui-sref-active="active"><a href="#">{{ vm.data.MENU.FILLING | uppercase }}</a></li>
+                <li class="item" ui-sref-active="active"><a href="#">{{ vm.data.MENU.MASH | uppercase }}</a></li>
+                <li class="item" ui-sref-active="active"><a href="#">{{ vm.data.MENU.OTHER | uppercase }}</a></li>
+                <li class="item" ui-sref-active="active"><a href="#">{{ vm.data.MENU.PRICES | uppercase }}</a></li>
             </ul>
-            <div>
-                <div class="nav navbar-nav navbar-right" id="flags" ng-controller="LanguageController as lg">
-                    <div>
-                        <input type="image" ng-click="vm.language='ru';lg.setLanguage('ru');vm.translate('ru')"
-                               ng-src="images/russia.png" alt="Русский" title="Русский"/>
-                        <input type="image" ng-click="vm.language='ua';lg.setLanguage('ua');vm.translate('ua')"
-                               ng-src="images/ukraine.png" alt="Українська" title="Українська"/>
-                    </div>
-                    <!--<pre>{{ language || 'null' }}</pre>-->
-                </div>
-            </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container-fluid -->

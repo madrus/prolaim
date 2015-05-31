@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8" />
+    <title>AngularJs Template</title>
+    <link data-require="bootstrap-css@*" data-semver="3.1.1" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <style>
+        .orange {
+            background-color: darkorange;
+            min-height: 100px;
+            color: white;
+        }
+
+        .pink {
+            background-color: deeppink;
+            min-height: 100px;
+            color: white;
+        }
+
+        .green {
+            background-color: green;
+            min-height: 100px;
+            color: white;
+        }
+
+        .blue {
+            background-color: blue;
+            min-height: 100px;
+            color: white;
+        }
+
+        .red {
+            background-color: red;
+            min-height: 100px;
+            color: white;
+        }
+
+        .purple {
+            background-color: purple;
+            min-height: 100px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+        <a class="btn btn-default" ui-sref="root.lang({lang: 'ru'})">RU</a>
+        <a class="btn btn-default" ui-sref="root.lang({lang: 'ua'})">UA</a>
+        <a class="btn btn-default" ui-sref="root.lang.about">ABOUT</a>
+        <div class="container body-content">
+            <div ui-view="login-status-view"></div>
+            <div ui-view="site-status-view"></div>
+            <div ui-view="page-view"></div>
+            <div ui-view="debug-view"></div>
+        </div>
+    </div>
+
+    <script data-require="angular.js@~1.4.0-rc.2" data-semver="1.3.15" src="https://code.angularjs.org/1.3.15/angular.js"></script>
+    <script data-require="angular-ui-router@*" data-semver="0.2.10" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="app.module.js"></script>
+</body>
+
+</html>
