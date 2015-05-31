@@ -1,0 +1,25 @@
+<!-- Angular UI Router Directives for template insertion -->
+<!--<section class="container" ng-controller="ShellController as vm">-->
+<section class="container">
+
+    <header id="header">
+        <div ui-view="header@shell"></div>
+    </header>
+
+    <section>
+        <div class="row">
+            <aside id="sidebar" class="col-md-2">
+                <div ui-view="sidebar@shell"></div>
+            </aside>
+
+            <section id="content" class="col-md-10">
+                <div ui-view="content"></div>
+            </section>
+        </div>
+    </section>
+
+    <footer id="footer" class="clearfix">
+        <div ui-view="footer@shell"></div>
+    </footer>
+
+</section>

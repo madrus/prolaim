@@ -1,0 +1,30 @@
+<div class="page-header">
+    <h1>{{ vm.data.TITLE }}</h1>
+
+    <h3>{{ vm.data.OFFICE.NAME }}</h3>
+
+    <p>{{ vm.data.OFFICE.ADDRESS }}</p>
+
+    <p>{{ vm.data.PHONES }}(044)406-38-44; (044)401-64-30; (044)502-94-54; (04598)63-800; (04598)58-828</p>
+
+    <p>{{ vm.data.EMAIL }}prolaim@ukr.net</p>
+
+    <h3>{{ vm.data.DEPOT.NAME }}</h3>
+
+    <p>{{ vm.data.DEPOT.ADDRESS }}</p>
+
+    <p>{{ vm.data.PHONES }}(04598)58-828; (044)406-38-44</p>
+    <!--<p>about.html speaking. Language: {{vm.language}}</p>-->
+    {{ vm.error }}
+
+    <h3>{{ vm.data.LOCATION }}</h3>
+    <!-- Yandex Maps -->
+    <div class="map">
+        <!-- Goto Google maps and copy the embed code of your location. Replace the below embed code with your code. -->
+        <!--<iframe height="600" width="800" allowfullscreen frameborder="0" scrolling="no" marginheight="0" marginwidth="0"-->
+        <!--src="https://www.google.com/maps/embed/v1/place?q=08132%2C%20%D0%9A%D0%B8%D1%97%D0%B2%D1%81%D1%8C%D0%BA%D0%B0%20%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C%2C%20%D0%9A%D0%B8%D1%94%D0%B2%D0%BE-%D0%A1%D0%B2%D1%8F%D1%82%D0%BE%D1%88%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9%20%D1%80%D0%B0%D0%B9%D0%BE%D0%BD%2C%20%D0%BC%D1%96%D1%81%D1%82%D0%BE%20%D0%92%D0%B8%D1%88%D0%BD%D0%B5%D0%B2%D0%B5%2C%20%D0%B2%D1%83%D0%BB.%20%D0%9A%D0%B8%D1%97%D0%B2%D1%81%D1%8C%D0%BA%D0%B0%2C%208%D0%B3&key=AIzaSyArMnSO1coj8XIx3_LkksMs8iupPzfWX_s&zoom=17">-->
+        <!--</iframe>-->
+        <!-- Maps -->
+        <div id="prolaim-map"></div>
+    </div>
+</div>
