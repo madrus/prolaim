@@ -1,15 +1,26 @@
 {
-  "name": "phonecat",
-  "description": "A test project with angular",
+  "name": "prolaim",
   "version": "0.1.0",
+  "description": "A test project with angular",
+  "authors": [
+    "Madrus"
+  ],
   "homepage": "https://github.com/madrus/prolaim",
   "license": "MIT",
   "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "devDependencies": {
+    "angular-mocks": "1.4.x"
+  },
   "dependencies": {
     "angular": "1.4.x",
-    "angular-mocks": "1.4.x",
     "jquery": "~2.1.1",
     "bootstrap": "~3.3.2",
+    "font-awesome": "~4.2.0",
     "angular-resource": "1.4.x",
     "angular-animate": "1.4.x",
     "angular-ui-router": "~0.2.13"
