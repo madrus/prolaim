@@ -1,8 +1,9 @@
-<nav class="navbar navbar-default" id="topbar">
-    <div class="container-fluid">
+<nav class="navbar navbar-default" id="topbar" class="topbar-wrapper">
+    <div class="container-fluid topbar-left">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" ui-sref="shell.lang.content.main"><img ng-src="/src/client/images/prolaim.png"/>
+            <a class="navbar-brand" ui-sref="shell.lang.content.main"><img
+                ng-src="/src/client/images/prolaim.png"/>
             </a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -12,37 +13,45 @@
                     vm.data.MENU.MAIN | uppercase }}<span
                         class="sr-only">(current)</span></a>
                 </li>
-                <li ui-sref-active="active" class="item"><a ui-sref="shell.lang.content.about">{{ vm.data.MENU.ABOUT |
+                <li ui-sref-active="active" class="item"><a ui-sref="shell.lang.content.about">{{
+                    vm.data.MENU.ABOUT |
                     uppercase }}</a>
                 </li>
                 <li ui-sref-active="active"><a href="#">{{ vm.data.MENU.PARTNERS | uppercase }}</a>
                 </li>
-                <li ui-sref-active="active" class="item"><a ui-sref="shell.lang.content.jobs">{{ vm.data.MENU.JOBS |
+                <li ui-sref-active="active" class="item"><a ui-sref="shell.lang.content.jobs">{{
+                    vm.data.MENU.JOBS |
                     uppercase }}</a>
                 </li>
-                <li ui-sref-active="active" class="item"><a ui-sref="shell.lang.content.contact">{{ vm.data.MENU.CONTACT
+                <li ui-sref-active="active" class="item"><a ui-sref="shell.lang.content.contact">{{
+                    vm.data.MENU.CONTACT
                     | uppercase }}</a>
                 </li>
             </ul>
         </div>
-        <div>
-            <div class="nav navbar-nav navbar-right" id="flags" ng-controller="LanguageController as lg">
-                <div>
-                    <input type="image" ng-click="vm.language='ru';lg.setLanguage('ru');vm.translate('ru')"
-                           ng-src="/src/client/images/russia.png" alt="Русский" title="Русский"/>
-                    <input type="image" ng-click="vm.language='ua';lg.setLanguage('ua');vm.translate('ua')"
-                           ng-src="/src/client/images/ukraine.png" alt="Українська" title="Українська"/>
-                </div>
-                <!--<pre>{{ language || 'null' }}</pre>-->
-            </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+
+    <div class="topbar-right">
+        <div class="nav navbar-nav navbar-right" id="flags"
+             ng-controller="LanguageController as lg">
+            <input type="image"
+                   ng-click="vm.language='ru';lg.setLanguage('ru');vm.translate('ru')"
+                   ng-src="/src/client/images/russia.png" alt="Русский" title="Русский"/>
+            <input type="image"
+                   ng-click="vm.language='ua';lg.setLanguage('ua');vm.translate('ua')"
+                   ng-src="/src/client/images/ukraine.png" alt="Українська" title="Українська"/>
+            <!--<pre>{{ language || 'null' }}</pre>-->
+        </div>
+        <div class="pull-right">
             <form class="navbar-form navbar-right" role="search">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="{{ vm.data.SEARCH_HINT }}">
                 </div>
-                <button type="submit" class="btn btn-default">{{ vm.data.SEARCH | uppercase }}</button>
+                <button type="submit" class="btn btn-default">{{ vm.data.SEARCH | uppercase }}
+                </button>
             </form>
         </div>
-        <!-- /.navbar-collapse -->
     </div>
-    <!-- /.container-fluid -->
 </nav>

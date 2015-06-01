@@ -8,7 +8,8 @@
             var msg = 'getTranslation triggered with pageName = \'' + pageName;
             msg += '\' and language = ' + language;
             console.log(msg);
-            var languageFilePath = '/src/client/sources/translations/' + pageName + '.' + language + '.json';
+            var languageFilePath =
+                '/src/client/sources/translations/' + pageName + '.' + language + '.json';
             var translation = $resource(languageFilePath).get();
             return translation.$promise.then(function (data) {
                 return data;

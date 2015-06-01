@@ -1,6 +1,28 @@
 /*********************
 *** basic elements ***
 *********************/
+* {
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+/*********************
+*** basic settings ***
+*********************/
+.test-style {
+  -webkit-transform-origin: center bottom;
+          transform-origin: center bottom;
+  color: #66ccff;
+  color: #297aa3;
+  color: #70b8db;
+  color: #f5854d;
+  color: #ff9966;
+  color: #a35229;
+  color: #db9470;
+  color: #a14df5;
+  color: #b366ff;
+  color: #6629a3;
+  color: #a670db;
+}
 body {
   background-color: #ffffee;
 }
@@ -30,25 +52,50 @@ p {
 *************/
 #topbar {
   margin-bottom: 0;
-  background-color: #ffffee;
+}
+#topbar .topbar-wrapper {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+#topbar .topbar-left {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  #topbar .topbar-left {
+    float: left;
+    width: 58.33333333%;
+  }
+}
+#topbar .topbar-right {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding: 0 0.5em;
+}
+@media (min-width: 992px) {
+  #topbar .topbar-right {
+    float: left;
+    width: 41.66666667%;
+  }
 }
 /*************
 *** navbar ***
 *************/
 #navbar {
-  background-color: #ffffee;
   border: 2px solid #1171a3;
-}
-#navbar ul {
-  background-color: #ffffee;
 }
 #navbar ul li > a {
   font-size: large;
-  color: #1171a3;
-  background-color: #ffffee;
 }
 #navbar ul li > a:hover {
-  color: #1171a3;
   /* Yandex Maps background color*/
   background-color: #f3efd2;
 }
@@ -60,8 +107,7 @@ p {
 *** flags ***
 ************/
 #flags {
-  margin-top: 0.65em;
-  margin-right: 0;
+  margin: 0.65em 0 0 0.5em;
 }
 #flags input:focus {
   outline: 0;

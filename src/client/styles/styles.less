@@ -1,41 +1,94 @@
 /*********************
 *** basic elements ***
 *********************/
+@import "../../../bower_components/bootstrap/less/variables.less";
+@import "../../../bower_components/bootstrap/less/mixins.less";
+
 @color_lightblue: #52b9e9;
+@color_blue: #1171a3;
+@color_success: #43c83c;
 @color_warning: #f88529;
 @color_important: #fa3031;
 @color_violet: #932ab6;
 
+* {
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.gray(@percent) {
+  color: lighten(@black, percentage(@percent / 100));
+}
+
 ///////////////////
 // CUSTOM COLORS //
 ///////////////////
-@color_blue: #1171a3;
+// Scaffolding
+@body-bg: #FFFFEE;
+//@text-color: @black-50; // Bootstrap default
+@text-color: #1171a3;
+// John Papa's blue
+//@color_blue: #1171a3;
 //@color_blue: #203F99; // alternative
-@color_main_background: #FFFFEE;
+//@color_main_background: #FFFFEE;
 @color_yandex_background: #F3EFD2;
 
-//.style-test {
-//  transform-origin: center bottom;
-//}
+/*********************
+*** basic settings ***
+*********************/
+//@primary: hsl(202, 100%, 50%);
+@primary: hsl(200, 89%, 63%);
 
-body {
-  background-color: @color_main_background;
+// Primary Variants
+@primaryLight: hsl(hue(@primary), 100%, 70%);
+@primaryDark: hsl(hue(@primary), 60%, 40%);
+@primaryFaded: hsl(hue(@primary), 60%, 65%);
+
+// 180degree Variants
+@variant: spin((@primary), 180);
+@variantLight: hsl(hue(@variant), 100%, 70%);
+@variantDark: hsl(hue(@variant), 60%, 40%);
+@variantFaded: hsl(hue(@variant), 60%, 65%);
+
+// 90degree Variants
+@corner: spin((@primary), 70);
+@cornerLight: hsl(hue(@corner), 100%, 70%);
+@cornerDark: hsl(hue(@corner), 60%, 40%);
+@cornerFaded: hsl(hue(@corner), 60%, 65%);
+
+// TEST
+.test-style {
+  transform-origin: center bottom;
+
+  // Primary Variants
+  color: @primaryLight;
+  color: @primaryDark;
+  color: @primaryFaded;
+
+  // 180degree Variants
+  color: @variant;
+  color: @variantLight;
+  color: @variantDark;
+  color: @variantFaded;
+
+  // 90degree Variants
+  color: @corner;
+  color: @cornerLight;
+  color: @cornerDark;
+  color: @cornerFaded;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-  color: @color_blue;
+body {
+  background-color: @body-bg;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  color: @text-color;
 }
 
 /******************
 *** page-header ***
 ******************/
-
 .page-header {
   text-align: center;
 }
@@ -43,7 +96,6 @@ p {
 /*******************
 *** navbar-brand ***
 *******************/
-
 .navbar-brand {
   padding: 0.2em 0.5em;
 }
@@ -51,38 +103,51 @@ p {
 /*************
 *** topbar ***
 *************/
-
 #topbar {
   margin-bottom: 0;
-  background-color: @color_main_background;
+  //background-color: @color_main_background;
+  .topbar-wrapper {
+    .make-row();
+  }
+  .topbar-left {
+    .make-md-column(7);
+    .make-xs-column(12);
+  }
+  .topbar-right {
+    .make-md-column(5);
+    //.make-md-column-offset(1);
+    .make-xs-column(12);
+    padding: 0 0.5em;
+  }
 }
 
 /*************
 *** navbar ***
 *************/
-
 #navbar {
-  background-color: @color_main_background;
-  border: 2px solid @color_blue;
+  //background-color: @color_main_background;
+  border: 2px solid @text-color;
 
   ul {
-    background-color: @color_main_background;
+    //background-color: @color_main_background;
 
     li > a {
       font-size: large;
-      color: @color_blue;
-      background-color: @color_main_background;
+      //color: @color_blue;
+      //background-color: @color_main_background;
     }
 
     li > a:hover {
-      color: @color_blue;
+      //color: @color_blue;
       /* Yandex Maps background color*/
       background-color: @color_yandex_background;
     }
 
     li.active > a {
-      color: @color_main_background;
-      background-color: @color_blue;
+      //color: @color_main_background;
+      color: @body-bg;
+      //background-color: @color_blue;
+      background-color: @text-color;
     }
   }
 }
@@ -90,10 +155,8 @@ p {
 /************
 *** flags ***
 ************/
-
 #flags {
-  margin-top: 0.65em;
-  margin-right: 0;
+  margin: 0.65em 0 0 0.5em;
 
   input:focus {
     outline: 0;
@@ -103,9 +166,8 @@ p {
 /******************
 *** menu-border ***
 ******************/
-
 #menu-border {
-  border-color: @color_blue;
+  border-color: @text-color;
 }
 
 /**************
