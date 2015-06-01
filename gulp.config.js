@@ -31,6 +31,7 @@ module.exports = function () {
         bower: {
             json: require('./bower.json'),
             directory: 'bower_components',
+            exclude: ['/bower_components/bootstrap/dist/css/bootstrap.css'],
             ignorePath: ['../..']
         }
     };
