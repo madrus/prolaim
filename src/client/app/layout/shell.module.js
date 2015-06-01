@@ -28,28 +28,29 @@
 
     // app.layout
     //
-    var ShellController = function (TranslatorFactory, $scope, $location, $state, $stateParams, $urlMatcherFactory) {
+    var ShellController = function (TranslatorFactory, $scope, $location,
+                                    $state/*, $stateParams, $urlMatcherFactory*/) {
 
-        console.log("Inside ShellController");
+        console.log('Inside ShellController');
 
         /* INIT */
         var path = $location.path();
-        console.log("shell: path from $location: " + path);
-        var pageName = "header";
+        console.log('shell: path from $location: ' + path);
+        var pageName = 'header';
         var vm = this;
         vm.navbarCollapsed = true;
 
         /* LANGUAGE and TRANSLATE */
         var oldIso = getLanguageFromPath(path);
         if (oldIso) {
-            console.log("shell: language in path: " + oldIso);
+            console.log('shell: language in path: ' + oldIso);
         } else {
-            console.log("shell: no language in path");
+            console.log('shell: no language in path');
         }
 
-        var iso = oldIso || "ru";
-        if (iso !== "ru" & iso !== "ua") {
-            iso = "ru";
+        var iso = oldIso || 'ru';
+        if (iso !== 'ru' && iso !== 'ua') {
+            iso = 'ru';
         }
 
         var onTranslated = function (data) {
@@ -57,16 +58,16 @@
                 vm.data = data;
                 vm.language = iso;
             } else {
-                console.log("No data available from the translator");
+                console.log('No data available from the translator');
             }
             if (iso !== oldIso) {
                 $location.path(iso);
             }
-            console.log("shell: path after relocation: " + $location.path());
+            console.log('shell: path after relocation: ' + $location.path());
         };
 
         var onError = function (reason) {
-            vm.error = "Could not translate";
+            vm.error = 'Could not translate';
         };
 
         vm.init = function (language) {
@@ -79,10 +80,10 @@
         vm.translate = function (language, firstTime) {
             var state = $state.current;
             path = $location.path(); // if path was not defined yet
-            console.log("shell: path: " + path);
+            console.log('shell: path: ' + path);
             oldIso = getLanguageFromPath(path); // if oldIso was not defined yet
-            console.log("shell: from path: language: " + oldIso);
-            console.log("shell: from flag: language: " + language);
+            console.log('shell: from path: language: ' + oldIso);
+            console.log('shell: from flag: language: ' + language);
             iso = language; // save the choice
             var needToTranslate = firstTime || (iso !== oldIso);
             if (needToTranslate) { // no need to translate if no change
@@ -112,7 +113,7 @@
                     console.log('Watched language changed to ' + newLanguage);
                 }
             );
-        }
+        };
 
         /* ACTIVATE */
         var activate = function () {
@@ -127,6 +128,7 @@
     };
 
     var module = angular.module('app.shell', []);
-    module.$inject = ['TranslatorFactory', '$location', '$stateProvider', '$urlMatcherFactory'];
+    //module.$inject = ['TranslatorFactory', '$location', '$stateProvider', '$urlMatcherFactory'];
+    module.$inject = ['TranslatorFactory', '$location', '$stateProvider'];
     module.controller('ShellController', ShellController);
 })();

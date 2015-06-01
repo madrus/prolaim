@@ -1,4 +1,7 @@
 {
-  "directory": "src/client/bower_components",
-  "interactive": false
+  "directory": "bower_components",
+  "interactive": false,
+  "scripts": {
+    "postinstall": "gulp wiredep"
+  }
 }

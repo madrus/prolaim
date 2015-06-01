@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#"><img ng-src="images/prolaim.png"/>
+            <a class="navbar-brand" ui-sref="shell.lang.content.main"><img ng-src="/src/client/images/prolaim.png"/>
             </a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -29,9 +29,9 @@
             <div class="nav navbar-nav navbar-right" id="flags" ng-controller="LanguageController as lg">
                 <div>
                     <input type="image" ng-click="vm.language='ru';lg.setLanguage('ru');vm.translate('ru')"
-                           ng-src="images/russia.png" alt="Ðóññêèé" title="Ðóññêèé"/>
+                           ng-src="/src/client/images/russia.png" alt="Ð ÑƒÑÑÐºÐ¸Ð¹" title="Ð ÑƒÑÑÐºÐ¸Ð¹"/>
                     <input type="image" ng-click="vm.language='ua';lg.setLanguage('ua');vm.translate('ua')"
-                           ng-src="images/ukraine.png" alt="Óêðà¿íñüêà" title="Óêðà¿íñüêà"/>
+                           ng-src="/src/client/images/ukraine.png" alt="Ð£ÐºÑ€Ð°Ñ—Ð½ÑÑŒÐºÐ°" title="Ð£ÐºÑ€Ð°Ñ—Ð½ÑÑŒÐºÐ°"/>
                 </div>
                 <!--<pre>{{ language || 'null' }}</pre>-->
             </div>

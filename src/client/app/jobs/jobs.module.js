@@ -6,11 +6,11 @@
     //
     var JobsController = function (TranslatorFactory, $stateParams) {
         // init
-        var iso = $stateParams.language || "ru";
-        if (iso !== "ru" & iso !== "ua") {
-            iso = "ru";
+        var iso = $stateParams.language || 'ru';
+        if (iso !== 'ru' && iso !== 'ua') {
+            iso = 'ru';
         }
-        var pageName = "jobs";
+        var pageName = 'jobs';
         var vm = this;
 
         var onTranslated = function (data) {
@@ -18,12 +18,12 @@
                 vm.data = data;
                 vm.language = iso;
             } else {
-                console.log("No data available from the translator");
+                console.log('No data available from the translator');
             }
         };
 
         var onError = function (reason) {
-            vm.error = "Could not translate";
+            vm.error = 'Could not translate';
         };
 
         vm.translate = function (language) {

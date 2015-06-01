@@ -1,0 +1,143 @@
+/*********************
+*** basic elements ***
+*********************/
+@color_lightblue: #52b9e9;
+@color_warning: #f88529;
+@color_important: #fa3031;
+@color_violet: #932ab6;
+
+///////////////////
+// CUSTOM COLORS //
+///////////////////
+@color_blue: #1171a3;
+//@color_blue: #203F99; // alternative
+@color_main_background: #FFFFEE;
+@color_yandex_background: #F3EFD2;
+
+//.style-test {
+//  transform-origin: center bottom;
+//}
+
+body {
+  background-color: @color_main_background;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: @color_blue;
+}
+
+/******************
+*** page-header ***
+******************/
+
+.page-header {
+  text-align: center;
+}
+
+/*******************
+*** navbar-brand ***
+*******************/
+
+.navbar-brand {
+  padding: 0.2em 0.5em;
+}
+
+/*************
+*** topbar ***
+*************/
+
+#topbar {
+  margin-bottom: 0;
+  background-color: @color_main_background;
+}
+
+/*************
+*** navbar ***
+*************/
+
+#navbar {
+  background-color: @color_main_background;
+  border: 2px solid @color_blue;
+
+  ul {
+    background-color: @color_main_background;
+
+    li > a {
+      font-size: large;
+      color: @color_blue;
+      background-color: @color_main_background;
+    }
+
+    li > a:hover {
+      color: @color_blue;
+      /* Yandex Maps background color*/
+      background-color: @color_yandex_background;
+    }
+
+    li.active > a {
+      color: @color_main_background;
+      background-color: @color_blue;
+    }
+  }
+}
+
+/************
+*** flags ***
+************/
+
+#flags {
+  margin-top: 0.65em;
+  margin-right: 0;
+
+  input:focus {
+    outline: 0;
+  }
+}
+
+/******************
+*** menu-border ***
+******************/
+
+#menu-border {
+  border-color: @color_blue;
+}
+
+/**************
+*** sidebar ***
+**************/
+#sidebar {
+  margin: 1em 0;
+}
+
+#content .page-header {
+  margin: 1em 0;
+}
+
+#footer {
+  text-align: center;
+}
+
+/******************
+*** yandex maps ***
+******************/
+.map {
+  position: relative;
+  padding-bottom: 38.19660113%; /* golden ratio 1.61803398875 */
+  overflow: hidden;
+  margin-top: 1.5em;
+
+  iframe, #prolaim-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}

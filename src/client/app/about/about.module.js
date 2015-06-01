@@ -7,14 +7,14 @@
     var AboutController = function (TranslatorFactory, $rootScope, $stateParams) {
         // init
         var oldIso = $stateParams.language;
-        console.log("about: $stateParams.language: " + oldIso);
+        console.log('about: $stateParams.language: ' + oldIso);
 
-        var iso = oldIso || "ua";
-        if (iso !== "ru" & iso !== "ua") {
-            iso = "ua";
+        var iso = oldIso || 'ua';
+        if (iso !== 'ru' && iso !== 'ua') {
+            iso = 'ua';
         }
 
-        var pageName = "about";
+        var pageName = 'about';
         var vm = this;
 
         var onTranslated = function (data) {
@@ -22,18 +22,18 @@
                 vm.data = data;
                 vm.language = iso;
             } else {
-                console.log("No data available from the translator");
+                console.log('No data available from the translator');
             }
         };
 
         var onError = function (reason) {
-            vm.error = "Could not translate";
+            vm.error = 'Could not translate';
         };
 
         vm.translate = function (language) {
             oldIso = $stateParams.language; // if oldIso was not defined yet
-            console.log("about: translate: oldIso: " + oldIso);
-            console.log("about: translate: language: " + language);
+            console.log('about: translate: oldIso: ' + oldIso);
+            console.log('about: translate: language: ' + language);
             iso = language;
             TranslatorFactory.getTranslation(pageName, language).then(onTranslated, onError);
         };

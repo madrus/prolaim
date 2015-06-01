@@ -34,15 +34,15 @@
     app.config(function (/*$state,*/ $stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.when('/', '/ru/main');
-        $urlRouterProvider.when('/:language/', '/:language/main')
-        $urlRouterProvider.when('/:language', '/:language/main')
+        $urlRouterProvider.when('/:language/', '/:language/main');
+        $urlRouterProvider.when('/:language', '/:language/main');
         $urlRouterProvider.otherwise('/ru/main');
 
         var shell = {
             name: 'shell',
             abstract: true,
             url: '/',
-            templateUrl: 'app/layout/shell.html',
+            templateUrl: '/src/client/app/layout/shell.html',
             controller: 'ShellController',
             controllerAs: 'vm'
         };
@@ -55,26 +55,26 @@
             // In such a way, they can be used as placeholders for other views below
             views: {
                 'header@shell': {
-                    templateUrl: 'app/layout/partials/header.html'
+                    templateUrl: '/src/client/app/layout/partials/header.html'
                 },
                 'sidebar@shell': {
-                    templateUrl: 'app/layout/partials/sidebar.html',
+                    templateUrl: '/src/client/app/layout/partials/sidebar.html',
                     controller: 'SidebarController'
                 },
                 'content@shell': {
-                    templateUrl: 'app/layout/partials/content.html',
+                    templateUrl: '/src/client/app/layout/partials/content.html',
                     controller: 'ContentController'
                 },
                 'footer@shell': {
-                    templateUrl: 'app/layout/partials/footer.html',
+                    templateUrl: '/src/client/app/layout/partials/footer.html',
                     controller: 'FooterController',
                     controllerAs: 'vm'
                 },
                 'topnav@shell.lang': {
-                    templateUrl: 'app/layout/partials/topnav.html'
+                    templateUrl: '/src/client/app/layout/partials/topnav.html'
                 },
                 'navbar@shell.lang': {
-                    templateUrl: 'app/layout/partials/navbar.html'
+                    templateUrl: '/src/client/app/layout/partials/navbar.html'
                 }
             },
             resolve: {
@@ -88,13 +88,13 @@
             name: 'shell.lang.content',
             url: '/',
             abstract: true,
-            templateUrl: 'app/layout/partials/dummy-content.html'
+            templateUrl: '/src/client/app/layout/partials/dummy-content.html'
         };
 
         var main = {
             name: 'shell.lang.content.main',
             url: 'main',
-            templateUrl: 'app/main/main.html',
+            templateUrl: '/src/client/app/main/main.html',
             controller: 'MainController',
             controllerAs: 'vm'
         };
@@ -102,7 +102,7 @@
         var about = {
             name: 'shell.lang.content.about',
             url: 'about',
-            templateUrl: 'app/about/about.html',
+            templateUrl: '/src/client/app/about/about.html',
             controller: 'AboutController',
             controllerAs: 'vm'
         };
@@ -110,7 +110,7 @@
         var jobs = {
             name: 'shell.lang.content.jobs',
             url: 'jobs',
-            templateUrl: 'app/jobs/jobs.html',
+            templateUrl: '/src/client/app/jobs/jobs.html',
             controller: 'JobsController',
             controllerAs: 'vm'
         };
@@ -118,7 +118,7 @@
         var contact = {
             name: 'shell.lang.content.contact',
             url: 'contact',
-            templateUrl: 'app/contact/contact.html',
+            templateUrl: '/src/client/app/contact/contact.html',
             controller: 'ContactController',
             controllerAs: 'vm'
         };

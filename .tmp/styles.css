@@ -1,11 +1,9 @@
 /*********************
 *** basic elements ***
 *********************/
-
 body {
-  background-color: #FFFFEE;
+  background-color: #ffffee;
 }
-
 h1,
 h2,
 h3,
@@ -13,108 +11,91 @@ h4,
 h5,
 h6,
 p {
-  color: #203F99;
+  color: #1171a3;
 }
-
-/*******************
+/******************
 *** page-header ***
-*******************/
-
+******************/
 .page-header {
   text-align: center;
 }
-
 /*******************
 *** navbar-brand ***
 *******************/
-
 .navbar-brand {
   padding: 0.2em 0.5em;
 }
-
 /*************
 *** topbar ***
 *************/
-
 #topbar {
   margin-bottom: 0;
-  background-color: #FFFFEE;
+  background-color: #ffffee;
 }
-
 /*************
 *** navbar ***
 *************/
-
-#navbar,
+#navbar {
+  background-color: #ffffee;
+  border: 2px solid #1171a3;
+}
 #navbar ul {
-  background-color: #FFFFEE;
-  border-color: #203F99;
-  border-width: 2px;
+  background-color: #ffffee;
 }
-
-#navbar li > a {
+#navbar ul li > a {
   font-size: large;
-  color: #203F99;
-  background-color: #FFFFEE;
+  color: #1171a3;
+  background-color: #ffffee;
 }
-
-#navbar li > a:hover {
-  color: #203F99;
-  background-color: #F3EFD2; /* Yandex Maps color*/
+#navbar ul li > a:hover {
+  color: #1171a3;
+  /* Yandex Maps background color*/
+  background-color: #f3efd2;
 }
-
-#navbar li.active > a {
-  color: #FFFFEE;
-  background-color: #203F99;
+#navbar ul li.active > a {
+  color: #ffffee;
+  background-color: #1171a3;
 }
-
 /************
 *** flags ***
 ************/
-
 #flags {
   margin-top: 0.65em;
   margin-right: 0;
 }
-
-/******************
-*** menu-border ***
-******************/
-
-#menu-border {
-  border-color: #203F99;
-}
-
 #flags input:focus {
   outline: 0;
 }
-
+/******************
+*** menu-border ***
+******************/
+#menu-border {
+  border-color: #1171a3;
+}
 /**************
 *** sidebar ***
 **************/
 #sidebar {
   margin: 1em 0;
 }
-
 #content .page-header {
   margin: 1em 0;
 }
-
 #footer {
   text-align: center;
 }
-
 /******************
 *** yandex maps ***
 ******************/
 .map {
   position: relative;
-  padding-bottom: 38.19660113%; /* golden ratio 1.61803398875 */
+  padding-bottom: 38.19660113%;
+  /* golden ratio 1.61803398875 */
   overflow: hidden;
   margin-top: 1.5em;
 }
-
-.map iframe, .map #prolaim-map  {
+.map iframe,
+.map #prolaim-map {
   position: absolute;
   top: 0;
   left: 0;

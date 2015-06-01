@@ -7,14 +7,14 @@
     var ContactController = function (TranslatorFactory, $scope, $stateParams) {
         // init
         var oldIso = $stateParams.language;
-        console.log("contact: $stateParams.language: " + oldIso);
+        console.log('contact: $stateParams.language: ' + oldIso);
 
-        var iso = oldIso || "ua";
-        if (iso !== "ru" & iso !== "ua") {
-            iso = "ua";
+        var iso = oldIso || 'ua';
+        if (iso !== 'ru' && iso !== 'ua') {
+            iso = 'ua';
         }
 
-        var pageName = "contact";
+        var pageName = 'contact';
         var vm = this;
         vm.prolaimMap = null;
 
@@ -23,18 +23,18 @@
                 vm.data = data;
                 vm.language = iso;
             } else {
-                console.log("No data available from the translator");
+                console.log('No data available from the translator');
             }
         };
 
         var onError = function (reason) {
-            vm.error = "Could not translate";
+            vm.error = 'Could not translate';
         };
 
         vm.translate = function (language) {
             oldIso = $stateParams.language; // if oldIso was not defined yet
-            console.log("contact: translate: oldIso: " + oldIso);
-            console.log("contact: translate: language: " + language);
+            console.log('contact: translate: oldIso: ' + oldIso);
+            console.log('contact: translate: language: ' + language);
             iso = language;
             TranslatorFactory.getTranslation(pageName, language).then(onTranslated, onError);
         };
@@ -43,7 +43,7 @@
         var initializeMap = function () {
             var mapContainer = document.getElementById('prolaim-map');
             // Создание экземпляра карты и его привязка к контейнеру с
-            // заданным id ("prolaim-map").
+            // заданным id ('prolaim-map').
             var config = {
                 // При инициализации карты обязательно нужно указать
                 // её центр и коэффициент масштабирования.
@@ -51,7 +51,7 @@
                 zoom: 16,
                 // включаем масштабирование карты колесом
                 behaviors: ['default', 'scrollZoom']
-            }
+            };
 
             var prolaim = new ymaps.Map(mapContainer, config);
             //prolaim.controls.add('routeEditor');
@@ -63,7 +63,7 @@
             var geoObject = new ymaps.GeoObject({
                 // Описание геометрии
                 geometry: {
-                    type: "Point",
+                    type: 'Point',
                     coordinates: [50.381229, 30.340011]
                 },
                 // Свойства
@@ -83,7 +83,7 @@
 
             // Добавляем метку на карту.
             prolaim.geoObjects.add(geoObject);
-        }
+        };
 
         var activate = function () {
             vm.translate(iso);
