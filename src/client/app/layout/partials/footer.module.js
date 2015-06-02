@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var FooterController = function (TranslatorFactory, $rootScope, $stateParams) {
+    var FooterController = function (TranslatorService, $rootScope, $stateParams) {
         console.log('I\'m inside the FooterController placeholder');
 
         // init
@@ -34,7 +34,7 @@
             console.log('about: translate: oldIso: ' + oldIso);
             console.log('about: translate: language: ' + language);
             iso = language;
-            TranslatorFactory.getTranslation(pageName, language).then(onTranslated, onError);
+            TranslatorService.getTranslation(pageName, language).then(onTranslated, onError);
         };
 
         var activate = function () {
@@ -45,6 +45,6 @@
     };
 
     var module = angular.module('app.footer', []);
-    module.$inject = ['TranslatorFactory', '$rootScope', '$stateProvider'];
+    module.$inject = ['TranslatorService', '$rootScope', '$stateProvider'];
     module.controller('FooterController', FooterController);
 })();

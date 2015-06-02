@@ -4,7 +4,7 @@
 
     // app.jobs
     //
-    var JobsController = function (TranslatorFactory, $stateParams) {
+    var JobsController = function (TranslatorService, $stateParams) {
         // init
         var iso = $stateParams.language || 'ru';
         if (iso !== 'ru' && iso !== 'ua') {
@@ -28,13 +28,13 @@
 
         vm.translate = function (language) {
             iso = language;
-            TranslatorFactory.getTranslation(pageName, iso).then(onTranslated, onError);
+            TranslatorService.getTranslation(pageName, iso).then(onTranslated, onError);
         };
 
         vm.translate(iso);
     };
 
     var module = angular.module('app.jobs', []);
-    module.$inject = ['TranslatorFactory', '$stateParams'];
+    module.$inject = ['TranslatorService', '$stateParams'];
     module.controller('JobsController', JobsController);
 })();

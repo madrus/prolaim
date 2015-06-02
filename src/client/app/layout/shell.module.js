@@ -28,7 +28,7 @@
 
     // app.layout
     //
-    var ShellController = function (TranslatorFactory, $scope, $location,
+    var ShellController = function (TranslatorService, $scope, $location,
                                     $state/*, $stateParams, $urlMatcherFactory*/) {
 
         console.log('Inside ShellController');
@@ -87,7 +87,7 @@
             iso = language; // save the choice
             var needToTranslate = firstTime || (iso !== oldIso);
             if (needToTranslate) { // no need to translate if no change
-                TranslatorFactory.getTranslation(pageName, language).then(onTranslated, onError);
+                TranslatorService.getTranslation(pageName, language).then(onTranslated, onError);
             }
             var lang = getLanguageFromPath(path);
             var rest = getRestOfPath(path);
@@ -128,7 +128,7 @@
     };
 
     var module = angular.module('app.shell', []);
-    //module.$inject = ['TranslatorFactory', '$location', '$stateProvider', '$urlMatcherFactory'];
-    module.$inject = ['TranslatorFactory', '$location', '$stateProvider'];
+    //module.$inject = ['TranslatorService', '$location', '$stateProvider', '$urlMatcherFactory'];
+    module.$inject = ['TranslatorService', '$location', '$stateProvider'];
     module.controller('ShellController', ShellController);
 })();

@@ -4,7 +4,7 @@
 
     // app.about
     //
-    var AboutController = function (TranslatorFactory, $rootScope, $stateParams) {
+    var AboutController = function (TranslatorService, $rootScope, $stateParams) {
         // init
         var oldIso = $stateParams.language;
         console.log('about: $stateParams.language: ' + oldIso);
@@ -35,7 +35,7 @@
             console.log('about: translate: oldIso: ' + oldIso);
             console.log('about: translate: language: ' + language);
             iso = language;
-            TranslatorFactory.getTranslation(pageName, language).then(onTranslated, onError);
+            TranslatorService.getTranslation(pageName, language).then(onTranslated, onError);
         };
 
         var activate = function () {
@@ -46,6 +46,6 @@
     };
 
     var module = angular.module('app.about', []);
-    module.$inject = ['TranslatorFactory', '$rootScope', '$stateProvider'];
+    module.$inject = ['TranslatorService', '$rootScope', '$stateProvider'];
     module.controller('AboutController', AboutController);
 })();

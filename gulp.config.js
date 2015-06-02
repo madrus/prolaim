@@ -28,6 +28,9 @@ module.exports = function () {
 
         /**
          * Bower and NPM locations
+         * - I tried to exclude the bootstrap.css via 'exclude' option
+         *   (using regex or string notation) but it did not work
+         *   Finally, I used 'overrides' option in bower.json
          */
         bower: {
             json: require('./bower.json'),

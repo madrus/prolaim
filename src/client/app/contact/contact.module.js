@@ -4,7 +4,7 @@
 
     // app.contact
     //
-    var ContactController = function (TranslatorFactory, $scope, $stateParams) {
+    var ContactController = function (TranslatorService, $scope, $stateParams) {
         // init
         var oldIso = $stateParams.language;
         console.log('contact: $stateParams.language: ' + oldIso);
@@ -36,7 +36,7 @@
             console.log('contact: translate: oldIso: ' + oldIso);
             console.log('contact: translate: language: ' + language);
             iso = language;
-            TranslatorFactory.getTranslation(pageName, language).then(onTranslated, onError);
+            TranslatorService.getTranslation(pageName, language).then(onTranslated, onError);
         };
 
         // Дождёмся загрузки API и готовности DOM.
@@ -94,6 +94,6 @@
     };
 
     var module = angular.module('app.contact', []);
-    module.$inject = ['TranslatorFactory', '$scope', '$stateProvider'];
+    module.$inject = ['TranslatorService', '$scope', '$stateProvider'];
     module.controller('ContactController', ContactController);
 })();

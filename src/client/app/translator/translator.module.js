@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    var TranslatorFactory = function ($resource) {
+    var TranslatorService = function ($resource) {
 
         var getTranslation = function (pageName, language) {
             var msg = 'getTranslation triggered with pageName = \'' + pageName;
@@ -27,6 +27,6 @@
     // so, if any other controller looks for 'translator', it will get back
     // this API (with getTranslation method exposed to the outside world)
     module.$inject = ['ngResource'];
-    module.factory('TranslatorFactory', TranslatorFactory);
+    module.service('TranslatorService', TranslatorService);
 
 })();
