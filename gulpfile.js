@@ -4,6 +4,9 @@ var args = require('yargs').argv;
 var config = require('./gulp.config')();
 var del = require('del');
 
+gulp.task('help', $.taskListing);
+gulp.task('default', ['help']);
+
 gulp.task('vet', function () {
     log('VET: analyze source with JSHint and JSCS');
     return gulp
@@ -23,11 +26,19 @@ gulp.task('styles', ['clean-styles'], function () {
         .pipe($.plumber())
         .pipe($.less())
         .pipe($.autoprefixer({browsers: ['last 2 version', '> 5%']}))
-        .pipe(gulp.dest(config.temp));
+        .pipe(gulp.dest(config.temp + 'styles'));
+});
+
+gulp.task('fonts', function() {
+    log('FONTS: temporary copy glyphicons only');
+
+    return gulp
+        .src(config.fonts)
+        .pipe(gulp.dest(config.temp + 'fonts'));
 });
 
 gulp.task('clean-styles', function (done) {
-    clean(config.temp + '**/*.css', done);
+    clean(config.temp + 'styles/**/*.css', done);
 });
 
 gulp.task('less-watcher', function () {

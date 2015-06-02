@@ -15,6 +15,7 @@ module.exports = function () {
         ],
         client: client,
         css: temp + 'styles.css',
+        fonts: 'bower_components/bootstrap/fonts/*.*',
         index: client + 'index.html',
         js: [
             clientApp + '**/*.module.js',
@@ -31,7 +32,6 @@ module.exports = function () {
         bower: {
             json: require('./bower.json'),
             directory: 'bower_components',
-            exclude: ['/bower_components/bootstrap/dist/css/bootstrap.css'],
             ignorePath: ['../..']
         }
     };

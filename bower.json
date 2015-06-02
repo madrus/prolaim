@@ -21,7 +21,6 @@
     "angular": "1.4.x",
     "jquery": "~2.1.1",
     "bootstrap": "~3.3.4",
-    "font-awesome": "~4.2.0",
     "angular-animate": "1.4.x",
     "angular-ui-router": "~0.2.13",
     "angular-bootstrap": "~0.13.0",
