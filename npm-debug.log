@@ -1,0 +1,132 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@1.4.28
+3 info using node@v0.12.0
+4 verbose readDependencies using package.json deps
+5 verbose install where, deps [ 'd:\\ar\\_github\\ng\\prolaim',
+5 verbose install   [ 'body-parser',
+5 verbose install     'compression',
+5 verbose install     'cors',
+5 verbose install     'express',
+5 verbose install     'morgan',
+5 verbose install     'serve-favicon',
+5 verbose install     'bower',
+5 verbose install     'del',
+5 verbose install     'font-awesome',
+5 verbose install     'gulp',
+5 verbose install     'gulp-autoprefixer',
+5 verbose install     'gulp-if',
+5 verbose install     'gulp-inject',
+5 verbose install     'gulp-jscs',
+5 verbose install     'gulp-jshint',
+5 verbose install     'gulp-less',
+5 verbose install     'gulp-load-plugins',
+5 verbose install     'gulp-plumber',
+5 verbose install     'gulp-print',
+5 verbose install     'gulp-task-listing',
+5 verbose install     'gulp-util',
+5 verbose install     'http-server',
+5 verbose install     'jshint-stylish',
+5 verbose install     'karma',
+5 verbose install     'karma-chrome-launcher',
+5 verbose install     'karma-jasmine',
+5 verbose install     'protractor',
+5 verbose install     'shelljs',
+5 verbose install     'tmp',
+5 verbose install     'wiredep',
+5 verbose install     'yargs' ] ]
+6 info preinstall prolaim@0.1.0
+7 verbose readDependencies using package.json deps
+8 verbose already installed skipping compression@^1.4.4 d:\ar\_github\ng\prolaim
+9 verbose already installed skipping cors@^2.7.1 d:\ar\_github\ng\prolaim
+10 verbose already installed skipping express@^4.12.4 d:\ar\_github\ng\prolaim
+11 verbose already installed skipping morgan@^1.5.3 d:\ar\_github\ng\prolaim
+12 verbose already installed skipping serve-favicon@^2.2.1 d:\ar\_github\ng\prolaim
+13 verbose already installed skipping bower@^1.3.1 d:\ar\_github\ng\prolaim
+14 verbose already installed skipping del@^1.2.0 d:\ar\_github\ng\prolaim
+15 verbose already installed skipping font-awesome@^4.3.0 d:\ar\_github\ng\prolaim
+16 verbose already installed skipping gulp@^3.8.11 d:\ar\_github\ng\prolaim
+17 verbose already installed skipping gulp-autoprefixer@^2.3.0 d:\ar\_github\ng\prolaim
+18 verbose already installed skipping gulp-if@^1.2.5 d:\ar\_github\ng\prolaim
+19 verbose already installed skipping gulp-inject@^1.2.0 d:\ar\_github\ng\prolaim
+20 verbose already installed skipping gulp-jscs@^1.6.0 d:\ar\_github\ng\prolaim
+21 verbose already installed skipping gulp-jshint@^1.11.0 d:\ar\_github\ng\prolaim
+22 verbose already installed skipping gulp-less@^3.0.3 d:\ar\_github\ng\prolaim
+23 verbose already installed skipping gulp-load-plugins@^0.10.0 d:\ar\_github\ng\prolaim
+24 verbose already installed skipping gulp-plumber@^1.0.1 d:\ar\_github\ng\prolaim
+25 verbose already installed skipping gulp-print@^1.1.0 d:\ar\_github\ng\prolaim
+26 verbose already installed skipping gulp-task-listing@^1.0.0 d:\ar\_github\ng\prolaim
+27 verbose already installed skipping gulp-util@^3.0.5 d:\ar\_github\ng\prolaim
+28 verbose already installed skipping http-server@^0.6.1 d:\ar\_github\ng\prolaim
+29 verbose already installed skipping jshint-stylish@^2.0.0 d:\ar\_github\ng\prolaim
+30 verbose already installed skipping karma@^0.12.16 d:\ar\_github\ng\prolaim
+31 verbose already installed skipping karma-chrome-launcher@^0.1.4 d:\ar\_github\ng\prolaim
+32 verbose already installed skipping karma-jasmine@^0.1.5 d:\ar\_github\ng\prolaim
+33 verbose already installed skipping protractor@~1.0.0 d:\ar\_github\ng\prolaim
+34 verbose already installed skipping shelljs@^0.2.6 d:\ar\_github\ng\prolaim
+35 verbose already installed skipping tmp@0.0.23 d:\ar\_github\ng\prolaim
+36 verbose already installed skipping wiredep@^2.2.2 d:\ar\_github\ng\prolaim
+37 verbose already installed skipping yargs@^3.10.0 d:\ar\_github\ng\prolaim
+38 verbose already installed skipping body-parser@^1.12.4 d:\ar\_github\ng\prolaim
+39 silly resolved []
+40 info build d:\ar\_github\ng\prolaim
+41 verbose linkStuff [ false, false, false, 'd:\\ar\\_github\\ng' ]
+42 info linkStuff prolaim@0.1.0
+43 verbose linkBins prolaim@0.1.0
+44 verbose linkMans prolaim@0.1.0
+45 verbose rebuildBundles prolaim@0.1.0
+46 verbose rebuildBundles [ '.bin',
+46 verbose rebuildBundles   'body-parser',
+46 verbose rebuildBundles   'bower',
+46 verbose rebuildBundles   'compression',
+46 verbose rebuildBundles   'cors',
+46 verbose rebuildBundles   'del',
+46 verbose rebuildBundles   'express',
+46 verbose rebuildBundles   'font-awesome',
+46 verbose rebuildBundles   'gulp',
+46 verbose rebuildBundles   'gulp-autoprefixer',
+46 verbose rebuildBundles   'gulp-if',
+46 verbose rebuildBundles   'gulp-inject',
+46 verbose rebuildBundles   'gulp-jscs',
+46 verbose rebuildBundles   'gulp-jshint',
+46 verbose rebuildBundles   'gulp-less',
+46 verbose rebuildBundles   'gulp-load-plugins',
+46 verbose rebuildBundles   'gulp-plumber',
+46 verbose rebuildBundles   'gulp-print',
+46 verbose rebuildBundles   'gulp-task-listing',
+46 verbose rebuildBundles   'gulp-util',
+46 verbose rebuildBundles   'http-server',
+46 verbose rebuildBundles   'jshint-stylish',
+46 verbose rebuildBundles   'karma',
+46 verbose rebuildBundles   'karma-chrome-launcher',
+46 verbose rebuildBundles   'karma-jasmine',
+46 verbose rebuildBundles   'morgan',
+46 verbose rebuildBundles   'protractor',
+46 verbose rebuildBundles   'serve-favicon',
+46 verbose rebuildBundles   'shelljs',
+46 verbose rebuildBundles   'tmp',
+46 verbose rebuildBundles   'wiredep',
+46 verbose rebuildBundles   'yargs' ]
+47 info install prolaim@0.1.0
+48 info postinstall prolaim@0.1.0
+49 verbose unsafe-perm in lifecycle true
+50 info prolaim@0.1.0 Failed to exec postinstall script
+51 error prolaim@0.1.0 postinstall: `bower install`
+51 error Exit status 1
+52 error Failed at the prolaim@0.1.0 postinstall script.
+52 error This is most likely a problem with the prolaim package,
+52 error not with npm itself.
+52 error Tell the author that this fails on your system:
+52 error     bower install
+52 error You can get their info via:
+52 error     npm owner ls prolaim
+52 error There is likely additional logging output above.
+53 error System Windows_NT 6.1.7601
+54 error command "c:\\Program Files\\nodejs\\node.exe" "c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+55 error cwd d:\ar\_github\ng\prolaim
+56 error node -v v0.12.0
+57 error npm -v 1.4.28
+58 error code ELIFECYCLE
+59 verbose exit [ 1, true ]

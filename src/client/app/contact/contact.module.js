@@ -14,15 +14,14 @@
         /*jshint validthis: true */
         var vm = this;
         vm.translate = translate;
-        //vm.prolaimMap = null;
 
         // init
         var oldIso = $stateParams.language;
         console.log('contact: $stateParams.language: ' + oldIso);
 
-        var iso = oldIso || 'ua';
+        var iso = oldIso || 'ru';
         if (iso !== 'ru' && iso !== 'ua') {
-            iso = 'ua';
+            iso = 'ru';
         }
 
         activate();
@@ -71,17 +70,21 @@
             };
 
             var prolaimMap = new ymaps.Map(mapContainer, config);
-            //prolaim.controls.add('routeEditor');
+            //prolaimMap.controls.add('routeEditor');
 
             //var zoomOffset = -3;
             //var miniMap = new ymaps.MiniMap(zoomOffset);
-            //prolaim.controls.add('miniMap');
+            //prolaimMap.controls.add('miniMap');
 
             var marker = new ymaps.GeoObject({
                 // Описание геометрии
+                // geometry: {
+                //     type: 'Point',
+                //     coordinates: [50.381229, 30.340011]
+                // },
                 geometry: {
                     type: 'Point',
-                    coordinates: [50.381229, 30.340011]
+                    coordinates: [50.381366, 30.340078]
                 },
                 // Свойства
                 properties: {
@@ -100,8 +103,6 @@
 
             // Добавляем метку на карту.
             prolaimMap.geoObjects.add(marker);
-
-            //vm.prolaimMap = prolaimMap;
         }
     }
 

@@ -1,6 +1,8 @@
 {
   "directory": "bower_components",
   "interactive": false,
+  "proxy": "http://localhost:53128",
+  "https-proxy": "http://localhost:53128",
   "scripts": {
     "postinstall": "gulp wiredep"
   }

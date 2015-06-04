@@ -29,8 +29,6 @@
                 $urlRouterProvider.when('/:language', '/:language/main');
                 $urlRouterProvider.otherwise('/ru/main');
 
-                /////////////////////////////////////
-
                 var shell = {
                     name: 'shell',
                     abstract: true,

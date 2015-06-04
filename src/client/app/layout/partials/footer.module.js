@@ -17,9 +17,9 @@
         var oldIso = $stateParams.language;
         console.log('about: $stateParams.language: ' + oldIso);
 
-        var iso = oldIso || 'ua';
+        var iso = oldIso || 'ru';
         if (iso !== 'ru' && iso !== 'ua') {
-            iso = 'ua';
+            iso = 'ru';
         }
 
         activate(iso);
