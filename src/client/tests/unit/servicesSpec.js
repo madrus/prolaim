@@ -4,7 +4,7 @@
 
 describe('services', function() {
 
-    describe('service: TranslatorService', function () {
+    describe('TranslatorService', function () {
         // Load your module.
         beforeEach(module('app'));
 
@@ -15,20 +15,20 @@ describe('services', function() {
         //    });
         //}));
 
-        var service = null;
-
-        beforeEach(inject(function(TranslatorService) {
-            service = TranslatorService;
-        }));
-
-        it('should be defined itself', function () {
-            expect(service).toBeDefined();
-        });
-
-        it('Should define methods', function() {
-            expect(service.getTranslation).toBeDefined();
-            expect(service.getTranslation).toEqual(jasmine.any(Function));
-        });
+        //var service = null;
+        //
+        //beforeEach(inject(function(TranslatorService) {
+        //    service = TranslatorService;
+        //}));
+        //
+        //it('should be defined', function () {
+        //    expect(service).toBeDefined();
+        //});
+        //
+        //it('Should define methods', function() {
+        //    expect(service.getTranslation).toBeDefined();
+        //    expect(service.getTranslation).toEqual(jasmine.any(Function));
+        //});
     });
 
 });

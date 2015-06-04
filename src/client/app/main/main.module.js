@@ -2,39 +2,47 @@
 (function () {
     'use strict';
 
-    // app.main
-    //
-    var MainController = function (TranslatorService, $stateParams) {
-        // init
+    angular.module('app')
+        .controller('MainController', MainController);
+
+    MainController.$inject = ['TranslatorService', '$stateParams'];
+
+    function MainController(TranslatorService, $stateParams) {
+
+        console.log('MainController');
+
+        /*jshint validthis: true */
+        var vm = this;
+        vm.translate = translate;
+
+        /* INIT */
         var iso = $stateParams.language || 'ru';
         if (iso !== 'ru' && iso !== 'ua') {
             iso = 'ru';
         }
-        var pageName = 'main';
-        var vm = this;
 
-        var onTranslated = function (data) {
+        vm.translate(iso);
+
+        /////////////////////////////////////
+
+        function onTranslated(data) {
             if (data) {
                 vm.data = data;
                 vm.language = iso;
             } else {
                 console.log('No data available from the translator');
             }
-        };
+        }
 
-        var onError = function (reason) {
-            vm.error = 'Could not translate';
-        };
+        function onError(reason) {
+            vm.error = 'Could not translate: ' + reason;
+        }
 
-        vm.translate = function (language) {
+        function translate(language) {
+            var pageName = 'main';
             iso = language;
             TranslatorService.getTranslation(pageName, iso).then(onTranslated, onError);
-        };
+        }
+    }
 
-        vm.translate(iso);
-    };
-
-    var module = angular.module('app.main', []);
-    module.$inject = ['TranslatorService', '$stateParams'];
-    module.controller('MainController', MainController);
 })();

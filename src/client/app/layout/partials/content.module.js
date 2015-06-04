@@ -1,10 +1,11 @@
 (function () {
     'use strict';
 
-    var ContentController = function () {
-        console.log('I\'m inside the ContentController placeholder');
-    };
+    angular.module('app')
+        .controller('ContentController', ContentController);
 
-    var module = angular.module('app.content', []);
-    module.controller('ContentController', ContentController);
+    function ContentController() {
+        console.log('ContentController placeholder');
+    }
+
 })();

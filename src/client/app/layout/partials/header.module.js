@@ -1,10 +1,11 @@
 (function () {
     'use strict';
 
-    var HeaderController = function () {
-        console.log('I\'m inside the HeaderController placeholder');
-    };
+    angular.module('app')
+        .controller('HeaderController', HeaderController);
 
-    var module = angular.module('app.header', []);
-    module.controller('HeaderController', HeaderController);
+    function HeaderController() {
+        console.log('HeaderController placeholder');
+    }
+
 })();

@@ -1,8 +1,17 @@
 (function () {
     'use strict';
 
-    var FooterController = function (TranslatorService, $rootScope, $stateParams) {
-        console.log('I\'m inside the FooterController placeholder');
+    angular.module('app')
+        .controller('FooterController', FooterController);
+
+    FooterController.$inject = ['TranslatorService', '$stateParams'];
+
+    function FooterController(TranslatorService, $stateParams) {
+        console.log('FooterController');
+
+        /*jshint validthis: true */
+        var vm = this;
+        vm.translate = translate;
 
         // init
         var oldIso = $stateParams.language;
@@ -13,38 +22,35 @@
             iso = 'ua';
         }
 
-        var pageName = 'footer';
-        var vm = this;
+        activate(iso);
 
-        var onTranslated = function (data) {
+        ////////////////////////////////////////
+
+        function activate(iso) {
+            vm.translate(iso);
+        }
+
+        function onTranslated(data) {
             if (data) {
                 vm.data = data;
                 vm.language = iso;
             } else {
                 console.log('No data available from the translator');
             }
-        };
+        }
 
-        var onError = function (reason) {
-            vm.error = 'Could not translate';
-        };
+        function onError(reason) {
+            vm.error = 'Could not translate: ' + reason;
+        }
 
-        vm.translate = function (language) {
+        function translate(language) {
+            var pageName = 'footer';
             oldIso = $stateParams.language; // if oldIso was not defined yet
             console.log('about: translate: oldIso: ' + oldIso);
             console.log('about: translate: language: ' + language);
             iso = language;
             TranslatorService.getTranslation(pageName, language).then(onTranslated, onError);
-        };
+        }
+    }
 
-        var activate = function () {
-            vm.translate(iso);
-        };
-
-        activate();
-    };
-
-    var module = angular.module('app.footer', []);
-    module.$inject = ['TranslatorService', '$rootScope', '$stateProvider'];
-    module.controller('FooterController', FooterController);
 })();

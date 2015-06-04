@@ -1,24 +1,34 @@
 /*jshint -W117 */
 (function () {
 
-    var LanguageController = function ($scope) {
+    angular.module('app')
+        .controller('LanguageController', LanguageController);
+
+    LanguageController.$inject = ['$scope'];
+
+    function LanguageController($scope) {
+
+        console.log('LanguageController');
+
+        /*jshint validthis: true */
         var lg = this;
-        console.log('language = ' + $scope.language);
+        lg.getLanguage = getLanguage;
+        lg.setLanguage = setLanguage;
+
+        /* INIT */
         $scope.language = 'ru';
 
-        lg.setLanguage = function (language) {
+        //////////////////////////////////
+
+        function setLanguage(language) {
             $scope.language = language;
             console.log('setLanguage clicked. Language changed to ' + $scope.language);
-        };
+        }
 
-        lg.getLanguage = function () {
+        function getLanguage() {
             console.log('getLanguage called. Language is ' + $scope.language);
             return $scope.language;
-        };
-    };
-
-    var module = angular.module('app.language', []);
-    module.$inject = ['$scope'];
-    module.controller('LanguageController', LanguageController);
+        }
+    }
 
 })();

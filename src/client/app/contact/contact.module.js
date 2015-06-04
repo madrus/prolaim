@@ -2,9 +2,20 @@
 (function () {
     'use strict';
 
-    // app.contact
-    //
-    var ContactController = function (TranslatorService, $scope, $stateParams) {
+    var module = angular.module('app')
+        .controller('ContactController', ContactController);
+
+    ContactController.$inject = ['TranslatorService', '$scope', '$stateParams'];
+
+    function ContactController(TranslatorService, $scope, $stateParams) {
+
+        console.log('ContactController');
+
+        /*jshint validthis: true */
+        var vm = this;
+        vm.translate = translate;
+        //vm.prolaimMap = null;
+
         // init
         var oldIso = $stateParams.language;
         console.log('contact: $stateParams.language: ' + oldIso);
@@ -14,33 +25,39 @@
             iso = 'ua';
         }
 
-        var pageName = 'contact';
-        var vm = this;
-        vm.prolaimMap = null;
+        activate();
 
-        var onTranslated = function (data) {
+        ////////////////////////////////////////////////
+
+        function activate() {
+            vm.translate(iso);
+            ymaps.ready(initializeMap);
+        }
+
+        function onTranslated(data) {
             if (data) {
                 vm.data = data;
                 vm.language = iso;
             } else {
                 console.log('No data available from the translator');
             }
-        };
+        }
 
-        var onError = function (reason) {
-            vm.error = 'Could not translate';
-        };
+        function onError(reason) {
+            vm.error = 'Could not translate: ' + reason;
+        }
 
-        vm.translate = function (language) {
+        function translate(language) {
+            var pageName = 'contact';
             oldIso = $stateParams.language; // if oldIso was not defined yet
             console.log('contact: translate: oldIso: ' + oldIso);
             console.log('contact: translate: language: ' + language);
             iso = language;
             TranslatorService.getTranslation(pageName, language).then(onTranslated, onError);
-        };
+        }
 
         // Дождёмся загрузки API и готовности DOM.
-        var initializeMap = function () {
+        function initializeMap() {
             var mapContainer = document.getElementById('prolaim-map');
             // Создание экземпляра карты и его привязка к контейнеру с
             // заданным id ('prolaim-map').
@@ -53,14 +70,14 @@
                 behaviors: ['default', 'scrollZoom']
             };
 
-            var prolaim = new ymaps.Map(mapContainer, config);
+            var prolaimMap = new ymaps.Map(mapContainer, config);
             //prolaim.controls.add('routeEditor');
 
             //var zoomOffset = -3;
             //var miniMap = new ymaps.MiniMap(zoomOffset);
             //prolaim.controls.add('miniMap');
 
-            var geoObject = new ymaps.GeoObject({
+            var marker = new ymaps.GeoObject({
                 // Описание геометрии
                 geometry: {
                     type: 'Point',
@@ -82,18 +99,10 @@
             });
 
             // Добавляем метку на карту.
-            prolaim.geoObjects.add(geoObject);
-        };
+            prolaimMap.geoObjects.add(marker);
 
-        var activate = function () {
-            vm.translate(iso);
-            ymaps.ready(initializeMap);
-        };
+            //vm.prolaimMap = prolaimMap;
+        }
+    }
 
-        activate();
-    };
-
-    var module = angular.module('app.contact', []);
-    module.$inject = ['TranslatorService', '$scope', '$stateProvider'];
-    module.controller('ContactController', ContactController);
 })();
