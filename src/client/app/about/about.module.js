@@ -48,8 +48,6 @@
         function translate(language) {
             var pageName = 'about';
             oldIso = $stateParams.language; // if oldIso was not defined yet
-            console.log('about: translate: oldIso: ' + oldIso);
-            console.log('about: translate: language: ' + language);
             iso = language;
             translator.getTranslation(pageName, language).then(onTranslated, onError);
         }

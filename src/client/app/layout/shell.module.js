@@ -113,14 +113,11 @@
             path = $location.path(); // if path was not defined yet
             console.log('shell: path: ' + path);
             oldIso = getLanguageFromPath(path); // if oldIso was not defined yet
-            //console.log('shell: from path: language: ' + oldIso);
-            //console.log('shell: from flag: language: ' + language);
 
             iso = language; // save the choice
             var needToTranslate = firstTime || (iso !== oldIso);
             if (needToTranslate) { // no need to translate if no change
-                //translator.getTranslation(pageName, language).then(onTranslated, onError);
-                translator.getTranslation(pageName, language);
+                translator.getTranslation(pageName, language).then(onTranslated, onError);
             }
 
             var lang = getLanguageFromPath(path);

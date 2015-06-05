@@ -57,10 +57,10 @@ module.exports = function (config) {
             //file: 'output.txt'
         },
 
-        // test results reporter to use
-        // possible values: 'dots', 'progress'
-        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress', 'coverage'],
+    // test results reporter to use
+    // possible values: 'dots', 'progress'
+    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+    reporters: ['dots', 'saucelabs'],
 
         //LOG_INFO | LOG_ERROR | LOG_WARN | LOG_DEBUG | LOG_DISABLE
         logLevel: config.LOG_INFO,

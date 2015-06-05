@@ -3,11 +3,11 @@
     'use strict';
 
     angular.module('app')
-        .factory('translator', translator);
+        .service('translator', translator);
 
-    translator.$inject = ['$resource', 'dataservice'];
+    translator.$inject = ['$resource'];
 
-    function translator($resource, dataservice) {
+    function translator($resource) {
         var service = {
             getTranslation: getTranslation
         };
@@ -23,16 +23,10 @@
             console.log('translator: translating ' + msg);
             var languageFilePath =
                 '/src/client/sources/translations/' + pageName + '.' + language + '.json';
-            //var translation = $resource(languageFilePath).get();
-            var translation;
-            dataservice.getJsonFile(languageFilePath).then(function(data){
-                vm.translation = data;
+            var translation = $resource(languageFilePath).get();
+            return translation.$promise.then(function (data) {
+               return data;
             });
-            console.log('translator: from dataservice:\n' + vm.translation);
-            return vm.translation;
-            //return translation.$promise.then(function (data) {
-            //    return data;
-            //});
         }
     }
 
