@@ -5,9 +5,9 @@
     var module = angular.module('app')
         .controller('ContactController', ContactController);
 
-    ContactController.$inject = ['TranslatorService', '$scope', '$stateParams'];
+    ContactController.$inject = ['translator', '$scope', '$stateParams'];
 
-    function ContactController(TranslatorService, $scope, $stateParams) {
+    function ContactController(translator, $scope, $stateParams) {
 
         console.log('ContactController');
 
@@ -49,10 +49,10 @@
         function translate(language) {
             var pageName = 'contact';
             oldIso = $stateParams.language; // if oldIso was not defined yet
-            console.log('contact: translate: oldIso: ' + oldIso);
-            console.log('contact: translate: language: ' + language);
+            //console.log('contact: translate: oldIso: ' + oldIso);
+            //console.log('contact: translate: language: ' + language);
             iso = language;
-            TranslatorService.getTranslation(pageName, language).then(onTranslated, onError);
+            translator.getTranslation(pageName, language).then(onTranslated, onError);
         }
 
         // Дождёмся загрузки API и готовности DOM.

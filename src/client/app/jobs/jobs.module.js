@@ -5,9 +5,9 @@
     angular.module('app')
         .controller('JobsController', JobsController);
 
-    JobsController.$inject = ['TranslatorService', '$stateParams'];
+    JobsController.$inject = ['translator', '$stateParams'];
 
-    function JobsController(TranslatorService, $stateParams) {
+    function JobsController(translator, $stateParams) {
 
         console.log('JobsController');
 
@@ -41,7 +41,7 @@
         function translate(language) {
             var pageName = 'jobs';
             iso = language;
-            TranslatorService.getTranslation(pageName, iso).then(onTranslated, onError);
+            translator.getTranslation(pageName, iso).then(onTranslated, onError);
         }
     }
 

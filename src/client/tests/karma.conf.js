@@ -9,7 +9,10 @@ module.exports = function (config) {
             '../../bower_components/angular-resource/angular-resource.js',
             '../../bower_components/angular-ui-router/release/angular-ui-router.js',
             '../../bower_components/angular-mocks/angular-mocks.js',
-            'app/**/*.module.js',
+            'app/app.module.js',
+            'app/layout/shell.module.js',
+            'app/layout/**/*.js',
+            'app/**/*.js',
             'tests/unit/**/*.js'
         ],
 

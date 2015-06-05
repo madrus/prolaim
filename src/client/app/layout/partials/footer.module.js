@@ -4,9 +4,9 @@
     angular.module('app')
         .controller('FooterController', FooterController);
 
-    FooterController.$inject = ['TranslatorService', '$stateParams'];
+    FooterController.$inject = ['translator', '$stateParams'];
 
-    function FooterController(TranslatorService, $stateParams) {
+    function FooterController(translator, $stateParams) {
         console.log('FooterController');
 
         /*jshint validthis: true */
@@ -49,7 +49,8 @@
             console.log('about: translate: oldIso: ' + oldIso);
             console.log('about: translate: language: ' + language);
             iso = language;
-            TranslatorService.getTranslation(pageName, language).then(onTranslated, onError);
+            //translator.getTranslation(pageName, language).then(onTranslated, onError);
+            translator.getTranslation(pageName, language);
         }
     }
 

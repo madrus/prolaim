@@ -5,12 +5,9 @@
     angular.module('app')
         .controller('ShellController', ShellController);
 
-    ShellController.$inject = ['TranslatorService', '$scope', '$location', '$state'];
+    ShellController.$inject = ['$scope', '$location', '$state', 'translator'];
 
-    /**
-     * app.shell
-     */
-    function ShellController(TranslatorService, $scope, $location, $state) {
+    function ShellController($scope, $location, $state, translator) {
 
         console.log('ShellController');
 
@@ -116,23 +113,29 @@
             path = $location.path(); // if path was not defined yet
             console.log('shell: path: ' + path);
             oldIso = getLanguageFromPath(path); // if oldIso was not defined yet
-            console.log('shell: from path: language: ' + oldIso);
-            console.log('shell: from flag: language: ' + language);
+            //console.log('shell: from path: language: ' + oldIso);
+            //console.log('shell: from flag: language: ' + language);
+
             iso = language; // save the choice
             var needToTranslate = firstTime || (iso !== oldIso);
             if (needToTranslate) { // no need to translate if no change
-                TranslatorService.getTranslation(pageName, language).then(onTranslated, onError);
+                //translator.getTranslation(pageName, language).then(onTranslated, onError);
+                translator.getTranslation(pageName, language);
             }
+
             var lang = getLanguageFromPath(path);
             var rest = getRestOfPath(path);
             //var urlMatcher = new $urlMatcherFactory.compile('^\/(ru|ua)(\/.*)?', {caseInsensitive: false});
             console.log('lang: ' + lang + ', rest: ' + rest);
+
             var newPath = '/' + iso + rest;
             console.log('newPath: ' + newPath);
+
             if (oldIso !== iso) {
                 console.log('relocating to ' + newPath);
                 $location.path(newPath);
             }
+
             $state.reload(currentState); //TODO check if 'reload' is the way
         }
     }

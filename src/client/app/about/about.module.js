@@ -5,9 +5,9 @@
     var module = angular.module('app')
         .controller('AboutController', AboutController);
 
-    AboutController.$inject = ['TranslatorService', '$rootScope', '$stateParams'];
+    AboutController.$inject = ['translator', '$rootScope', '$stateParams'];
 
-    function AboutController(TranslatorService, $rootScope, $stateParams) {
+    function AboutController(translator, $rootScope, $stateParams) {
 
         console.log('AboutController');
 
@@ -51,7 +51,7 @@
             console.log('about: translate: oldIso: ' + oldIso);
             console.log('about: translate: language: ' + language);
             iso = language;
-            TranslatorService.getTranslation(pageName, language).then(onTranslated, onError);
+            translator.getTranslation(pageName, language).then(onTranslated, onError);
         }
     }
 

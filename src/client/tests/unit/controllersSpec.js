@@ -1,43 +1,48 @@
 'use strict';
 
 /* jasmine specs for controllers go here */
-describe('Prolaim controllers', function () {
+describe('Prolaim controllers tests: ', function () {
     describe('ShellController as vm', function () {
 
-        var $provide;
-        var myTranslatorService;
-        var scope = {
-            vm: {}
-        };
-        var ShellController;
+        var scope, location, state, httpBackend, controller;
+
+        /* declare service mocks */
+        var translatorMock;
 
         beforeEach(function () {
-            // load your controllers including myController
+            // Create a "spy object" for our translatorMock.
+            // This will isolate the controller we're testing from
+            // any other code.
+            // we'll set up the returns for this later
+            translatorMock = jasmine.createSpyObj('translator', ['getTranslation']);
+
+            // load your controllers
             module('app');
-            module('app.shell');
 
-            // load your services (do not forget to include them in your spec runner !)
-            // there should be myService defined in this module
-            module('TranslatorService');
+            // INJECT! This part is critical
+            // $rootScope - injected to create a new $scope instance.
+            // $controller - injected to create an instance of our controller.
+            // $q - injected so we can create promises for our mocks.
+            inject(function ($rootScope, $controller, $q, _$location_, _$httpBackend_) {
+                httpBackend = _$httpBackend_;
 
-            module(function (_$provide_) {
-                $provide = _$provide_;
-                $provide.service('TranslatorService', myTranslatorService);
-            });
+                //you should be expecting the get request url from the controller, not the route
+                httpBackend.expectGET('data/' + stateparams.listingId + '.json').respond([{id: 1 }, {id: 2}, {id:3}, {id:4}, {id:5}, {id:6}, {id:7}, {id:8}, {id:9}, {id:10}]);
 
-            inject(function ($injector) {
-                myTranslatorService = $injector.get('TranslatorService');
-            });
-
-
-            inject(function (TranslatorService, $controller, $rootScope) {
-
-                var scope = $rootScope.$new();
+                scope = $rootScope.$new();
                 scope.vm = {};
+                location = _$location_;
 
-                ShellController = $controller('ShellController', {
-                    myTranslatorService: TranslatorService,
-                    $scope: scope
+                // set up the returns for our someServiceMock
+                // $q.when('weee') creates a resolved promise to "weee".
+                // this is important since our service is async and returns
+                // a promise.
+                translatorMock.getTranslation.andReturn($q.when('weee'));
+
+                controller = $controller('ShellController', {
+                    $scope: scope,
+                    $location: location,
+                    translator: translatorMock
                 });
 
                 //it('should make sure the language is "ru"', inject(function($controller) {
@@ -56,7 +61,7 @@ describe('Prolaim controllers', function () {
         it('should be defined', function () {
 
             //verify that the controller is there
-            expect(ShellController).toBeDefined();
+            expect(controller).toBeDefined();
         });
 
         it('should publish controller instance into scope', function () {
