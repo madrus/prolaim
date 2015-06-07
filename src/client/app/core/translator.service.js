@@ -12,6 +12,8 @@
 
     translatorResource.$inject = ['$resource'];
 
+    /////////////////////////////////////////
+
     function translatorResource($resource) {
         var pathToJsonFile = '/src/client/sources/translations/:fileName';
         return $resource(pathToJsonFile);
@@ -25,30 +27,44 @@
      * and returns a promise object
      */
     angular.module('prolaim')
-        .service('translator', translator);
+        .factory('translator', translator);
 
-    translator.$inject = ['translatorResource'];
+    translator.$inject = ['translatorResource', '$q'];
 
-    function translator(translatorResource) {
+    //////////////////////////////////////////
 
-        this.getTranslation = getTranslation;
+    function translator(translatorResource, $q) {
+
+        var service = {};
+
+        service.getTranslation = getTranslation;
+
+        return service;
 
         //////////////////////////////////
 
         function getTranslation(pageName, language) {
 
+            var deferred = $q.defer();
             var msg = 'page \'' + pageName + '\' into \'' + language + '\'';
             console.log('translator: translating ' + msg);
             var languageJsonFileName = pageName + '.' + language + '.json';
 
-            return translatorResource.get({fileName: languageJsonFileName}).$promise;
-                //.then(function (data) {
-                //    console.log('translation success');
-                //    return data;
-                //},
-                //function (error) {
-                //    console.log('translation failure:\n' + error);
-                //});
+            translatorResource.get({fileName: languageJsonFileName}).$promise
+                .then(function (data) {
+                    deferred.resolve(data);
+                });
+
+            return deferred.promise;
+
+            //return translatorResource.get({fileName: languageJsonFileName}).$promise;
+            //.then(function (data) {
+            //    console.log('translation success');
+            //    return data;
+            //},
+            //function (error) {
+            //    console.log('translation failure:\n' + error);
+            //});
         }
     }
 

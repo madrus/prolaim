@@ -11,8 +11,7 @@ describe('Prolaim services tests: ', function () {
 
     describe('translator ->', function () {
         var scope, translator, $httpBackend, $rootScope, pageName, language, data;
-        var jobsRu = '/src/client/sources/translations/jobs.ru.json';
-        var jobsUa = '/src/client/sources/translations/jobs.ua.json';
+        var jsonResource = '/src/client/sources/translations/';
 
         // Load inject
         beforeEach(function () {
@@ -21,7 +20,6 @@ describe('Prolaim services tests: ', function () {
                 $httpBackend = _$httpBackend_;
                 $rootScope = _$rootScope_;
             });
-
 
             scope = $rootScope.$new();
 
@@ -33,75 +31,72 @@ describe('Prolaim services tests: ', function () {
         });
 
         it('should have getTranslation method defined', function () {
-            //expect(translator.getTranslation).toBeDefined();
-            //expect(translator.getTranslation).toEqual(jasmine.any(Function));
+            expect(translator.getTranslation).toBeDefined();
+            expect(translator.getTranslation).toEqual(jasmine.any(Function));
             expect(angular.isFunction(translator.getTranslation)).toBe(true);
         });
 
         // xit = disable
-        it('getTranslation should have been called with \'jobs\' and \'ru\'', function () {
+        it('getTranslation should be called with \'jobs\' and \'ru\'', function () {
             pageName = 'jobs';
             language = 'ru';
-            var titleRu = 'Вакансии в ЧП «ПРОЛАЙМ»';
-            var mockData = {
-                "TITLE": titleRu
-            };
-            $httpBackend.expect('GET', jobsRu).respond(200, mockData);
-            translator.getTranslation(pageName, language).then(function (data) {
-                data = data;
-            });
-            $httpBackend.flush();
+            translator.getTranslation(pageName, language);
             expect(translator.getTranslation).toHaveBeenCalled();
             expect(translator.getTranslation).toHaveBeenCalledWith('jobs', 'ru');
-            expect(angular.equals(mockData.TITLE, data.TITLE));
         });
 
-        it('getTranslation should get the right translations of the Russian jobs page title', function (done) {
+        using('language', [
+            ["ru", 'Вакансии в ЧП «ПРОЛАЙМ»'],
+            ["ua", 'Вакансії в ПП «ПРОЛАЙМ»']
+        ], function (language, expectedTitle) {
+            it('should get the right jobs page title translation for \'' + language + '\'',
+                function (done) {
+                expect(testJobsTitle(language, expectedTitle, done)).toBeTruthy();
+            })
+        })
+
+        function testJobsTitle(language, expectedTitle, done) {
+            var result;
+            var mockData = {
+                TITLE: expectedTitle
+            };
+
             pageName = 'jobs';
-            language = 'ru';
-            var titleRu = 'Вакансии в ЧП «ПРОЛАЙМ»';
+            var jsonPath = jsonResource + pageName + '.' + language + '.json';
+
+            $httpBackend
+                .expectGET(jsonPath)
+                .respond(200, mockData);
+
+            translator
+                .getTranslation(pageName, language)
+                .then(testTranslation, failTest)
+                //.catch(failTest)
+                .finally(done);
+
+            $httpBackend.flush();
+
+            return result;
+
+            //////////////////////////////////////////
 
             function testTranslation(data) {
-                console.log('test started:\n' + JSON.stringify(data));
+                //console.log('test started:\n' + JSON.stringify(data));
 
                 if (data) {
                     scope.data = data;
+                    result = true;
                 } else {
                     console.log('No data available from the translator');
                 }
 
                 expect(scope.data).toBeDefined;
-                expect(angular.equals(scope.data.TITLE, titleRu)).toBe(true);
+                expect(angular.equals(scope.data.TITLE, mockData.TITLE)).toBe(true);
             }
 
             function failTest(error) {
-                console.log('test failed');
                 expect(error).toBeUndefined();
             }
-
-            $httpBackend
-                .expectGET(jobsRu)
-                .respond(200, data);
-
-            translator
-                .getTranslation(pageName, language)
-                .then(testTranslation)
-                .catch(failTest)
-                .finally(done);
-
-            $httpBackend.flush();
-
-        });
-
-        it('should get the right translations of the Ukrainian jobs page title', function () {
-            pageName = 'jobs';
-            language = 'ua';
-            var titleUa = 'Вакансії в ПП «ПРОЛАЙМ»';
-            translator.getTranslation(pageName, language).then(function (data) {
-                data = data;
-            });
-            console.log('translated data = ' + data);
-            expect(data.TITLE).toBe(titleUa);
-        });
+        }
     });
 });

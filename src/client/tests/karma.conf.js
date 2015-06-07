@@ -9,6 +9,7 @@ module.exports = function (config) {
             '../../bower_components/angular-resource/angular-resource.js',
             '../../bower_components/angular-ui-router/release/angular-ui-router.js',
             '../../bower_components/angular-mocks/angular-mocks.js',
+            'tests/unit/specHelper.js',
             'app/app.module.js',
             'app/**/*.js',
             'tests/unit/**/*.js'
@@ -18,14 +19,16 @@ module.exports = function (config) {
 
         autoWatch: true,
 
-        frameworks: ['jasmine'],
+        frameworks: ['jasmine', 'mocha', 'chai'],
 
         plugins: [
             //'karma-chrome-launcher',
             //'karma-firefox-launcher',
             'karma-phantomjs-launcher',
             'karma-coverage',
-            'karma-jasmine'
+            'karma-jasmine',
+            'karma-mocha',
+            'karma-chai'
         ],
 
         // start these browsers
@@ -42,7 +45,7 @@ module.exports = function (config) {
         // preprocessor matching files before serving them to the browser
         // available preprocessors: http://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'app/**/*.module.js': ['coverage']
+            'app/**/*.js': ['coverage']
         },
 
         //coverageReporter: {
@@ -58,7 +61,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['dots', 'saucelabs'],
+    reporters: ['progress'],
 
         //LOG_INFO | LOG_ERROR | LOG_WARN | LOG_DEBUG | LOG_DISABLE
         logLevel: config.LOG_INFO,
