@@ -1,19 +1,23 @@
 /*jshint -W117 */
 (function () {
 
-    angular.module('app')
+    'use strict';
+
+    angular.module('prolaim')
         .controller('LanguageController', LanguageController);
 
     LanguageController.$inject = ['$scope'];
+
+    ///////////////////////////////////////////////
 
     function LanguageController($scope) {
 
         console.log('LanguageController');
 
         /*jshint validthis: true */
-        var lg = this;
-        lg.getLanguage = getLanguage;
-        lg.setLanguage = setLanguage;
+        var vm = this;
+        vm.getLanguage = getLanguage;
+        vm.setLanguage = setLanguage;
 
         /* INIT */
         $scope.language = 'ru';

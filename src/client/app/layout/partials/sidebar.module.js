@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('app')
+    angular.module('prolaim')
         .controller('SidebarController', SidebarController);
 
     function SidebarController() {

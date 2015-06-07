@@ -2,10 +2,12 @@
 (function () {
     'use strict';
 
-    var module = angular.module('app')
+    angular.module('prolaim')
         .controller('ContactController', ContactController);
 
     ContactController.$inject = ['translator', '$scope', '$stateParams'];
+
+    ////////////////////////////////////////////////////////
 
     function ContactController(translator, $scope, $stateParams) {
 
@@ -14,6 +16,8 @@
         /*jshint validthis: true */
         var vm = this;
         vm.translate = translate;
+        vm.prolaimMap = {};
+        var ymapsScript = 'https://api-maps.yandex.ru/2.1.26/?load=package.standard&lang=uk-RU';
 
         // init
         var oldIso = $stateParams.language;
@@ -30,7 +34,30 @@
 
         function activate() {
             vm.translate(iso);
-            ymaps.ready(initializeMap);
+
+            loadScript(ymapsScript, function () {
+                console.log('ymaps-loader has been loaded, now we are ymaps.ready');
+                ymaps.ready(iniYmap);
+            });
+        };
+
+        function loadScript(src, callback) {
+            // make sure the ymaps script is loaded by the time we call it
+            // otherwise by refreshing the contact page we get "undefined is not a function"
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            if (callback) script.onload = callback;
+            document.getElementsByTagName("head")[0].appendChild(script);
+            script.src = src;
+        }
+
+        function iniYmap() {
+            // инициализируем карту
+            vm.prolaimMap = initializeMap();
+            // создаем маркер преприятия
+            var marker = initializeMarker();
+            // Добавляем метку на карту.
+            vm.prolaimMap.geoObjects.add(marker);
         }
 
         function onTranslated(data) {
@@ -73,7 +100,10 @@
             //var zoomOffset = -3;
             //var miniMap = new ymaps.MiniMap(zoomOffset);
             //prolaimMap.controls.add('miniMap');
+            return prolaimMap;
+        }
 
+        function initializeMarker() {
             var marker = new ymaps.GeoObject({
                 // Описание геометрии
                 // geometry: {
@@ -99,8 +129,7 @@
                 draggable: true
             });
 
-            // Добавляем метку на карту.
-            prolaimMap.geoObjects.add(marker);
+            return marker;
         }
     }
 

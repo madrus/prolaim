@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('app')
+    angular.module('prolaim')
         .controller('MainController', MainController);
 
     MainController.$inject = ['translator', '$stateParams'];
@@ -41,8 +41,7 @@
         function translate(language) {
             var pageName = 'main';
             iso = language;
-            //translator.getTranslation(pageName, iso).then(onTranslated, onError);
-            translator.getTranslation(pageName, iso);
+            translator.getTranslation(pageName, iso).then(onTranslated, onError);
         }
     }
 

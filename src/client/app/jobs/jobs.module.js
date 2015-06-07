@@ -2,10 +2,12 @@
 (function () {
     'use strict';
 
-    angular.module('app')
+    angular.module('prolaim')
         .controller('JobsController', JobsController);
 
     JobsController.$inject = ['translator', '$stateParams'];
+
+    ////////////////////////////////////////////////////////
 
     function JobsController(translator, $stateParams) {
 

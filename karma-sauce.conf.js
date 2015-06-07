@@ -18,22 +18,22 @@ module.exports = function(config) {
         logLevel: config.LOG_DEBUG,
         logColors: true,
         singleRun: true,
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
         browserDisconnectTimeout: 10000,
         browserDisconnectTolerance: 2,
         browserNoActivityTimeout: 20000,
 
-        basePath: '/ar/_github/ng/prolaim/',
+        //basePath: '/ar/_github/ng/prolaim/',
+        //basePath: '/www/ng/prolaim/',
+        basePath: '',
 
         files: [
             'bower_components/angular/angular.js',
+            'bower_components/angular-mocks/angular-mocks.js',
             'bower_components/angular-route/angular-route.js',
             'bower_components/angular-resource/angular-resource.js',
             'bower_components/angular-ui-router/release/angular-ui-router.js',
-            'bower_components/angular-mocks/angular-mocks.js',
             'src/client/app/app.module.js',
-            'src/client/app/layout/shell.module.js',
-            'src/client/app/layout/**/*.js',
             'src/client/app/**/*.js',
             'src/client/tests/unit/**/*.js'
         ],

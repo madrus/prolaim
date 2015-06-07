@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('app', [
+    angular.module('prolaim', [
         'ui.router',
         'ngResource'
     ]);
@@ -20,7 +20,7 @@
     //    }
     //]);
 
-    angular.module('app')
+    angular.module('prolaim')
         .config(['$stateProvider', '$urlRouterProvider',
             function (/*$state,*/ $stateProvider, $urlRouterProvider) {
 

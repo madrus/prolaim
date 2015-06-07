@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    var module = angular.module('app')
+    var module = angular.module('prolaim')
         .controller('AboutController', AboutController);
 
     AboutController.$inject = ['translator', '$rootScope', '$stateParams'];

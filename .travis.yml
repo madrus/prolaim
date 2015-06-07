@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - 0.12
 
-env: BROWSERS=firefox E2E_BROWSERS=Firefox
+env: BROWSERS=chrome E2E_BROWSERS=chrome
 
 before_script:
   - export DISPLAY=:99.0

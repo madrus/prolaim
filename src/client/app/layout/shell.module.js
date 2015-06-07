@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('app')
+    angular.module('prolaim')
         .controller('ShellController', ShellController);
 
     ShellController.$inject = ['$scope', '$location', '$state', 'translator'];
@@ -49,7 +49,7 @@
         function initWatch() {
             $scope.$watch(
                 function () {
-                    console.log('inside $watch: language is ' + vm.language);
+                    //console.log('inside $watch: language is ' + vm.language);
                     return vm.language;
                 },
                 function (newLanguage) {
