@@ -11,7 +11,7 @@ describe('Prolaim services tests: ', function () {
 
     describe('translator ->', function () {
         var scope, translator, $httpBackend, $rootScope, pageName, language, data;
-        var jsonResource = '/src/client/sources/translations/';
+        var jsonResource = '/src/client/data/translations/';
 
         // Load inject
         beforeEach(function () {

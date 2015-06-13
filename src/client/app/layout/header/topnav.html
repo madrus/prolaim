@@ -1,5 +1,5 @@
-<nav class="navbar navbar-default" id="topbar" class="topbar-wrapper">
-    <div class="container-fluid topbar-left">
+<nav class="navbar navbar-default" id="topnav" class="topnav-wrapper">
+    <div class="container-fluid topnav-left">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <a class="navbar-brand" ui-sref="shell.lang.content.main"><img
@@ -17,7 +17,8 @@
                     vm.data.MENU.ABOUT |
                     uppercase }}</a>
                 </li>
-                <li class="item" ui-sref-active="active"><a ui-sref="shell.lang.content.main">{{ vm.data.MENU.PARTNERS | uppercase }}</a>
+                <li class="item" ui-sref-active="active"><a ui-sref="shell.lang.content.main">{{
+                    vm.data.MENU.PARTNERS | uppercase }}</a>
                 </li>
                 <li class="item" ui-sref-active="active"><a ui-sref="shell.lang.content.jobs">{{
                     vm.data.MENU.JOBS |
@@ -33,15 +34,15 @@
     </div>
     <!-- /.container-fluid -->
 
-    <div class="topbar-right">
+    <div class="topnav-right">
         <div class="nav navbar-nav navbar-right" id="flags">
             <input type="image"
-                   ng-click="vm.language='ru';lg.setLanguage('ru');vm.translate('ru')"
+                   ng-click="vm.setLanguageAndTranslate('ru')"
                    ng-src="/src/client/images/russia.png" alt="Русский" title="Русский"/>
             <input type="image"
-                   ng-click="vm.language='ua';lg.setLanguage('ua');vm.translate('ua')"
+                   ng-click="vm.setLanguageAndTranslate('ua')"
                    ng-src="/src/client/images/ukraine.png" alt="Українська" title="Українська"/>
-            <!--<pre>{{ language || 'null' }}</pre>-->
+            <!--<pre>{{ vm.data.LANGUAGE || 'null' }}</pre>-->
         </div>
         <div class="pull-right">
             <form class="navbar-form navbar-right" role="search">

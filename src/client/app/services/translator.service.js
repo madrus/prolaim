@@ -15,7 +15,7 @@
     /////////////////////////////////////////
 
     function translatorResource($resource) {
-        var pathToJsonFile = '/src/client/sources/translations/:fileName';
+        var pathToJsonFile = '/src/client/data/translations/:fileName';
         return $resource(pathToJsonFile);
     };
 
@@ -56,15 +56,6 @@
                 });
 
             return deferred.promise;
-
-            //return translatorResource.get({fileName: languageJsonFileName}).$promise;
-            //.then(function (data) {
-            //    console.log('translation success');
-            //    return data;
-            //},
-            //function (error) {
-            //    console.log('translation failure:\n' + error);
-            //});
         }
     }
 

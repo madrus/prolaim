@@ -4,7 +4,15 @@
 
     angular.module('prolaim', [
         'ui.router',
-        'ngResource'
+        'ngResource',
+        'prolaim.shell',
+        'prolaim.about',
+        'prolaim.contact',
+        'prolaim.jobs',
+        'prolaim.main',
+        'prolaim.sidebar',
+        'prolaim.content',
+        'prolaim.footer'
     ]);
 
     //app.run([
@@ -34,7 +42,7 @@
                     abstract: true,
                     url: '/',
                     templateUrl: '/src/client/app/layout/shell.html',
-                    controller: 'ShellController',
+                    controller: 'Shell',
                     controllerAs: 'vm'
                 };
 
@@ -46,26 +54,27 @@
                     // In such a way, they can be used as placeholders for other views below
                     views: {
                         'header@shell': {
-                            templateUrl: '/src/client/app/layout/partials/header.html'
+                            templateUrl: '/src/client/app/layout/header/header.html'
                         },
                         'sidebar@shell': {
                             templateUrl: '/src/client/app/layout/partials/sidebar.html',
-                            controller: 'SidebarController'
+                            controller: 'Sidebar',
+                            controllerAs: 'vm'
                         },
                         'content@shell': {
                             templateUrl: '/src/client/app/layout/partials/content.html',
-                            controller: 'ContentController'
-                        },
+                            controller: 'Content',
+                            controllerAs: 'vm'                        },
                         'footer@shell': {
                             templateUrl: '/src/client/app/layout/partials/footer.html',
-                            controller: 'FooterController',
+                            controller: 'Footer',
                             controllerAs: 'vm'
                         },
                         'topnav@shell.lang': {
-                            templateUrl: '/src/client/app/layout/partials/topnav.html'
+                            templateUrl: '/src/client/app/layout/header/topnav.html'
                         },
                         'navbar@shell.lang': {
-                            templateUrl: '/src/client/app/layout/partials/navbar.html'
+                            templateUrl: '/src/client/app/layout/header/navbar.html'
                         }
                     },
                     resolve: {
@@ -86,7 +95,7 @@
                     name: 'shell.lang.content.main',
                     url: 'main',
                     templateUrl: '/src/client/app/main/main.html',
-                    controller: 'MainController',
+                    controller: 'Main',
                     controllerAs: 'vm'
                 };
 
@@ -94,7 +103,7 @@
                     name: 'shell.lang.content.about',
                     url: 'about',
                     templateUrl: '/src/client/app/about/about.html',
-                    controller: 'AboutController',
+                    controller: 'About',
                     controllerAs: 'vm'
                 };
 
@@ -102,7 +111,7 @@
                     name: 'shell.lang.content.jobs',
                     url: 'jobs',
                     templateUrl: '/src/client/app/jobs/jobs.html',
-                    controller: 'JobsController',
+                    controller: 'Jobs',
                     controllerAs: 'vm'
                 };
 
@@ -110,7 +119,7 @@
                     name: 'shell.lang.content.contact',
                     url: 'contact',
                     templateUrl: '/src/client/app/contact/contact.html',
-                    controller: 'ContactController',
+                    controller: 'Contact',
                     controllerAs: 'vm'
                 };
 

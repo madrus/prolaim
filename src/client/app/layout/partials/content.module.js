@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim')
-        .controller('ContentController', ContentController);
+    angular.module('prolaim.content', [])
+        .controller('Content', Content);
 
-    function ContentController() {
-        console.log('ContentController placeholder');
+    function Content() {
+        console.log('Content placeholder');
     }
 
 })();

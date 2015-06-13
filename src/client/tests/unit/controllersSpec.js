@@ -3,56 +3,33 @@
 /* jasmine specs for controllers go here */
 describe('Prolaim controllers tests: ', function () {
 
+    /* declare service mocks */
+    var translator, translatorSpy;
+
     beforeEach(module('prolaim'));
+    //, function ($provide) {
 
-    describe('LanguageController', function () {
+    //translator = jasmine.createSpyObj('translator', ['getTranslation']);
 
-        var log, scope, language, controller, createController;
-        scope = {};
+    //    mockTranslator = {
+    //        getTranslation: function (pageName, language) {
+    //            deferred = $q.defer();
+    //            deferred.resolve({language: language});
+    //            return deferred.promise;
+    //        }
+    //    };
+    //
+    //    $provide.value("translator", mockTranslator);
+    //
+    //    // Create a "spy object" for our translatorMock.
+    //    // This will isolate the controller we're testing from any other code.
+    //    // we'll set up the returns for this later
+    //    spyOn(mockTranslator, 'getTranslation').andCallThrough();
+    //});
 
-        beforeEach(inject(function ($controller, $rootScope) {
-            // create mocks
-            //LanguageController
-            //    = jasmine.createSpyObj('LanguageController',
-            //    [
-            //        'getLanguage',
-            //        'setLanguage'
-            //    ]);
-            scope = $rootScope.$new();
+    /////////////////   SHELL CONTROLLER   /////////////////
 
-            // Create the controller
-            createController = function () {
-                return $controller('LanguageController', {
-                    $scope: scope
-                });
-            }
-        }));
-
-        it('should determine that the current language is Russian', function () {
-            controller = createController();
-            expect(scope.language).toBeUndefined;
-            scope.language = 'ru';
-            var currentLanguage = controller.getLanguage();
-            expect(angular.equals(currentLanguage, 'ru')).toBe(true);
-        });
-
-        it('should be defined', function () {
-            expect(controller).toBeDefined();
-        });
-
-        it('should have getTranslation method defined', function () {
-            expect(angular.isFunction(controller.getLanguage)).toBe(true);
-            expect(angular.isFunction(controller.setLanguage)).toBe(true);
-        });
-
-        it('should change the current language to Ukrainian', function () {
-            controller.setLanguage('ua');
-            var currentLanguage = controller.getLanguage();
-            expect(angular.equals(currentLanguage, 'ua')).toBe(true);
-        });
-    });
-
-    describe('ShellController as vm', function () {
+    describe('ShellController', function () {
 
         var scope, state, httpBackend, controller;
 
@@ -62,27 +39,18 @@ describe('Prolaim controllers tests: ', function () {
             }
         };
 
-        /* declare service mocks */
-        var translatorMock;
-
         beforeEach(function () {
-            // Create a "spy object" for our translatorMock.
-            // This will isolate the controller we're testing from
-            // any other code.
-            // we'll set up the returns for this later
-            translatorMock = jasmine.createSpyObj('translator', ['getTranslation']);
 
             // INJECT! This part is critical
             // $rootScope - injected to create a new $scope instance.
             // $controller - injected to create an instance of our controller.
             // $q - injected so we can create promises for our mocks.
-            inject(function ($rootScope, $controller, $q, _$location_, _$httpBackend_) {
+            inject(function ($rootScope, $controller, $q, _$location_, _$httpBackend_, _$state_) {
                 httpBackend = _$httpBackend_;
-
                 scope = $rootScope.$new();
-                scope.vm = {};
+                state = _$state_;
                 location = _$location_;
-                location.path('/ru');
+                //location.path('/ru');
 
                 // set up the returns for our translatorMock
                 // $q.when('weee') creates a resolved promise to "weee".
@@ -93,7 +61,8 @@ describe('Prolaim controllers tests: ', function () {
                 controller = $controller('ShellController', {
                     $scope: scope,
                     $location: location,
-                    translator: translatorMock
+                    $state: state,
+                    translator: translator
                 });
             })
         });
@@ -122,6 +91,166 @@ describe('Prolaim controllers tests: ', function () {
 
         it('should show that the default language is \'ru\'', function () {
             expect(scope.vm.language).toBe('ru');
+        });
+    });
+
+    /////////////////   FOOTER CONTROLLER   /////////////////
+
+    describe('FooterController', function () {
+
+        var state, controller, stateParams;
+        var scope;
+
+        beforeEach(inject(function ($controller, $rootScope, _translator_) {
+
+            scope = $rootScope.$new();
+            translator = _translator_;
+
+            stateParams = {
+                language: ''
+            };
+
+            controller = $controller('FooterController', {
+                translator: translator,
+                $stateParams: stateParams
+            });
+        }));
+
+        it('should be defined', function () {
+            expect(controller).toBeDefined();
+        });
+
+        it('should have translate function defined', function () {
+            expect(angular.isFunction(controller.translate)).toBe(true);
+        });
+
+        it('should initially get the Russian translation', function () {
+            controller.translate('ru').then(function () {
+                console.log('footer: promise successfully resolved');
+            }, function (error) {
+                console.log('error in test:\n' + error);
+            });
+            expect(controller.language).toBe('ru');
+        });
+    });
+
+    /////////////////   ABOUT CONTROLLER   /////////////////
+
+    describe('About', function () {
+
+        var state, controller, stateParams;
+        var scope;
+
+        beforeEach(inject(function ($controller, $rootScope, _translator_) {
+
+            scope = $rootScope.$new();
+            translator = _translator_;
+
+            stateParams = {
+                language: ''
+            };
+
+            controller = $controller('About', {
+                translator: translator,
+                $stateParams: stateParams
+            });
+        }));
+
+        it('should be defined', function () {
+            expect(controller).toBeDefined();
+        });
+
+        it('should have translate function defined', function () {
+            expect(angular.isFunction(controller.translate)).toBe(true);
+        });
+
+        it('should initially get the Russian translation', function () {
+            controller.translate('ru').then(function () {
+                console.log('footer: promise successfully resolved');
+            }, function (error) {
+                console.log('error in test:\n' + error);
+            });
+            expect(controller.language).toBe('ru');
+        });
+    });
+
+    /////////////////   JOBS CONTROLLER   /////////////////
+
+    describe('JobsController', function () {
+
+        var state, controller, q, stateParams;
+        var scope;
+
+        beforeEach(inject(function ($controller, $rootScope, _$q_, _translator_) {
+
+            scope = $rootScope.$new();
+            translator = _translator_;
+            q = _$q_;
+
+            stateParams = {
+                language: ''
+            };
+
+            controller = $controller('JobsController', {
+                translator: translator,
+                $stateParams: stateParams
+            });
+        }));
+
+        it('should be defined', function () {
+            expect(controller).toBeDefined();
+        });
+
+        it('should have translate function defined', function () {
+            expect(angular.isFunction(controller.translate)).toBe(true);
+        });
+
+        it('should initially get the Russian translation', function () {
+            controller.translate('ru').then(function () {
+                console.log('footer: promise successfully resolved');
+            }, function (error) {
+                console.log('error in test:\n' + error);
+            });
+            expect(controller.language).toBe('ru');
+        });
+    });
+
+    /////////////////   LANGUAGE SERVICE   /////////////////
+
+    describe('LanguageService', function () {
+
+        var language, controller;
+        var scope = {};
+
+        beforeEach(inject(function ($controller, $rootScope) {
+
+            scope = $rootScope.$new();
+
+            controller = $controller('LanguageService', {
+                $scope: scope
+            });
+
+        }));
+
+        it('should be defined', function () {
+            expect(controller).toBeDefined();
+        });
+
+        it('should have getTranslation method defined', function () {
+            expect(angular.isFunction(controller.getLanguage)).toBe(true);
+        });
+
+        it('should determine that the current language is Russian', function () {
+            expect(scope.language).toBeUndefined;
+            scope.language = 'ru';
+            var currentLanguage = controller.getLanguage();
+            expect(angular.equals(currentLanguage, 'ru')).toBe(true);
+        });
+
+        it('should change the current language to Ukrainian', function () {
+            controller.setLanguage('ua');
+            var currentLanguage = controller.getLanguage();
+            expect(angular.equals(currentLanguage, 'ua')).toBe(true);
         });
     });
 });

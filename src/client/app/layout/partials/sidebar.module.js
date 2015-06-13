@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim')
-        .controller('SidebarController', SidebarController);
+    angular.module('prolaim.sidebar', [])
+        .controller('Sidebar', Sidebar);
 
-    function SidebarController() {
-        console.log('SidebarController placeholder');
+    function Sidebar() {
+        console.log('Sidebar placeholder');
     }
 
 })();
