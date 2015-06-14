@@ -4,34 +4,41 @@
 describe('Prolaim controllers tests: ', function () {
 
     /* declare service mocks */
-    var translator, translatorSpy;
+    var data, translatorMock, deferred;
 
     beforeEach(module('prolaim'));
-    //, function ($provide) {
+
+    beforeEach(function () {
+        data = {
+            language: 'ru'
+        };
+    });
 
     //translator = jasmine.createSpyObj('translator', ['getTranslation']);
+    //, function ($provide) {
 
-    //    mockTranslator = {
-    //        getTranslation: function (pageName, language) {
-    //            deferred = $q.defer();
-    //            deferred.resolve({language: language});
-    //            return deferred.promise;
-    //        }
-    //    };
     //
-    //    $provide.value("translator", mockTranslator);
+    //mockTranslator = {
+    //    getTranslation: function (pageName, language) {
+    //        deferred = $q.defer();
+    //        deferred.resolve({language: language});
+    //        return deferred.promise;
+    //    }
+    //};
     //
-    //    // Create a "spy object" for our translatorMock.
-    //    // This will isolate the controller we're testing from any other code.
-    //    // we'll set up the returns for this later
-    //    spyOn(mockTranslator, 'getTranslation').andCallThrough();
+    //$provide.value("translator", mockTranslator);
+
+    // Create a "spy object" for our translatorMock.
+    // This will isolate the controller we're testing from any other code.
+    // we'll set up the returns for this later
+    //spyOn(mockTranslator, 'getTranslation').andCallThrough();
     //});
 
     /////////////////   SHELL CONTROLLER   /////////////////
 
     describe('Shell', function () {
 
-        var scope, state, httpBackend, controller;
+        var scope, state, httpBackend, controller, deferred;
 
         var location = {
             path: function (path) {
@@ -50,7 +57,16 @@ describe('Prolaim controllers tests: ', function () {
                 scope = $rootScope.$new();
                 state = _$state_;
                 location = _$location_;
+                deferred = $q.defer();
                 //location.path('/ru');
+
+                translatorMock = {
+                    getTranslation: function (language) {
+                        console.log('translatorMock.getTranslation called');
+                        deferred.resolve(data);
+                        return deferred.promise;
+                    }
+                };
 
                 // set up the returns for our translatorMock
                 // $q.when('weee') creates a resolved promise to "weee".
@@ -58,11 +74,10 @@ describe('Prolaim controllers tests: ', function () {
                 // a promise.
                 //translatorMock.getTranslation.andReturn($q.when('weee'));
 
-                controller = $controller('ShellController', {
-                    $scope: scope,
+                controller = $controller('Shell', {
                     $location: location,
                     $state: state,
-                    translator: translator
+                    translator: translatorMock
                 });
             })
         });
@@ -72,25 +87,11 @@ describe('Prolaim controllers tests: ', function () {
         });
 
         it('should be defined', function () {
-
-            //verify that the controller is there
             expect(controller).toBeDefined();
         });
 
-        it('should publish controller instance into scope', function () {
-            $controllerProvider.register('ShellController', function () {
-                this.mark = 'vm';
-            });
-
-            var vm = $controller('ShellController as vm', {
-                $scope: scope
-            });
-            expect(scope.vm).toBe(vm);
-            expect(scope.vm.mark).toBe('vm');
-        });
-
         it('should show that the default language is \'ru\'', function () {
-            expect(scope.vm.language).toBe('ru');
+            expect(controller.data.language).toBe('ru');
         });
     });
 
@@ -98,22 +99,26 @@ describe('Prolaim controllers tests: ', function () {
 
     describe('Footer', function () {
 
-        var state, controller, stateParams;
-        var scope;
+        var scope, state, controller;
 
-        beforeEach(inject(function ($controller, $rootScope, _translator_) {
+        beforeEach(inject(function ($controller, $rootScope, $q) {
 
             scope = $rootScope.$new();
-            translator = _translator_;
+            deferred = $q.defer();
 
-            stateParams = {
-                language: ''
+            translatorMock = {
+                getTranslation: function (language) {
+                    console.log('translatorMock.getTranslation called');
+                    deferred.resolve(data);
+                    return deferred.promise;
+                }
             };
 
-            controller = $controller('FooterController', {
-                translator: translator,
-                $stateParams: stateParams
+            controller = $controller('Footer', {
+                translator: translatorMock
             });
+
+            //spyOn(translator, 'getTranslation').andReturn(data);
         }));
 
         it('should be defined', function () {
@@ -125,12 +130,16 @@ describe('Prolaim controllers tests: ', function () {
         });
 
         it('should initially get the Russian translation', function () {
-            controller.translate('ru').then(function () {
-                console.log('Footer: promise successfully resolved');
+            scope.language = 'ru';
+            deferred.resolve('success');
+            scope.$apply();
+
+            controller.translate('ru').then(function (data) {
+                this.data = data;
             }, function (error) {
                 console.log('error in test:\n' + error);
             });
-            expect(controller.language).toBe('ru');
+            expect(controller.data.language).toBe('ru');
         });
     });
 
@@ -138,21 +147,26 @@ describe('Prolaim controllers tests: ', function () {
 
     describe('About', function () {
 
-        var state, $rootScope, controller, stateParams;
+        var scope, state, controller;
 
-        beforeEach(inject(function ($controller, _$rootScope_, _translator_) {
+        beforeEach(inject(function ($controller, $rootScope, $q) {
 
-            $rootScope = _$rootScope_;
-            translator = _translator_;
+            scope = $rootScope.$new();
+            deferred = $q.defer();
 
-            stateParams = {
-                language: ''
+            translatorMock = {
+                getTranslation: function (language) {
+                    console.log('translatorMock.getTranslation called');
+                    deferred.resolve(data);
+                    return deferred.promise;
+                }
             };
 
             controller = $controller('About', {
-                translator: translator,
-                $stateParams: stateParams
+                translator: translatorMock
             });
+
+            //spyOn(translator, 'getTranslation').andReturn(data);
         }));
 
         it('should be defined', function () {
@@ -164,9 +178,12 @@ describe('Prolaim controllers tests: ', function () {
         });
 
         it('should initially get the Russian translation', function () {
-            $rootScope.language = 'ru';
-            controller.translate('ru').then(function () {
-                console.log('About: promise successfully resolved');
+            scope.language = 'ru';
+            deferred.resolve('success');
+            scope.$apply();
+
+            controller.translate('ru').then(function (data) {
+                this.data = data;
             }, function (error) {
                 console.log('error in test:\n' + error);
             });
@@ -178,23 +195,26 @@ describe('Prolaim controllers tests: ', function () {
 
     describe('Jobs', function () {
 
-        var state, controller, q, stateParams;
-        var scope;
+        var scope, state, controller;
 
-        beforeEach(inject(function ($controller, $rootScope, _$q_, _translator_) {
+        beforeEach(inject(function ($controller, $rootScope, $q) {
 
             scope = $rootScope.$new();
-            translator = _translator_;
-            q = _$q_;
+            deferred = $q.defer();
 
-            stateParams = {
-                language: ''
+            translatorMock = {
+                getTranslation: function (language) {
+                    console.log('translatorMock.getTranslation called');
+                    deferred.resolve(data);
+                    return deferred.promise;
+                }
             };
 
-            controller = $controller('JobsController', {
-                translator: translator,
-                $stateParams: stateParams
+            controller = $controller('Jobs', {
+                translator: translatorMock
             });
+
+            //spyOn(translator, 'getTranslation').andReturn(data);
         }));
 
         it('should be defined', function () {
@@ -206,12 +226,16 @@ describe('Prolaim controllers tests: ', function () {
         });
 
         it('should initially get the Russian translation', function () {
-            controller.translate('ru').then(function () {
-                console.log('Jobs: promise successfully resolved');
+            scope.language = 'ru';
+            deferred.resolve('success');
+            scope.$apply();
+
+            controller.translate('ru').then(function (data) {
+                this.data = data;
             }, function (error) {
                 console.log('error in test:\n' + error);
             });
-            expect(controller.language).toBe('ru');
+            expect(controller.data.language).toBe('ru');
         });
     });
 });
