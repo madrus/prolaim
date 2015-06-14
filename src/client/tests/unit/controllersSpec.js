@@ -29,7 +29,7 @@ describe('Prolaim controllers tests: ', function () {
 
     /////////////////   SHELL CONTROLLER   /////////////////
 
-    describe('ShellController', function () {
+    describe('Shell', function () {
 
         var scope, state, httpBackend, controller;
 
@@ -96,7 +96,7 @@ describe('Prolaim controllers tests: ', function () {
 
     /////////////////   FOOTER CONTROLLER   /////////////////
 
-    describe('FooterController', function () {
+    describe('Footer', function () {
 
         var state, controller, stateParams;
         var scope;
@@ -126,7 +126,7 @@ describe('Prolaim controllers tests: ', function () {
 
         it('should initially get the Russian translation', function () {
             controller.translate('ru').then(function () {
-                console.log('footer: promise successfully resolved');
+                console.log('Footer: promise successfully resolved');
             }, function (error) {
                 console.log('error in test:\n' + error);
             });
@@ -138,12 +138,11 @@ describe('Prolaim controllers tests: ', function () {
 
     describe('About', function () {
 
-        var state, controller, stateParams;
-        var scope;
+        var state, $rootScope, controller, stateParams;
 
-        beforeEach(inject(function ($controller, $rootScope, _translator_) {
+        beforeEach(inject(function ($controller, _$rootScope_, _translator_) {
 
-            scope = $rootScope.$new();
+            $rootScope = _$rootScope_;
             translator = _translator_;
 
             stateParams = {
@@ -165,18 +164,19 @@ describe('Prolaim controllers tests: ', function () {
         });
 
         it('should initially get the Russian translation', function () {
+            $rootScope.language = 'ru';
             controller.translate('ru').then(function () {
-                console.log('footer: promise successfully resolved');
+                console.log('About: promise successfully resolved');
             }, function (error) {
                 console.log('error in test:\n' + error);
             });
-            expect(controller.language).toBe('ru');
+            expect(controller.data.language).toBe('ru');
         });
     });
 
     /////////////////   JOBS CONTROLLER   /////////////////
 
-    describe('JobsController', function () {
+    describe('Jobs', function () {
 
         var state, controller, q, stateParams;
         var scope;
@@ -207,50 +207,11 @@ describe('Prolaim controllers tests: ', function () {
 
         it('should initially get the Russian translation', function () {
             controller.translate('ru').then(function () {
-                console.log('footer: promise successfully resolved');
+                console.log('Jobs: promise successfully resolved');
             }, function (error) {
                 console.log('error in test:\n' + error);
             });
             expect(controller.language).toBe('ru');
-        });
-    });
-
-    /////////////////   LANGUAGE SERVICE   /////////////////
-
-    describe('LanguageService', function () {
-
-        var language, controller;
-        var scope = {};
-
-        beforeEach(inject(function ($controller, $rootScope) {
-
-            scope = $rootScope.$new();
-
-            controller = $controller('LanguageService', {
-                $scope: scope
-            });
-
-        }));
-
-        it('should be defined', function () {
-            expect(controller).toBeDefined();
-        });
-
-        it('should have getTranslation method defined', function () {
-            expect(angular.isFunction(controller.getLanguage)).toBe(true);
-        });
-
-        it('should determine that the current language is Russian', function () {
-            expect(scope.language).toBeUndefined;
-            scope.language = 'ru';
-            var currentLanguage = controller.getLanguage();
-            expect(angular.equals(currentLanguage, 'ru')).toBe(true);
-        });
-
-        it('should change the current language to Ukrainian', function () {
-            controller.setLanguage('ua');
-            var currentLanguage = controller.getLanguage();
-            expect(angular.equals(currentLanguage, 'ua')).toBe(true);
         });
     });
 });

@@ -2,30 +2,30 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.main')
-        .controller('Main', Main);
+    angular.module('prolaim.partners')
+        .controller('Partners', Partners);
 
-    Main.$inject = [
+    Partners.$inject = [
         'translator', 'languageService', 'defaultSettings'
     ];
 
-    ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Main(translator, languageService, defaultSettings) {
+    function Partners(translator, languageService, defaultSettings) {
 
-        console.log('Main: inside the controller');
+        console.log('Partners: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
-        var pageName = 'main';
+        var pageName = 'partners';
 
         /* here we specify what the view needs */
         vm.data = {
             LANGUAGE: ''
         };
         vm.translate = translate;
-        vm.title = 'Prolaim main page';
+        vm.title = 'Partners of Prolaim';
 
         activate();
 
@@ -44,7 +44,6 @@
                         vm.data = data;
                         return vm.data;
                     }
-                    ;
                 });
         }
     }

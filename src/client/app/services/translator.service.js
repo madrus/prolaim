@@ -12,10 +12,10 @@
 
     translatorResource.$inject = ['$resource'];
 
-    /////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
 
     function translatorResource($resource) {
-        var pathToJsonFile = '/src/client/data/translations/:fileName';
+        var pathToJsonFile = '/src/server/data/:fileName';
         return $resource(pathToJsonFile);
     };
 
@@ -31,7 +31,7 @@
 
     translator.$inject = ['translatorResource', '$q'];
 
-    //////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
 
     function translator(translatorResource, $q) {
 

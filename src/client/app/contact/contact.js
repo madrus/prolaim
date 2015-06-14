@@ -5,11 +5,13 @@
     angular.module('prolaim.contact')
         .controller('Contact', Contact);
 
-    Contact.$inject = ['translator', 'languageService', 'mapService'];
+    Contact.$inject = [
+        'translator', 'languageService', 'mapService', 'defaultSettings'
+    ];
 
     ////////////////////////////////////////////////////////
 
-    function Contact(translator, languageService, mapService) {
+    function Contact(translator, languageService, mapService, defaultSettings) {
 
         console.log('Contact: inside the controller');
 
@@ -31,9 +33,9 @@
 
         function activate() {
             mapService.getMap();
-            var iso = languageService.getLanguage();
+            var iso = languageService.getLanguage() || defaultSettings.language;
             vm.translate(iso);
-        };
+        }
 
         function translate(language) {
             return translator
@@ -43,7 +45,6 @@
                         vm.data = data;
                         return vm.data;
                     }
-                    ;
                 });
         }
     }

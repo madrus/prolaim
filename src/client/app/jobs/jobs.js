@@ -5,12 +5,14 @@
     angular.module('prolaim.jobs')
         .controller('Jobs', Jobs);
 
-    Jobs.$inject = ['translator', 'languageService'];
+    Jobs.$inject = [
+        'translator', 'languageService', 'defaultSettings'
+    ];
 
     ////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Jobs(translator, languageService) {
+    function Jobs(translator, languageService, defaultSettings) {
 
         console.log('Jobs: inside the controller');
 
@@ -30,7 +32,7 @@
         ////////////////////////////////////////////
 
         function activate() {
-            var iso = languageService.getLanguage();
+            var iso = languageService.getLanguage() || defaultSettings.language;
             vm.translate(iso);
         }
 

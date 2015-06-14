@@ -5,12 +5,14 @@
     angular.module('prolaim.footer')
         .controller('Footer', Footer);
 
-    Footer.$inject = ['translator', 'languageService'];
+    Footer.$inject = [
+        'translator', 'languageService', 'defaultSettings'
+    ];
 
     /////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Footer(translator, languageService) {
+    function Footer(translator, languageService, defaultSettings) {
         console.log('Footer: inside the controller');
 
         /*jshint validthis: true */
@@ -29,9 +31,10 @@
         ////////////////////////////////////////////
 
         function activate() {
-            var iso = languageService.getLanguage();
+            var iso = languageService.getLanguage() || defaultSettings.language;
             vm.translate(iso);
         }
+
 
         function translate(language) {
             return translator

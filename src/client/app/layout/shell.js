@@ -5,9 +5,11 @@
     angular.module('prolaim.shell')
         .controller('Shell', Shell);
 
-    Shell.$inject = ['$rootScope', '$location', '$state', 'translator', 'languageService'];
+    Shell.$inject = [
+        '$rootScope', '$location', '$state', 'translator', 'languageService', 'defaultSettings'
+    ];
 
-    function Shell($rootScope, $location, $state, translator, languageService) {
+    function Shell($rootScope, $location, $state, translator, languageService, defaultSettings) {
 
         console.log('Shell: inside the controller');
 
@@ -34,8 +36,7 @@
         function activate() {
             init();
             console.log('shell: translate activated with language ' + iso);
-            firstTime = true;
-            translate(iso, firstTime);
+            translate(iso);
         }
 
         /* INIT */
@@ -47,17 +48,7 @@
 
             /* LANGUAGE and TRANSLATE */
             oldIso = getLanguageFromPath(path);
-            if (oldIso) {
-                console.log('shell: language in path: ' + oldIso);
-            } else {
-                console.log('shell: no language in path');
-            }
-
-            iso = oldIso || 'ru';
-            if (iso !== 'ru' && iso !== 'ua') {
-                iso = 'ru';
-            }
-
+            iso = oldIso || defaultSettings.language;
             languageService.setLanguage(iso);
         }
 
@@ -94,27 +85,24 @@
             }
         }
 
-        function translate(language, firstTime) {
+        function translate(language) {
             var pageName = 'header';
             var currentState = $state.current;
             path = $location.path(); // if path was not defined yet
             console.log('shell: path: ' + path);
             oldIso = getLanguageFromPath(path); // if oldIso was not defined yet
-
             iso = language; // save the choice
-            var needToTranslate = firstTime || (iso !== oldIso);
-            if (needToTranslate) { // no need to translate if no change
-                translator.getTranslation(pageName, language).then(function (data) {
-                    if (data) {
-                        vm.data = data;
-                        if (iso !== oldIso) {
-                            $location.path(iso);
-                        }
-                        console.log('shell: path after relocation: ' + $location.path());
-                        return vm.data;
+
+            translator.getTranslation(pageName, language).then(function (data) {
+                if (data) {
+                    vm.data = data;
+                    if (iso !== oldIso) {
+                        $location.path(iso);
                     }
-                });
-            }
+                    console.log('shell: path after relocation: ' + $location.path());
+                    return vm.data;
+                }
+            });
 
             var lang = getLanguageFromPath(path);
             var rest = getRestOfPath(path);

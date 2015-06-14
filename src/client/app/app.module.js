@@ -10,6 +10,7 @@
         'prolaim.contact',
         'prolaim.jobs',
         'prolaim.main',
+        'prolaim.partners',
         'prolaim.sidebar',
         'prolaim.content',
         'prolaim.footer'
@@ -123,6 +124,14 @@
                     controllerAs: 'vm'
                 };
 
+                var partners = {
+                    name: 'shell.lang.content.partners',
+                    url: 'partners',
+                    templateUrl: '/src/client/app/partners/partners.html',
+                    controller: 'Partners',
+                    controllerAs: 'vm'
+                };
+
                 $stateProvider.state(shell);
                 $stateProvider.state(language);
                 $stateProvider.state(content);
@@ -130,6 +139,7 @@
                 $stateProvider.state(about);
                 $stateProvider.state(jobs);
                 $stateProvider.state(contact);
+                $stateProvider.state(partners);
 
             }]);
 

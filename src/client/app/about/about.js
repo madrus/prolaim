@@ -5,18 +5,21 @@
     angular.module('prolaim.about')
         .controller('About', About);
 
-    About.$inject = ['translator', 'languageService'];
+    About.$inject = [
+        'translator', 'languageService', 'defaultSettings'
+    ];
 
-    /////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function About(translator, languageService) {
+    function About(translator, languageService, defaultSettings) {
 
         console.log('About: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
         var pageName = 'about';
+        var defaultLanguage;
 
         /* here we specify what the view needs */
         vm.data = {
@@ -30,7 +33,8 @@
         ////////////////////////////////////////////
 
         function activate() {
-            var iso = languageService.getLanguage();
+            console.log('defaultSettings.language = ' + defaultSettings.language);
+            var iso = languageService.getLanguage() || defaultSettings.language;
             vm.translate(iso);
         }
 
@@ -42,7 +46,6 @@
                         vm.data = data;
                         return vm.data;
                     }
-                    ;
                 });
         }
     }

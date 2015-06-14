@@ -18,24 +18,54 @@
 
     function getMap() {
         var map;
-        var ymapsScript = 'https://api-maps.yandex.ru/2.1.26/?load=package.standard&lang=uk-RU';
-        loadScript(ymapsScript, function () {
-            console.log('ymaps-loader has been loaded, now we are ymaps.ready');
+        var ymapsSource = 'https://api-maps.yandex.ru/2.1.26/?load=package.standard&lang=uk-RU';
+        loadScript(ymapsSource, function () {
+            console.log('ymaps has been loaded, now we are ready');
             ymaps.ready(function () {
                 // инициализируем карту
                 map = initializeMap();
                 // создаем маркер преприятия
                 var marker = initializeMarker();
                 // Добавляем метку на карту.
+                console.log('before placing marker');
                 map.geoObjects.add(marker);
+                console.log('marker placed');
             });
         });
+
+        console.log('map is ready to be returned to the caller');
         return map;
+    }
+
+    function loadScript(ymapsSource, callback) {
+        // make sure the ymaps script is loaded by the time we call it
+        // otherwise by refreshing the contact page we get "undefined is not a function"
+        var mapScript = document.createElement("script");
+        mapScript.type = "text/javascript";
+        //if (angular.isFunction(callback)) {
+        //    mapScript.onload = callback;
+        //}
+        mapScript.onload = mapScript.onloadstatechange = function () {
+            if (mapScript.readyState &&
+                mapScript.readyState !== "complete" &&
+                mapScript.readyState !== "loaded") {
+                return;
+            }
+            // если все загрузилось, то снимаем обработчик и выбрасываем callback
+            mapScript.onload = mapScript.onloadstatechange = null;
+            if (angular.isFunction(callback)) {
+                callback();
+            }
+        };
+        mapScript.async = true;
+        mapScript.src = ymapsSource;
+        document.getElementsByTagName("head")[0].appendChild(mapScript);
     }
 
     // Дождёмся загрузки API и готовности DOM.
     function initializeMap() {
         var mapContainer = document.getElementById('prolaim-map');
+
         // Создание экземпляра карты и его привязка к контейнеру с
         // заданным id ('prolaim-map').
         var config = {
@@ -47,7 +77,9 @@
             behaviors: ['default', 'scrollZoom']
         };
 
+        console.log('before ymaps.Map');
         var prolaimMap = new ymaps.Map(mapContainer, config);
+        console.log('after ymaps.Map');
         //prolaimMap.controls.add('routeEditor');
 
         //var zoomOffset = -3;
@@ -82,17 +114,8 @@
             draggable: true
         });
 
+        console.log('marker initialized');
         return marker;
-    }
-
-    function loadScript(src, callback) {
-        // make sure the ymaps script is loaded by the time we call it
-        // otherwise by refreshing the contact page we get "undefined is not a function"
-        var script = document.createElement("script");
-        script.type = "text/javascript";
-        if (callback) script.onload = callback;
-        document.getElementsByTagName("head")[0].appendChild(script);
-        script.src = src;
     }
 
 })();
