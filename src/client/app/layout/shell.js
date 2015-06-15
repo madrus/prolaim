@@ -66,10 +66,10 @@
                 return false;
             }
             var languages = path.match(/^\/(ru|ua)(\/.*)?/); // /ru or /ua optionally followed by /...
-            if (languages[1]) {
-                return languages[1];
-            } else {
+            if (!languages || languages.length < 2) {
                 return false;
+            } else {
+                return languages[1];
             }
         }
 
@@ -78,10 +78,10 @@
                 return false;
             }
             var languages = path.match(/^\/(ru|ua)(\/.*)?/); // /ru or /ua optionally followed by /...
-            if (languages[2]) {
-                return languages[2];
-            } else {
+            if (!languages || languages.length < 3) {
                 return false;
+            } else {
+                return languages[2];
             }
         }
 

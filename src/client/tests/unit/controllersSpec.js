@@ -34,17 +34,80 @@ describe('Prolaim controllers tests: ', function () {
     //spyOn(mockTranslator, 'getTranslation').andCallThrough();
     //});
 
+    /////////////////   UI ROUTING   /////////////////
+
+    describe('PATH', function () {
+
+        beforeEach(function () {
+
+            inject(function ($rootScope, $controller, $q, $location, $state,
+                             $templateCache, $injector) {
+                deferred = $q.defer();
+                // following
+                // http://nikas.praninskas.com/angular/2014/09/27/
+                // unit-testing-ui-router-configuration/
+
+                function mockTemplate(templateRoute, tmpl) {
+                    $templateCache.put(templateRoute, tmpl || templateRoute);
+                }
+
+                function goTo(url) {
+                    $location.url(url);
+                    $rootScope.$digest();
+                }
+
+                function goFrom(url) {
+                    return {
+                        toState: function (state, params) {
+                            $location.replace().url(url); //Don't actually trigger a reload
+                            $state.go(state, params);
+                            $rootScope.$digest();
+                        }
+                    };
+                }
+
+                function resolve(value) {
+                    return {
+                        forStateAndView: function (state, view) {
+                            var viewDefinition = view
+                                ? $state.get(state).views[view]
+                                : $state.get(state);
+                            return $injector.invoke(viewDefinition.resolve[value]);
+                        }
+                    };
+                }
+            });
+        });
+
+        describe('when empty', function () {
+
+        });
+        describe('otherwise', function () {
+            beforeEach(mockTemplate.bind(null, '404/404.html'));
+            it('should go to the 404 state', function () {
+                goTo('someNonExistentUrl');
+                expect($state.current.name).toEqual('shell.lang.content.404');
+            });
+            it('should not change the url', function () {
+                var badUrl = '/someNonExistentUrl';
+                goTo(badUrl);
+                expect($location.url()).toEqual(badUrl);
+            });
+        });
+    });
+
+
     /////////////////   SHELL CONTROLLER   /////////////////
 
     describe('Shell', function () {
 
-        var scope, state, httpBackend, controller, deferred;
+        var scope, controller, deferred;
 
-        var location = {
-            path: function (path) {
-                return path ? path : '/ru';
-            }
-        };
+        //var location = {
+        //    path: function (path) {
+        //        return path ? path : '/ru';
+        //    }
+        //};
 
         beforeEach(function () {
 
@@ -52,11 +115,9 @@ describe('Prolaim controllers tests: ', function () {
             // $rootScope - injected to create a new $scope instance.
             // $controller - injected to create an instance of our controller.
             // $q - injected so we can create promises for our mocks.
-            inject(function ($rootScope, $controller, $q, _$location_, _$httpBackend_, _$state_) {
-                httpBackend = _$httpBackend_;
+            inject(function ($rootScope, $controller, $q, $location, $state,
+                             $templateCache, $injector) {
                 scope = $rootScope.$new();
-                state = _$state_;
-                location = _$location_;
                 deferred = $q.defer();
                 //location.path('/ru');
 
@@ -75,11 +136,9 @@ describe('Prolaim controllers tests: ', function () {
                 //translatorMock.getTranslation.andReturn($q.when('weee'));
 
                 controller = $controller('Shell', {
-                    $location: location,
-                    $state: state,
                     translator: translatorMock
                 });
-            })
+            });
         });
 
         it('should pass the dummy test', function () {

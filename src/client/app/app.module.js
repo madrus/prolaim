@@ -13,17 +13,25 @@
         'prolaim.partners',
         'prolaim.sidebar',
         'prolaim.content',
-        'prolaim.footer'
+        'prolaim.footer',
+        'prolaim.404'
     ]);
 
     angular.module('prolaim')
-        .config(['$stateProvider', '$urlRouterProvider',
-            function (/*$state,*/ $stateProvider, $urlRouterProvider) {
+        .config(['$urlRouterProvider', '$stateProvider',
+            function ($urlRouterProvider, $stateProvider) {
 
-                $urlRouterProvider.when('/', '/ru/main');
-                $urlRouterProvider.when('/:language/', '/:language/main');
-                $urlRouterProvider.when('/:language', '/:language/main');
-                $urlRouterProvider.otherwise('/ru/main');
+                $urlRouterProvider
+                    .when('', '/ru/main')
+                    .when('/', '/ru/main')
+                    .when('/ru', '/ru/main')
+                    .when('/ru/', '/ru/main')
+                    .when('/ua', '/ua/main')
+                    .when('/ua/', '/ua/main')
+                    //.otherwise('/ru/main');
+                    .otherwise(function ($injector) {
+                        $injector.get('$state').go('shell.lang.content.404', {}, { location: false });
+                    });
 
                 var shell = {
                     name: 'shell',
@@ -119,6 +127,14 @@
                     controllerAs: 'vm'
                 };
 
+                var p404 = {
+                    name: 'shell.lang.content.404',
+                    url: '404',
+                    templateUrl: '/src/client/app/404/404.html',
+                    controller: 'P404',
+                    controllerAs: 'vm'
+                };
+
                 $stateProvider.state(shell);
                 $stateProvider.state(language);
                 $stateProvider.state(content);
@@ -127,6 +143,7 @@
                 $stateProvider.state(jobs);
                 $stateProvider.state(contact);
                 $stateProvider.state(partners);
+                $stateProvider.state(p404);
 
             }]);
 
