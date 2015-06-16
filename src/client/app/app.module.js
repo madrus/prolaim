@@ -30,7 +30,8 @@
                     .when('/ua/', '/ua/main')
                     //.otherwise('/ru/main');
                     .otherwise(function ($injector) {
-                        $injector.get('$state').go('shell.lang.content.404', {}, { location: false });
+                        $injector.get('$state')
+                            .go('shell.lang.content.404', {}, { location: false });
                     });
 
                 var shell = {

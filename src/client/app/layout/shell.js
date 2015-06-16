@@ -97,7 +97,7 @@
                 if (data) {
                     vm.data = data;
                     if (iso !== oldIso) {
-                        $location.path(iso);
+                        $location.path(iso).replace();
                     }
                     console.log('shell: path after relocation: ' + $location.path());
                     return vm.data;
@@ -114,7 +114,7 @@
 
             if (oldIso !== iso) {
                 console.log('relocating to ' + newPath);
-                $location.path(newPath);
+                $location.path(newPath).replace();
             }
 
             $state.reload(currentState); //TODO check if 'reload' is the way
