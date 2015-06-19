@@ -40,15 +40,15 @@
     function loadScript(ymapsSource, callback) {
         // make sure the ymaps script is loaded by the time we call it
         // otherwise by refreshing the contact page we get "undefined is not a function"
-        var mapScript = document.createElement("script");
-        mapScript.type = "text/javascript";
+        var mapScript = document.createElement('script');
+        mapScript.type = 'text/javascript';
         //if (angular.isFunction(callback)) {
         //    mapScript.onload = callback;
         //}
         mapScript.onload = mapScript.onloadstatechange = function () {
             if (mapScript.readyState &&
-                mapScript.readyState !== "complete" &&
-                mapScript.readyState !== "loaded") {
+                mapScript.readyState !== 'complete' &&
+                mapScript.readyState !== 'loaded') {
                 return;
             }
             // если все загрузилось, то снимаем обработчик и выбрасываем callback
@@ -59,7 +59,7 @@
         };
         mapScript.async = true;
         mapScript.src = ymapsSource;
-        document.getElementsByTagName("head")[0].appendChild(mapScript);
+        document.getElementsByTagName('head')[0].appendChild(mapScript);
     }
 
     // Дождёмся загрузки API и готовности DOM.
@@ -119,3 +119,4 @@
     }
 
 })();
+

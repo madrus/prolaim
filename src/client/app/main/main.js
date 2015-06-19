@@ -44,7 +44,6 @@
                         vm.data = data;
                         return vm.data;
                     }
-                    ;
                 });
         }
     }

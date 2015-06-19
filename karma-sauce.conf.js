@@ -1,10 +1,12 @@
+/*jshint -W117 */
+/*jshint -W106 */
 var fs = require('fs');
 
-module.exports = function(config) {
-    // Use ENV vars on Travis and sauce.json locally to get credentials 
+module.exports = function (config) {
+    // Use ENV vars on Travis and sauce.json locally to get credentials
     if (!process.env.SAUCE_USERNAME) {
         if (!fs.existsSync('sauce.json')) {
-            console.log('Create a sauce.json with your credentials based on the sauce-sample.json file.');
+            console.log('Create a sauce.json with your credentials.');
             process.exit(1);
         } else {
             process.env.SAUCE_USERNAME = require('./sauce').username;
@@ -96,60 +98,13 @@ module.exports = function(config) {
                 browserName: 'internet explorer',
                 platform: 'Windows 8.1',
                 version: '11'
-            },
-
-            'BS_Chrome': {
-                base: 'BrowserStack',
-                browser: 'chrome',
-                os: 'OS X',
-                os_version: 'Mountain Lion'
-            },
-            'BS_Safari': {
-                base: 'BrowserStack',
-                browser: 'safari',
-                os: 'OS X',
-                os_version: 'Mountain Lion'
-            },
-            'BS_Firefox': {
-                base: 'BrowserStack',
-                browser: 'firefox',
-                os: 'Windows',
-                os_version: '8'
-            },
-            'BS_IE_8': {
-                base: 'BrowserStack',
-                browser: 'ie',
-                browser_version: '8.0',
-                os: 'Windows',
-                os_version: '7'
-            },
-            'BS_IE_9': {
-                base: 'BrowserStack',
-                browser: 'ie',
-                browser_version: '9.0',
-                os: 'Windows',
-                os_version: '7'
-            },
-            'BS_IE_10': {
-                base: 'BrowserStack',
-                browser: 'ie',
-                browser_version: '10.0',
-                os: 'Windows',
-                os_version: '8'
-            },
-            'BS_IE_11': {
-                base: 'BrowserStack',
-                browser: 'ie',
-                browser_version: '11.0',
-                os: 'Windows',
-                os_version: '8.1'
             }
         }
     });
 
-
     if (process.env.TRAVIS) {
-        var buildLabel = 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
+        var buildLabel = 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER;
+        buildLabel += ' (' + process.env.TRAVIS_BUILD_ID + ')';
 
         config.logLevel = config.LOG_DEBUG;
         config.transports = ['websocket', 'xhr-polling'];
@@ -171,8 +126,6 @@ module.exports = function(config) {
             filename: process.env.LOGS_DIR + '/' + (specificOptions.logFile || 'karma.log')
         });
     }
-
-
     // Terrible hack to workaround inflexibility of log4js:
     // - ignore web-server's 404 warnings,
     // - ignore DEBUG logs (on Travis), we log them into a file instead.
@@ -185,20 +138,18 @@ module.exports = function(config) {
     var log4js = require('./node_modules/karma/node_modules/log4js');
     var layouts = require('./node_modules/karma/node_modules/log4js/lib/layouts');
     var originalConfigure = log4js.configure;
-    log4js.configure = function(log4jsConfig) {
+    log4js.configure = function (log4jsConfig) {
         var consoleAppender = log4jsConfig.appenders.shift();
         var originalResult = originalConfigure.call(log4js, log4jsConfig);
         var layout = layouts.layout(consoleAppender.layout.type, consoleAppender.layout);
 
-
-
-        log4js.addAppender(function(log) {
+        log4js.addAppender(function (log) {
             var msg = log.data[0];
 
             // ignore web-server's 404s
             if (log.categoryName === 'web-server' && log.level.levelStr === config.LOG_WARN &&
-                IGNORED_404.some(function(ignoredLog) {
-                    return msg.indexOf(ignoredLog) !== -1
+                IGNORED_404.some(function (ignoredLog) {
+                    return msg.indexOf(ignoredLog) !== -1;
                 })) {
                 return;
             }

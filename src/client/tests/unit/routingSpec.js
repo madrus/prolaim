@@ -1,3 +1,4 @@
+/*jshint -W117 */
 'use strict';
 
 /* jasmine specs for routing go here */
@@ -121,9 +122,8 @@ describe('While routing the requested path, the route: ', function () {
         console.log('resolve: value = ' + value);
         return {
             forStateAndView: function (state, view) {
-                var viewDefinition = view
-                    ? $state.get(state).views[view]
-                    : $state.get(state);
+                var viewDefinition
+                    = view ? $state.get(state).views[view] : $state.get(state);
                 return $injector.invoke(viewDefinition.resolve[value]);
             }
         };

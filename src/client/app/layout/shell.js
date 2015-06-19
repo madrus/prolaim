@@ -23,7 +23,7 @@
 
         vm.data = {
             language: ''
-        }
+        };
         vm.setLanguageAndTranslate = setLanguageAndTranslate;
         vm.navbarCollapsed = true;
 

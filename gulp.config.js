@@ -1,10 +1,12 @@
+/*jshint -W117 */
 module.exports = function () {
     var client = './src/client/';
     var clientApp = client + 'app/';
+    var server = './src/server/';
     var temp = './.tmp/';
-    var config = {
-        temp: temp,
 
+    ///////////////
+    var config = {
         /**
          * Files paths
          */
@@ -13,9 +15,12 @@ module.exports = function () {
             './src/**/*.js',
             './*.js'
         ],
+        build: './build/',
         client: client,
-        css: temp + 'styles.css',
-        fonts: 'bower_components/bootstrap/fonts/*.*',
+        css: temp + 'styles/styles.css',
+        fonts: './bower_components/bootstrap/fonts/*.*',
+        images: client + 'images/**/*.*',
+        htmlTemplates: clientApp + '**/*.html',
         index: client + 'index.html',
         js: [
             clientApp + '**/*.module.js',
@@ -25,6 +30,20 @@ module.exports = function () {
 
         // Less files to compile (if more than 1, use [])
         less: client + 'styles/styles.less',
+        server: server,
+        temp: temp,
+
+        /**
+         * templateCache
+         */
+        templateCache: {
+            file: 'templates.js',
+            options: {
+                module: 'prolaim.templates',
+                standAlone: false,
+                root: 'app/'
+            }
+        },
 
         /**
          * Bower and NPM locations
@@ -34,9 +53,18 @@ module.exports = function () {
          */
         bower: {
             json: require('./bower.json'),
-            directory: 'bower_components',
+            directory: './bower_components',
             ignorePath: ['../..']
-        }
+        },
+        /**
+         * Node settings
+         */
+        defaultPort: 7203,
+        nodeServer: './src/server/app.js',
+        packages: [
+            './package.json',
+            './bower.json'
+        ]
     };
 
     config.getWiredepDefaultOptions = function () {

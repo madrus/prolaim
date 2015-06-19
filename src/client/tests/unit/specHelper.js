@@ -1,3 +1,4 @@
+/*jshint -W117 */
 // Data provider code
 // From http://blog.jphpsf.com/2012/08/30/drying-up-your-javascript-jasmine-tests
 

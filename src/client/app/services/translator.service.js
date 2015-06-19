@@ -17,7 +17,7 @@
     function translatorResource($resource) {
         var pathToJsonFile = '/src/server/data/:fileName';
         return $resource(pathToJsonFile);
-    };
+    }
 
     /////////////////////////////////////////////////////////
 

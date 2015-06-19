@@ -1,3 +1,4 @@
+/*jshint -W117 */
 'use strict';
 
 /* jasmine specs for services go here */
@@ -48,14 +49,14 @@ describe('Prolaim services tests: ', function () {
         });
 
         using('language', [
-            ["ru", 'Вакансии в ЧП «ПРОЛАЙМ»'],
-            ["ua", 'Вакансії в ПП «ПРОЛАЙМ»']
+            ['ru', 'Вакансии в ЧП «ПРОЛАЙМ»'],
+            ['ua', 'Вакансії в ПП «ПРОЛАЙМ»']
         ], function (language, expectedTitle) {
             it('should get the right jobs page title translation for \'' + language + '\'',
                 function (done) {
                     expect(testJobsTitle(language, expectedTitle, done)).toBeTruthy();
-                })
-        })
+                });
+        });
 
         function testJobsTitle(language, expectedTitle, done) {
             var result;
@@ -92,7 +93,7 @@ describe('Prolaim services tests: ', function () {
                     console.log('No data available from the translator');
                 }
 
-                expect(scope.data).toBeDefined;
+                expect(!angular.equals(scope.data), undefined);
                 expect(angular.equals(scope.data.TITLE, mockData.TITLE)).toBe(true);
             }
 
@@ -129,13 +130,13 @@ describe('Prolaim services tests: ', function () {
         });
 
         it('should determine that the initial language is undefined', function () {
-            expect($rootScope.language).toBeUndefined;
+            expect(!angular.equals($rootScope.language), undefined);
             var currentLanguage = languageService.getLanguage();
             expect(angular.equals(currentLanguage, undefined)).toBe(true);
         });
 
         it('should determine that the current language set via $rootScope is Russian', function () {
-            expect($rootScope.language).toBeUndefined;
+            expect(!angular.equals($rootScope.language), undefined);
             $rootScope.language = 'ru';
             var currentLanguage = languageService.getLanguage();
             expect(angular.equals(currentLanguage, 'ru')).toBe(true);
@@ -173,7 +174,6 @@ describe('Prolaim services tests: ', function () {
         it('should have getMap method defined', function () {
             expect(angular.isFunction(mapService.getMap)).toBe(true);
         });
-
 
     });
 });

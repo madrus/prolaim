@@ -1,5 +1,5 @@
 /*jshint -W117 */
-(function (){
+(function () {
     'use strict';
 
     angular.module('prolaim')

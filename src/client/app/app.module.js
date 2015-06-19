@@ -5,6 +5,7 @@
     angular.module('prolaim', [
         'ui.router',
         'ngResource',
+        'prolaim.templates',
         'prolaim.shell',
         'prolaim.about',
         'prolaim.contact',
@@ -31,7 +32,7 @@
                     //.otherwise('/ru/main');
                     .otherwise(function ($injector) {
                         $injector.get('$state')
-                            .go('shell.lang.content.404', {}, { location: false });
+                            .go('shell.lang.content.404', {}, {location: false});
                     });
 
                 var shell = {
@@ -61,7 +62,8 @@
                         'content@shell': {
                             templateUrl: '/src/client/app/layout/partials/content.html',
                             controller: 'Content',
-                            controllerAs: 'vm'                        },
+                            controllerAs: 'vm'
+                        },
                         'footer@shell': {
                             templateUrl: '/src/client/app/layout/partials/footer.html',
                             controller: 'Footer',

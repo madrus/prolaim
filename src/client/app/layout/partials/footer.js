@@ -35,7 +35,6 @@
             vm.translate(iso);
         }
 
-
         function translate(language) {
             return translator
                 .getTranslation(pageName, language)
@@ -44,7 +43,6 @@
                         vm.data = data;
                         return vm.data;
                     }
-                    ;
                 });
         }
     }

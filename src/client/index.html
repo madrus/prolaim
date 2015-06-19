@@ -11,18 +11,21 @@
     <style>
         /* This helps the ng-show/ng-hide animations start at the right place. */
         /* Since Angular has this but needs to load, this gives us the class early. */
-
         .ng-hide {
             display: none !important;
         }
     </style>
 
+    <!-- build:css styles/lib.css -->
     <!-- bower:css -->
     <!-- endbower -->
+    <!-- endbuild -->
 
+    <!-- build:css styles/app.css -->
     <!-- inject:css -->
     <link rel="stylesheet" href="/.tmp/styles/styles.css">
     <!-- endinject -->
+    <!-- endbuild -->
 
     <!-- IE8-HTML5: https://code.google.com/p/html5shiv/ -->
     <!--<script src="https://code.google.com/p/html5shiv/"></script>-->
@@ -40,8 +43,9 @@
 <!--//////////////////////////////////////// -->
 
 <!--<script src="//api-maps.yandex.ru/2.1.26/?load=package.standard&lang=uk-RU"-->
-        <!--type="text/javascript"></script>-->
+<!--type="text/javascript"></script>-->
 
+<!-- build:js js/lib.js -->
 <!-- bower:js -->
 <script src="/bower_components/jquery/dist/jquery.js"></script>
 <script src="/bower_components/angular/angular.js"></script>
@@ -52,14 +56,17 @@
 <script src="/bower_components/angular-resource/angular-resource.js"></script>
 <script src="/bower_components/angular-route/angular-route.js"></script>
 <!-- endbower -->
+<!-- endbuild -->
 
+<!-- build:js js/app.js -->
 <!-- inject:js -->
 <script src="/src/client/app/app.module.js"></script>
 <script src="/src/client/app/404/404.module.js"></script>
 <script src="/src/client/app/about/about.module.js"></script>
 <script src="/src/client/app/contact/contact.module.js"></script>
-<script src="/src/client/app/jobs/jobs.module.js"></script>
+<script src="/src/client/app/core/templates.module.js"></script>
 <script src="/src/client/app/main/main.module.js"></script>
+<script src="/src/client/app/jobs/jobs.module.js"></script>
 <script src="/src/client/app/layout/shell.module.js"></script>
 <script src="/src/client/app/partners/partners.module.js"></script>
 <script src="/src/client/app/layout/partials/content.module.js"></script>
@@ -69,8 +76,8 @@
 <script src="/src/client/app/about/about.js"></script>
 <script src="/src/client/app/config/defaultSettings.js"></script>
 <script src="/src/client/app/contact/contact.js"></script>
-<script src="/src/client/app/jobs/jobs.js"></script>
 <script src="/src/client/app/main/main.js"></script>
+<script src="/src/client/app/jobs/jobs.js"></script>
 <script src="/src/client/app/layout/shell.js"></script>
 <script src="/src/client/app/partners/partners.js"></script>
 <script src="/src/client/app/services/helper.service.js"></script>
@@ -80,6 +87,10 @@
 <script src="/src/client/app/layout/partials/footer.js"></script>
 <!-- endinject -->
 
+<!-- inject:templates:js -->
+<script src="/.tmp/templates.js"></script>
+<!-- endinject -->
+<!-- endbuild -->
 </body>
 
 </html>
