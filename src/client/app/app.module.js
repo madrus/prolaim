@@ -39,7 +39,7 @@
                     name: 'shell',
                     abstract: true,
                     url: '/',
-                    templateUrl: '/src/client/app/layout/shell.html',
+                    templateUrl: 'app/layout/shell.html',
                     controller: 'Shell',
                     controllerAs: 'vm'
                 };
@@ -52,28 +52,28 @@
                     // In such a way, they can be used as placeholders for other views below
                     views: {
                         'header@shell': {
-                            templateUrl: '/src/client/app/layout/header/header.html'
+                            templateUrl: 'app/layout/header/header.html'
                         },
                         'sidebar@shell': {
-                            templateUrl: '/src/client/app/layout/partials/sidebar.html',
+                            templateUrl: 'app/layout/partials/sidebar.html',
                             controller: 'Sidebar',
                             controllerAs: 'vm'
                         },
                         'content@shell': {
-                            templateUrl: '/src/client/app/layout/partials/content.html',
+                            templateUrl: 'app/layout/partials/content.html',
                             controller: 'Content',
                             controllerAs: 'vm'
                         },
                         'footer@shell': {
-                            templateUrl: '/src/client/app/layout/partials/footer.html',
+                            templateUrl: 'app/layout/partials/footer.html',
                             controller: 'Footer',
                             controllerAs: 'vm'
                         },
                         'topnav@shell.lang': {
-                            templateUrl: '/src/client/app/layout/header/topnav.html'
+                            templateUrl: 'app/layout/header/topnav.html'
                         },
                         'navbar@shell.lang': {
-                            templateUrl: '/src/client/app/layout/header/navbar.html'
+                            templateUrl: 'app/layout/header/navbar.html'
                         }
                     },
                     resolve: {
@@ -87,13 +87,13 @@
                     name: 'shell.lang.content',
                     url: '/',
                     abstract: true,
-                    templateUrl: '/src/client/app/layout/partials/dummy-content.html'
+                    template: '<ui-view></ui-view>'
                 };
 
                 var main = {
                     name: 'shell.lang.content.main',
                     url: 'main',
-                    templateUrl: '/src/client/app/main/main.html',
+                    templateUrl: 'app/main/main.html',
                     controller: 'Main',
                     controllerAs: 'vm'
                 };
@@ -101,7 +101,7 @@
                 var about = {
                     name: 'shell.lang.content.about',
                     url: 'about',
-                    templateUrl: '/src/client/app/about/about.html',
+                    templateUrl: 'app/about/about.html',
                     controller: 'About',
                     controllerAs: 'vm'
                 };
@@ -109,7 +109,7 @@
                 var jobs = {
                     name: 'shell.lang.content.jobs',
                     url: 'jobs',
-                    templateUrl: '/src/client/app/jobs/jobs.html',
+                    templateUrl: 'app/jobs/jobs.html',
                     controller: 'Jobs',
                     controllerAs: 'vm'
                 };
@@ -117,7 +117,7 @@
                 var contact = {
                     name: 'shell.lang.content.contact',
                     url: 'contact',
-                    templateUrl: '/src/client/app/contact/contact.html',
+                    templateUrl: 'app/contact/contact.html',
                     controller: 'Contact',
                     controllerAs: 'vm'
                 };
@@ -125,7 +125,7 @@
                 var partners = {
                     name: 'shell.lang.content.partners',
                     url: 'partners',
-                    templateUrl: '/src/client/app/partners/partners.html',
+                    templateUrl: 'app/partners/partners.html',
                     controller: 'Partners',
                     controllerAs: 'vm'
                 };
@@ -133,7 +133,7 @@
                 var p404 = {
                     name: 'shell.lang.content.404',
                     url: '404',
-                    templateUrl: '/src/client/app/404/404.html',
+                    templateUrl: 'app/404/404.html',
                     controller: 'P404',
                     controllerAs: 'vm'
                 };
