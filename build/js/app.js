@@ -168,26 +168,18 @@
     angular.module('prolaim.about', ['prolaim.config']);
 })();
 
-/*jshint -W117 */
-(function() {
-    'use strict';
-
-    angular.module('prolaim.contact', ['prolaim.config']);
-})();
-
 (function () {
     'use strict';
 
     angular
-        .module('app.core', [
+        .module('prolaim.core', [
             /* Cross-app modules */
             'blocks.exception',
             'blocks.logger',
             'blocks.router',
             /* 3rd-party modules */
             'ui.router',
-            'ngResource',
-            'ngplus'
+            'ngResource'
         ]);
 
 })();
@@ -202,7 +194,7 @@
 (function() {
     'use strict';
 
-    angular.module('prolaim.jobs', ['prolaim.config']);
+    angular.module('prolaim.contact', ['prolaim.config']);
 })();
 
 /*jshint -W117 */
@@ -210,6 +202,13 @@
     'use strict';
 
     angular.module('prolaim.shell', ['prolaim.config']);
+})();
+
+/*jshint -W117 */
+(function() {
+    'use strict';
+
+    angular.module('prolaim.jobs', ['prolaim.config']);
 })();
 
 /*jshint -W117 */
@@ -224,6 +223,27 @@
     'use strict';
 
     angular.module('prolaim.partners', ['prolaim.config']);
+})();
+
+(function() {
+    'use strict';
+
+    angular.module('blocks.logger', []);
+})();
+
+(function() {
+    'use strict';
+
+    angular.module('blocks.exception', ['blocks.logger']);
+})();
+
+(function() {
+    'use strict';
+
+    angular.module('blocks.router', [
+        'ui.router',
+        'blocks.logger'
+    ]);
 })();
 
 (function () {
@@ -265,13 +285,13 @@
         .controller('P404', P404);
 
     P404.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'defaultSettings'
     ];
 
     ///////////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function P404(translator, languageService, defaultSettings) {
+    function P404(dataService, languageService, defaultSettings) {
 
         console.log('P404: inside the controller');
 
@@ -298,7 +318,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {
@@ -319,13 +339,13 @@
         .controller('About', About);
 
     About.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'defaultSettings'
     ];
 
     ///////////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function About(translator, languageService, defaultSettings) {
+    function About(dataService, languageService, defaultSettings) {
 
         console.log('About: inside the controller');
 
@@ -352,7 +372,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {
@@ -378,57 +398,75 @@
 
 })();
 
-/*jshint -W117 */
 (function () {
     'use strict';
 
-    angular.module('prolaim.contact')
-        .controller('Contact', Contact);
+    var core = angular.module('prolaim.core');
 
-    Contact.$inject = [
-        'translator', 'languageService', 'mapService', 'defaultSettings'
-    ];
+    core.config(toastrConfig);
 
-    ////////////////////////////////////////////////////////
-
-    function Contact(translator, languageService, mapService, defaultSettings) {
-
-        console.log('Contact: inside the controller');
-
-        /*jshint validthis: true */
-        var vm = this;
-        var pageName = 'contact';
-
-        /* here we specify what the view needs */
-        vm.data = {
-            LANGUAGE: ''
-        };
-        vm.translate = translate;
-        vm.prolaimMap = {};
-        vm.title = 'Contact Prolaim';
-
-        activate();
-
-        ////////////////////////////////////////////////
-
-        function activate() {
-            mapService.getMap();
-            var iso = languageService.getLanguage() || defaultSettings.language;
-            vm.translate(iso);
-        }
-
-        function translate(language) {
-            return translator
-                .getTranslation(pageName, language)
-                .then(function (data) {
-                    if (data) {
-                        vm.data = data;
-                        return vm.data;
-                    }
-                });
-        }
+    toastrConfig.$inject = ['toastr'];
+    /* @ngInject */
+    function toastrConfig(toastr) {
+        toastr.options.timeOut = 4000;
+        toastr.options.positionClass = 'toast-bottom-right';
     }
 
+    var config = {
+        appErrorPrefix: '[GulpPatterns Error] ', //Configure the exceptionHandler decorator
+        appTitle: 'Gulp Patterns',
+        imageBasePath: '/images/photos/',
+        unknownProductImageSource: 'unknown_product.jpg'
+    };
+
+    core.value('config', config);
+
+    core.config(configure);
+
+    configure.$inject = ['$compileProvider', '$logProvider',
+        'routerHelperProvider', 'exceptionHandlerProvider'];
+    /* @ngInject */
+    function configure($compileProvider, $logProvider,
+                       routerHelperProvider, exceptionHandlerProvider) {
+        $compileProvider.debugInfoEnabled(false);
+
+        // turn debugging off/on (no info or warn)
+        if ($logProvider.debugEnabled) {
+            $logProvider.debugEnabled(true);
+        }
+        exceptionHandlerProvider.configure(config.appErrorPrefix);
+        configureStateHelper();
+
+        ////////////////
+
+        function configureStateHelper() {
+            var resolveAlways = {
+                ready: ready
+            };
+
+            ready.$inject = ['dataservice'];
+            // if we were not using $inject explicitely, we could also put a code hint
+            /* @ngInject */
+            function ready(dataservice) {
+                return dataservice.ready();
+            }
+
+            routerHelperProvider.configure({
+                docTitle: 'Gulp: ',
+                resolveAlways: resolveAlways
+            });
+        }
+    }
+})();
+
+/* global toastr:false, moment:false */
+(function () {
+    'use strict';
+
+    angular
+        .module('prolaim.core')
+        .constant('toastr', toastr)
+        .constant('moment', moment);
 })();
 
 (function() {
@@ -436,11 +474,11 @@
 
     angular
         .module('prolaim.core')
-        .factory('dataservice', dataservice);
+        .factory('dataService', dataService);
 
-    dataservice.$inject = ['$http', '$location', '$q', 'exception', 'logger'];
+    dataService.$inject = ['$http', '$location', '$q', 'exception', 'logger'];
     /* @ngInject */
-    function dataservice($http, $location, $q, exception, logger) {
+    function dataService($http, $location, $q, exception, logger) {
         var readyPromise;
 
         var service = {
@@ -700,107 +738,45 @@
 
 /*jshint -W117 */
 (function () {
-
     'use strict';
 
-    /**
-     * translatorResource service (only $resource dependency)
-     * no functions exposed to the outside world
-     */
-    angular.module('prolaim')
-        .service('translatorResource', translatorResource);
+    angular.module('prolaim.contact')
+        .controller('Contact', Contact);
 
-    translatorResource.$inject = ['$resource'];
-
-    //////////////////////////////////////////////////////////////
-
-    function translatorResource($resource) {
-        var pathToJsonFile = '../server/data/:fileName';
-        return $resource(pathToJsonFile);
-    }
-
-    /////////////////////////////////////////////////////////
-
-    /**
-     * translator service (no $resource dependency)
-     * getTranslation function is exposed to the outside world
-     * and returns a promise object
-     */
-    angular.module('prolaim')
-        .factory('translator', translator);
-
-    translator.$inject = ['translatorResource', '$q'];
-
-    /////////////////////////////////////////////////////////////////////
-
-    function translator(translatorResource, $q) {
-
-        var service = {};
-
-        service.getTranslation = getTranslation;
-
-        return service;
-
-        //////////////////////////////////
-
-        function getTranslation(pageName, language) {
-
-            var deferred = $q.defer();
-            var msg = 'page \'' + pageName + '\' into \'' + language + '\'';
-            console.log('translator: translating ' + msg);
-            var languageJsonFileName = pageName + '.' + language + '.json';
-
-            translatorResource.get({fileName: languageJsonFileName}).$promise
-                .then(function (data) {
-                    deferred.resolve(data);
-                });
-
-            return deferred.promise;
-        }
-    }
-
-})();
-
-/*jshint -W117 */
-(function () {
-    'use strict';
-
-    angular.module('prolaim.jobs')
-        .controller('Jobs', Jobs);
-
-    Jobs.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+    Contact.$inject = [
+        'dataService', 'languageService', 'mapService', 'defaultSettings'
     ];
 
     ////////////////////////////////////////////////////////
 
-    /* @ngInject */
-    function Jobs(translator, languageService, defaultSettings) {
+    function Contact(dataService, languageService, mapService, defaultSettings) {
 
-        console.log('Jobs: inside the controller');
+        console.log('Contact: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
-        var pageName = 'jobs';
+        var pageName = 'contact';
 
         /* here we specify what the view needs */
         vm.data = {
             LANGUAGE: ''
         };
         vm.translate = translate;
-        vm.title = 'Prolaim job offers';
+        vm.prolaimMap = {};
+        vm.title = 'Contact Prolaim';
 
         activate();
 
-        ////////////////////////////////////////////
+        ////////////////////////////////////////////////
 
         function activate() {
+            mapService.getMap();
             var iso = languageService.getLanguage() || defaultSettings.language;
             vm.translate(iso);
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {
@@ -822,12 +798,12 @@
 
     Shell.$inject = [
         '$rootScope', '$location', '$state',
-        'translator', 'languageService',
+        'dataService', 'languageService',
         'helper', 'defaultSettings'
     ];
 
     function Shell($rootScope, $location, $state,
-                   translator, languageService,
+                   dataService, languageService,
                    helper, defaultSettings) {
 
         console.log('Shell: inside the controller');
@@ -888,7 +864,7 @@
             oldIso = helper.getLanguageFromPath(path); // if oldIso was not defined yet
             iso = language; // save the choice
 
-            translator.getTranslation(pageName, language).then(function (data) {
+            dataService.getTranslation(pageName, language).then(function (data) {
                 if (data) {
                     vm.data = data;
                     if (iso !== oldIso) {
@@ -921,17 +897,69 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.main')
-        .controller('Main', Main);
+    angular.module('prolaim.jobs')
+        .controller('Jobs', Jobs);
 
-    Main.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+    Jobs.$inject = [
+        'dataService', 'languageService', 'defaultSettings'
     ];
 
     ////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Main(translator, languageService, defaultSettings) {
+    function Jobs(dataService, languageService, defaultSettings) {
+
+        console.log('Jobs: inside the controller');
+
+        /*jshint validthis: true */
+        var vm = this;
+        var pageName = 'jobs';
+
+        /* here we specify what the view needs */
+        vm.data = {
+            LANGUAGE: ''
+        };
+        vm.translate = translate;
+        vm.title = 'Prolaim job offers';
+
+        activate();
+
+        ////////////////////////////////////////////
+
+        function activate() {
+            var iso = languageService.getLanguage() || defaultSettings.language;
+            vm.translate(iso);
+        }
+
+        function translate(language) {
+            return dataService
+                .getTranslation(pageName, language)
+                .then(function (data) {
+                    if (data) {
+                        vm.data = data;
+                        return vm.data;
+                    }
+                });
+        }
+    }
+
+})();
+
+/*jshint -W117 */
+(function () {
+    'use strict';
+
+    angular.module('prolaim.main')
+        .controller('Main', Main);
+
+    Main.$inject = [
+        'dataService', 'languageService', 'defaultSettings'
+    ];
+
+    ////////////////////////////////////////////////////////
+
+    /* @ngInject */
+    function Main(dataService, languageService, defaultSettings) {
 
         console.log('Main: inside the controller');
 
@@ -956,7 +984,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {
@@ -977,13 +1005,13 @@
         .controller('Partners', Partners);
 
     Partners.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'defaultSettings'
     ];
 
     ///////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Partners(translator, languageService, defaultSettings) {
+    function Partners(dataService, languageService, defaultSettings) {
 
         console.log('Partners: inside the controller');
 
@@ -1008,7 +1036,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {
@@ -1021,6 +1049,252 @@
 
 })();
 
+(function() {
+    'use strict';
+
+    angular
+        .module('blocks.logger')
+        .factory('logger', logger);
+
+    logger.$inject = ['$log', 'toastr'];
+    /* @ngInject */
+    function logger($log, toastr) {
+        var service = {
+            showToasts: true,
+
+            error   : error,
+            info    : info,
+            success : success,
+            warning : warning,
+
+            // straight to console; bypass toastr
+            log     : $log.log
+        };
+
+        return service;
+        /////////////////////
+
+        function error(message, data, title) {
+            toastr.error(message, title);
+            $log.error('Error: ' + message, data);
+        }
+
+        function info(message, data, title) {
+            toastr.info(message, title);
+            $log.info('Info: ' + message, data);
+        }
+
+        function success(message, data, title) {
+            toastr.success(message, title);
+            $log.info('Success: ' + message, data);
+        }
+
+        function warning(message, data, title) {
+            toastr.warning(message, title);
+            $log.warn('Warning: ' + message, data);
+        }
+    }
+}());
+
+// Include in index.html so that app level exceptions are handled.
+// Exclude from testRunner.html which should run exactly what it wants to run
+(function() {
+    'use strict';
+
+    angular
+        .module('blocks.exception')
+        .provider('exceptionHandler', exceptionHandlerProvider)
+        .config(config);
+
+    /**
+     * Must configure the exception handling
+     * @return {[type]}
+     */
+    function exceptionHandlerProvider() {
+        /* jshint validthis:true */
+        this.config = {
+            appErrorPrefix: undefined
+        };
+
+        this.configure = function (appErrorPrefix) {
+            this.config.appErrorPrefix = appErrorPrefix;
+        };
+
+        this.$get = function() {
+            return {config: this.config};
+        };
+    }
+
+    config.$inject = ['$provide'];
+    /**
+     * Configure by setting an optional string value for appErrorPrefix.
+     * Accessible via config.appErrorPrefix (via config value).
+     * @param  {[type]} $provide
+     * @return {[type]}
+     * @ngInject
+     */
+    function config($provide) {
+        $provide.decorator('$exceptionHandler', extendExceptionHandler);
+    }
+
+    /**
+     * Extend the $exceptionHandler service to also display a toast.
+     * @param  {Object} $delegate
+     * @param  {Object} exceptionHandler
+     * @param  {Object} logger
+     * @return {Function} the decorated $exceptionHandler service
+     */
+    extendExceptionHandler.$inject = ['$delegate', 'exceptionHandler', 'logger'];
+    /* @ngInject */
+    function extendExceptionHandler($delegate, exceptionHandler, logger) {
+        return function(exception, cause) {
+            var appErrorPrefix = exceptionHandler.config.appErrorPrefix || '';
+            var errorData = {exception: exception, cause: cause};
+            exception.message = appErrorPrefix + exception.message;
+            $delegate(exception, cause);
+            /**
+             * Could add the error to a service's collection,
+             * add errors to $rootScope, log errors to remote web server,
+             * or log locally. Or throw hard. It is entirely up to you.
+             * throw exception;
+             *
+             * @example
+             *     throw { message: 'error message we added' };
+             */
+            logger.error(exception.message, errorData);
+        };
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('blocks.exception')
+        .factory('exception', exception);
+
+    exception.$inject = ['logger'];
+    /* @ngInject */
+    function exception(logger) {
+        var service = {
+            catcher: catcher
+        };
+        return service;
+
+        function catcher(message) {
+            return function(reason) {
+                logger.error(message, reason);
+            };
+        }
+    }
+})();
+
+/* Help configure the state-base ui.router */
+(function() {
+    'use strict';
+
+    angular
+        .module('blocks.router')
+        .provider('routerHelper', routerHelperProvider);
+
+    routerHelperProvider.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
+    /* @ngInject */
+    function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider) {
+        /* jshint validthis:true */
+        var config = {
+            docTitle: undefined,
+            resolveAlways: {}
+        };
+
+        $locationProvider.html5Mode(true);
+
+        this.configure = function(cfg) {
+            angular.extend(config, cfg);
+        };
+
+        this.$get = RouterHelper;
+        RouterHelper.$inject = ['$location', '$rootScope', '$state', 'logger'];
+        /* @ngInject */
+        function RouterHelper($location, $rootScope, $state, logger) {
+            var handlingStateChangeError = false;
+            var hasOtherwise = false;
+            var stateCounts = {
+                errors: 0,
+                changes: 0
+            };
+
+            var service = {
+                configureStates: configureStates,
+                getStates: getStates,
+                stateCounts: stateCounts
+            };
+
+            init();
+
+            return service;
+
+            ///////////////
+
+            function configureStates(states, otherwisePath) {
+                states.forEach(function(state) {
+                    state.config.resolve =
+                        angular.extend(state.config.resolve || {}, config.resolveAlways);
+                    $stateProvider.state(state.state, state.config);
+                });
+                if (otherwisePath && !hasOtherwise) {
+                    hasOtherwise = true;
+                    $urlRouterProvider.otherwise(otherwisePath);
+                }
+            }
+
+            function handleRoutingErrors() {
+                // Route cancellation:
+                // On routing error, go to the dashboard.
+                // Provide an exit clause if it tries to do it twice.
+                $rootScope.$on('$stateChangeError',
+                    function(event, toState, toParams, fromState, fromParams, error) {
+                        if (handlingStateChangeError) {
+                            return;
+                        }
+                        stateCounts.errors++;
+                        handlingStateChangeError = true;
+                        var msg = formatErrorMessage(error);
+                        logger.warning(msg, [toState]);
+                        $location.path('/');
+
+                        function formatErrorMessage(error) {
+                            var dest = (toState && (toState.title || toState.name ||
+                                                    toState.loadedTemplateUrl)) || 'unknown target';
+                            return 'Error routing to ' + dest + '. ' +
+                                error.message || error.data || '' +
+                                '. <br/>' + (error.statusText || '') +
+                                ': ' + (error.status || '');
+                        }
+                    }
+                );
+            }
+
+            function init() {
+                handleRoutingErrors();
+                updateDocTitle();
+            }
+
+            function getStates() { return $state.get(); }
+
+            function updateDocTitle() {
+                $rootScope.$on('$stateChangeSuccess',
+                    function(event, toState, toParams, fromState, fromParams) {
+                        stateCounts.changes++;
+                        handlingStateChangeError = false;
+                        var title = config.docTitle + ' ' + (toState.title || '');
+                        $rootScope.title = title; // data bind to <title>
+                    }
+                );
+            }
+        }
+    }
+})();
+
 /*jshint -W117 */
 (function () {
     'use strict';
@@ -1029,13 +1303,13 @@
         .controller('Footer', Footer);
 
     Footer.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'defaultSettings'
     ];
 
     /////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Footer(translator, languageService, defaultSettings) {
+    function Footer(dataService, languageService, defaultSettings) {
         console.log('Footer: inside the controller');
 
         /*jshint validthis: true */
@@ -1059,7 +1333,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {
@@ -1075,13 +1349,13 @@
 angular.module("prolaim.templates").run(["$templateCache", function($templateCache) {$templateCache.put("app/404/404.html","<div class=page-header><h1>{{ vm.data.TITLE }}</h1><h3>{{ vm.data.SUBTITLE }}</h3>{{ vm.error }}</div>");
 $templateCache.put("app/about/about.html","<div class=page-header><h1>{{ vm.data.TITLE }}</h1><h3>{{ vm.data.SUBTITLE }}</h3>{{ vm.error }}</div>");
 $templateCache.put("app/contact/contact.html","<div class=page-header><h1>{{ vm.data.TITLE }}</h1><h3>{{ vm.data.OFFICE.NAME }}</h3><p>{{ vm.data.OFFICE.ADDRESS }}</p><p>{{ vm.data.PHONES }}(044)406-38-44; (044)401-64-30; (044)502-94-54; (04598)63-800; (04598)58-828</p><p>{{ vm.data.EMAIL }}prolaim@ukr.net</p><h3>{{ vm.data.DEPOT.NAME }}</h3><p>{{ vm.data.DEPOT.ADDRESS }}</p><p>{{ vm.data.PHONES }}(04598)58-828; (044)406-38-44</p>{{ vm.error }}<h3>{{ vm.data.LOCATION }}</h3><div class=map><div id=prolaim-map></div></div></div>");
+$templateCache.put("app/layout/shell.html","<section class=container><header id=header><div ui-view=header@shell></div></header><section><div class=row><aside id=sidebar class=col-md-2><div ui-view=sidebar@shell></div></aside><section id=content class=col-md-10><div ui-view=content></div></section></div></section><footer id=footer class=clearfix><div ui-view=footer@shell></div></footer></section>");
 $templateCache.put("app/jobs/jobs.html","<div class=page-header><h1>{{ vm.data.TITLE }}</h1><h3>{{ vm.data.SUBTITLE }}</h3>{{ vm.error }}</div>");
 $templateCache.put("app/main/main.html","<div class=page-header><h1>{{ vm.data.TITLE }}</h1><h3>{{ vm.data.SUBTITLE }}</h3>{{ vm.error }}</div>");
-$templateCache.put("app/layout/shell.html","<section class=container><header id=header><div ui-view=header@shell></div></header><section><div class=row><aside id=sidebar class=col-md-2><div ui-view=sidebar@shell></div></aside><section id=content class=col-md-10><div ui-view=content></div></section></div></section><footer id=footer class=clearfix><div ui-view=footer@shell></div></footer></section>");
 $templateCache.put("app/partners/partners.html","<div class=page-header><h1>{{ vm.data.TITLE }}</h1><h3>{{ vm.data.SUBTITLE }}</h3>{{ vm.error }}</div>");
 $templateCache.put("app/layout/header/header.html","<div ui-view=topnav></div><div ui-view=navbar></div>");
 $templateCache.put("app/layout/header/navbar.html","<nav class=\"navbar navbar-default\" id=navbar role=navigation><div class=container-fluid id=menu-border><div class=navbar-header><button type=button class=\"navbar-toggle collapsed\" ng-click=\"vm.navbarCollapsed = !vm.navbarCollapsed\"><span class=sr-only>{{ vm.data.MENU.TOGGLE }}</span> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span></button></div><div class=\"collapse navbar-collapse\" collapse=vm.navbarCollapsed><ul class=\"nav navbar-nav\"><li class=\"item active\" ui-sref-active=active><a ui-sref=shell.lang.content.main>{{ vm.data.MENU.CEMENT | uppercase }}<span class=sr-only>(current)</span></a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.main>{{ vm.data.MENU.POTASSIUM | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.main>{{ vm.data.MENU.MIXES | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.main>{{ vm.data.MENU.FILLING | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.main>{{ vm.data.MENU.MASH | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.main>{{ vm.data.MENU.OTHER | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.main>{{ vm.data.MENU.PRICES | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.main>{{ vm.data.MENU.DELIVERY | uppercase }}</a></li></ul></div></div></nav>");
-$templateCache.put("app/layout/header/topnav.html","<nav class=\"navbar navbar-default\" id=topnav><div class=\"container-fluid topnav-left\"><div class=navbar-header><a class=navbar-brand ui-sref=shell.lang.content.main><img ng-src=/src/client/images/prolaim.png></a></div><div class=\"collapse navbar-collapse\" collapse=vm.navbarCollapsed><ul class=\"nav navbar-nav\"><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.main>{{ vm.data.MENU.MAIN | uppercase }}<span class=sr-only>(current)</span></a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.about>{{ vm.data.MENU.ABOUT | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.partners>{{ vm.data.MENU.PARTNERS | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.jobs>{{ vm.data.MENU.JOBS | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.contact>{{ vm.data.MENU.CONTACT | uppercase }}</a></li></ul></div></div><div class=topnav-right><div class=\"nav navbar-nav navbar-right\" id=flags><input type=image ng-click=\"vm.setLanguageAndTranslate(\'ru\')\" ng-src=/src/client/images/russia.png alt=Русский title=Русский> <input type=image ng-click=\"vm.setLanguageAndTranslate(\'ua\')\" ng-src=/src/client/images/ukraine.png alt=Українська title=Українська></div><div class=pull-right><form class=\"navbar-form navbar-right\" role=search><div class=form-group><input type=text class=form-control placeholder=\"{{ vm.data.SEARCH_HINT }}\"></div><button type=submit class=\"btn btn-default\">{{ vm.data.SEARCH | uppercase }}</button></form></div></div></nav>");
+$templateCache.put("app/layout/header/topnav.html","<nav class=\"navbar navbar-default\" id=topnav><div class=\"container-fluid topnav-left\"><div class=navbar-header><a class=navbar-brand ui-sref=shell.lang.content.main><img ng-src=images/prolaim.png></a></div><div class=\"collapse navbar-collapse\" collapse=vm.navbarCollapsed><ul class=\"nav navbar-nav\"><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.main>{{ vm.data.MENU.MAIN | uppercase }}<span class=sr-only>(current)</span></a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.about>{{ vm.data.MENU.ABOUT | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.partners>{{ vm.data.MENU.PARTNERS | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.jobs>{{ vm.data.MENU.JOBS | uppercase }}</a></li><li class=item ui-sref-active=active><a ui-sref=shell.lang.content.contact>{{ vm.data.MENU.CONTACT | uppercase }}</a></li></ul></div></div><div class=topnav-right><div class=\"nav navbar-nav navbar-right\" id=flags><input type=image ng-click=\"vm.setLanguageAndTranslate(\'ru\')\" ng-src=images/russia.png alt=Русский title=Русский> <input type=image ng-click=\"vm.setLanguageAndTranslate(\'ua\')\" ng-src=images/ukraine.png alt=Українська title=Українська></div><div class=pull-right><form class=\"navbar-form navbar-right\" role=search><div class=form-group><input type=text class=form-control placeholder=\"{{ vm.data.SEARCH_HINT }}\"></div><button type=submit class=\"btn btn-default\">{{ vm.data.SEARCH | uppercase }}</button></form></div></div></nav>");
 $templateCache.put("app/layout/partials/content.html","<div ui-view></div>");
 $templateCache.put("app/layout/partials/footer.html","<div class=center-block><h4>Здесь будет футер со всякого рода полезной информацией</h4><div><span class=\"glyphicon glyphicon-copyright-mark\" aria-hidden=true></span> <span class=sr-only>Copyright</span> {{ vm.data.COPYRIGHT }}</div>{{ vm.error }}</div>");
 $templateCache.put("app/layout/partials/sidebar.html","<h4>Это - боковая панель, на которой клиенту будут предоставлены расширенные возможности для поиска</h4>");}]);
