@@ -25,7 +25,7 @@
                 .then(getTranslationComplete)
                 .catch(function(message) {
                     exception.catcher('XHR Failed for getTranslation')(message);
-                    $location.url('/');
+                    $location.url('/' + language);
                 });
 
             function getTranslationComplete(data, status, headers, config) {
