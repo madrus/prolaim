@@ -3,8 +3,10 @@
     'use strict';
 
     angular.module('prolaim', [
-        'ui.router',
-        'ngResource',
+        /* shared modules */
+        'prolaim.core',
+
+        /* feature areas */
         'prolaim.templates',
         'prolaim.shell',
         'prolaim.about',

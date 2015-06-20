@@ -6,13 +6,13 @@
         .controller('Jobs', Jobs);
 
     Jobs.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'defaultSettings'
     ];
 
     ////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Jobs(translator, languageService, defaultSettings) {
+    function Jobs(dataService, languageService, defaultSettings) {
 
         console.log('Jobs: inside the controller');
 
@@ -37,7 +37,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {

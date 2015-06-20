@@ -3,19 +3,14 @@ module.exports = function(app) {
     var data = '/../../data/';
     var jsonfileservice = require('./utils/jsonfileservice')();
 
-    app.get(api + '/customer/:id', getCustomer);
-    app.get(api + '/customers', getCustomers);
+    app.get(api + '/:pageName/:language', getTranslation);
 
-    function getCustomer(req, res, next) {
-        var json = jsonfileservice.getJsonFromFile(data + 'customers.json');
-        var customer = json.filter(function(c) {
-            return c.id === parseInt(req.params.id);
-        });
-        res.send(customer[0]);
-    }
+    function getTranslation(req, res, next) {
+        var pageName = req.params.pageName;
+        var language = req.params.language;
+        var jsonFileName = pageName + '.' + language + '.json';
 
-    function getCustomers(req, res, next) {
-        var json = jsonfileservice.getJsonFromFile(data + 'customers.json');
+        var json = jsonfileservice.getJsonFromFile(data + jsonFileName);
         res.send(json);
     }
 };

@@ -6,12 +6,12 @@
         .controller('Contact', Contact);
 
     Contact.$inject = [
-        'translator', 'languageService', 'mapService', 'defaultSettings'
+        'dataService', 'languageService', 'mapService', 'defaultSettings'
     ];
 
     ////////////////////////////////////////////////////////
 
-    function Contact(translator, languageService, mapService, defaultSettings) {
+    function Contact(dataService, languageService, mapService, defaultSettings) {
 
         console.log('Contact: inside the controller');
 
@@ -38,7 +38,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {

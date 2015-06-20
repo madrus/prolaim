@@ -7,12 +7,12 @@
 
     Shell.$inject = [
         '$rootScope', '$location', '$state',
-        'translator', 'languageService',
+        'dataService', 'languageService',
         'helper', 'defaultSettings'
     ];
 
     function Shell($rootScope, $location, $state,
-                   translator, languageService,
+                   dataService, languageService,
                    helper, defaultSettings) {
 
         console.log('Shell: inside the controller');
@@ -73,7 +73,7 @@
             oldIso = helper.getLanguageFromPath(path); // if oldIso was not defined yet
             iso = language; // save the choice
 
-            translator.getTranslation(pageName, language).then(function (data) {
+            dataService.getTranslation(pageName, language).then(function (data) {
                 if (data) {
                     vm.data = data;
                     if (iso !== oldIso) {

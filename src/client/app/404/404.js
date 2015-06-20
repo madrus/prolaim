@@ -6,13 +6,13 @@
         .controller('P404', P404);
 
     P404.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'defaultSettings'
     ];
 
     ///////////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function P404(translator, languageService, defaultSettings) {
+    function P404(dataService, languageService, defaultSettings) {
 
         console.log('P404: inside the controller');
 
@@ -39,7 +39,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {

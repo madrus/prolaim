@@ -6,13 +6,13 @@
         .controller('Footer', Footer);
 
     Footer.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'defaultSettings'
     ];
 
     /////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Footer(translator, languageService, defaultSettings) {
+    function Footer(dataService, languageService, defaultSettings) {
         console.log('Footer: inside the controller');
 
         /*jshint validthis: true */
@@ -36,7 +36,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {

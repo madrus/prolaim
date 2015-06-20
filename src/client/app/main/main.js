@@ -6,13 +6,13 @@
         .controller('Main', Main);
 
     Main.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'defaultSettings'
     ];
 
     ////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Main(translator, languageService, defaultSettings) {
+    function Main(dataService, languageService, defaultSettings) {
 
         console.log('Main: inside the controller');
 
@@ -37,7 +37,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {

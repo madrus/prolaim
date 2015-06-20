@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="prolaim" ng-strict-di>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge, chrome=1"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+    <title ng-bind="title"></title>
+    <base href="/">
+    <style>
+        /* This helps the ng-show/ng-hide animations start at the right place. */
+        /* Since Angular has this but needs to load, this gives us the class early. */
+        .ng-hide {
+            display: none !important;
+        }
+    </style>
+
+    
+
+    <link rel="stylesheet" href="styles/app.css">
+</head>
+
+<body>
+<!--//////////////////////////////////////// -->
+<!--//////////////////////////////////////// -->
+<!--ng-include and ui-view are not easily to combine-->
+<!--maybe it is worth making a plunker to test that-->
+<!--<div ng-include="'app/layout/shell.html'"></div>-->
+<ui-view></ui-view>
+<!--//////////////////////////////////////// -->
+<!--//////////////////////////////////////// -->
+
+<!--<script src="//api-maps.yandex.ru/2.1.26/?load=package.standard&lang=uk-RU"-->
+<!--type="text/javascript"></script>-->
+
+<script src="js/lib.js"></script>
+
+<script src="js/app.js"></script>
+</body>
+
+</html>

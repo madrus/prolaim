@@ -6,13 +6,13 @@
         .controller('Partners', Partners);
 
     Partners.$inject = [
-        'translator', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'defaultSettings'
     ];
 
     ///////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Partners(translator, languageService, defaultSettings) {
+    function Partners(dataService, languageService, defaultSettings) {
 
         console.log('Partners: inside the controller');
 
@@ -37,7 +37,7 @@
         }
 
         function translate(language) {
-            return translator
+            return dataService
                 .getTranslation(pageName, language)
                 .then(function (data) {
                     if (data) {

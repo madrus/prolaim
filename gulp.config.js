@@ -3,6 +3,7 @@ module.exports = function () {
     var client = './src/client/';
     var clientApp = client + 'app/';
     var server = './src/server/';
+    var source = 'J:\/www\/ng\/prolaim\/';
     var temp = './.tmp/';
 
     ///////////////
@@ -20,7 +21,7 @@ module.exports = function () {
         css: temp + 'styles/styles.css',
         fonts: './bower_components/bootstrap/fonts/*.*',
         images: client + 'images/**/*.*',
-        htmlTemplates: clientApp + '**/*.html',
+        html: clientApp + '**/*.html',
         index: client + 'index.html',
         js: [
             clientApp + '**/*.module.js',
@@ -31,6 +32,7 @@ module.exports = function () {
         // Less files to compile (if more than 1, use [])
         less: client + 'styles/styles.less',
         server: server,
+        source: source,
         temp: temp,
 
         /**
@@ -44,6 +46,11 @@ module.exports = function () {
                 root: 'app/'
             }
         },
+
+        /**
+         * browser sync
+         */
+        browserReloadDelay: 1000,
 
         /**
          * Bower and NPM locations
