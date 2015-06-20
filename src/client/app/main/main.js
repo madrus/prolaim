@@ -6,13 +6,13 @@
         .controller('Main', Main);
 
     Main.$inject = [
-        'dataService', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'config'
     ];
 
     ////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Main(dataService, languageService, defaultSettings) {
+    function Main(dataService, languageService, config) {
 
         console.log('Main: inside the controller');
 
@@ -32,7 +32,7 @@
         ////////////////////////////////////////////
 
         function activate() {
-            var iso = languageService.getLanguage() || defaultSettings.language;
+            var iso = languageService.getLanguage() || config.language;
             vm.translate(iso);
         }
 

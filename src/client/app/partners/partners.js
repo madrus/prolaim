@@ -6,13 +6,13 @@
         .controller('Partners', Partners);
 
     Partners.$inject = [
-        'dataService', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'config'
     ];
 
     ///////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Partners(dataService, languageService, defaultSettings) {
+    function Partners(dataService, languageService, config) {
 
         console.log('Partners: inside the controller');
 
@@ -32,7 +32,7 @@
         ////////////////////////////////////////////
 
         function activate() {
-            var iso = languageService.getLanguage() || defaultSettings.language;
+            var iso = languageService.getLanguage() || config.language;
             vm.translate(iso);
         }
 

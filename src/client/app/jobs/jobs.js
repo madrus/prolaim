@@ -6,13 +6,13 @@
         .controller('Jobs', Jobs);
 
     Jobs.$inject = [
-        'dataService', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'config'
     ];
 
     ////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Jobs(dataService, languageService, defaultSettings) {
+    function Jobs(dataService, languageService, config) {
 
         console.log('Jobs: inside the controller');
 
@@ -32,7 +32,7 @@
         ////////////////////////////////////////////
 
         function activate() {
-            var iso = languageService.getLanguage() || defaultSettings.language;
+            var iso = languageService.getLanguage() || config.language;
             vm.translate(iso);
         }
 

@@ -6,13 +6,13 @@
         .controller('Footer', Footer);
 
     Footer.$inject = [
-        'dataService', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'config'
     ];
 
     /////////////////////////////////////////////////////
 
     /* @ngInject */
-    function Footer(dataService, languageService, defaultSettings) {
+    function Footer(dataService, languageService, config) {
         console.log('Footer: inside the controller');
 
         /*jshint validthis: true */
@@ -31,7 +31,7 @@
         ////////////////////////////////////////////
 
         function activate() {
-            var iso = languageService.getLanguage() || defaultSettings.language;
+            var iso = languageService.getLanguage() || config.language;
             vm.translate(iso);
         }
 

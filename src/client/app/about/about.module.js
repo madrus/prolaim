@@ -2,5 +2,5 @@
 (function() {
     'use strict';
 
-    angular.module('prolaim.about', ['prolaim.config']);
+    angular.module('prolaim.about', ['prolaim.core']);
 })();

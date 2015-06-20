@@ -6,12 +6,12 @@
         .controller('Contact', Contact);
 
     Contact.$inject = [
-        'dataService', 'languageService', 'mapService', 'defaultSettings'
+        'dataService', 'languageService', 'mapService', 'config'
     ];
 
     ////////////////////////////////////////////////////////
 
-    function Contact(dataService, languageService, mapService, defaultSettings) {
+    function Contact(dataService, languageService, mapService, config) {
 
         console.log('Contact: inside the controller');
 
@@ -33,7 +33,7 @@
 
         function activate() {
             mapService.getMap();
-            var iso = languageService.getLanguage() || defaultSettings.language;
+            var iso = languageService.getLanguage() || config.language;
             vm.translate(iso);
         }
 

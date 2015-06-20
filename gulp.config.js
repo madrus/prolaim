@@ -2,6 +2,7 @@
 module.exports = function () {
     var client = './src/client/';
     var clientApp = client + 'app/';
+    var root = './';
     var server = './src/server/';
     var source = 'J:\/www\/ng\/prolaim\/';
     var temp = './.tmp/';
@@ -31,9 +32,19 @@ module.exports = function () {
 
         // Less files to compile (if more than 1, use [])
         less: client + 'styles/styles.less',
+        root: root,
         server: server,
         source: source,
         temp: temp,
+
+        /**
+         * optimize files
+         */
+        optimized: {
+            app: 'app.js',
+            css: '*.css',
+            lib: 'lib.js'
+        },
 
         /**
          * templateCache

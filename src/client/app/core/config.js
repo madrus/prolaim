@@ -1,8 +1,9 @@
+/*jshint -W117 */
+/* global toastr:false, moment:false */
 (function () {
     'use strict';
 
     var core = angular.module('prolaim.core');
-
     core.config(toastrConfig);
 
     toastrConfig.$inject = ['toastr'];
@@ -16,7 +17,8 @@
         appErrorPrefix: '[GulpPatterns Error] ', //Configure the exceptionHandler decorator
         appTitle: 'Gulp Patterns',
         imageBasePath: '/images/photos/',
-        unknownProductImageSource: 'unknown_product.jpg'
+        unknownProductImageSource: 'unknown_product.jpg',
+        language: 'ru'
     };
 
     core.value('config', config);
@@ -28,7 +30,7 @@
     /* @ngInject */
     function configure($compileProvider, $logProvider,
                        routerHelperProvider, exceptionHandlerProvider) {
-        $compileProvider.debugInfoEnabled(false);
+        $compileProvider.debugInfoEnabled(true);
 
         // turn debugging off/on (no info or warn)
         if ($logProvider.debugEnabled) {
@@ -37,18 +39,18 @@
         exceptionHandlerProvider.configure(config.appErrorPrefix);
         configureStateHelper();
 
-        ////////////////
+        //////////////////////////////////
 
         function configureStateHelper() {
             var resolveAlways = {
                 ready: ready
             };
 
-            ready.$inject = ['dataservice'];
+            ready.$inject = ['dataService'];
             // if we were not using $inject explicitely, we could also put a code hint
             /* @ngInject */
-            function ready(dataservice) {
-                return dataservice.ready();
+            function ready(dataService) {
+                return dataService.ready();
             }
 
             routerHelperProvider.configure({

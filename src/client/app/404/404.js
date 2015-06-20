@@ -6,13 +6,13 @@
         .controller('P404', P404);
 
     P404.$inject = [
-        'dataService', 'languageService', 'defaultSettings'
+        'dataService', 'languageService', 'config'
     ];
 
     ///////////////////////////////////////////////////////////////
 
     /* @ngInject */
-    function P404(dataService, languageService, defaultSettings) {
+    function P404(dataService, languageService, config) {
 
         console.log('P404: inside the controller');
 
@@ -33,8 +33,8 @@
         ////////////////////////////////////////////
 
         function activate() {
-            console.log('defaultSettings.language = ' + defaultSettings.language);
-            var iso = languageService.getLanguage() || defaultSettings.language;
+            console.log('defaultSettings.language = ' + config.language);
+            var iso = languageService.getLanguage() || config.language;
             vm.translate(iso);
         }
 

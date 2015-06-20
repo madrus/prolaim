@@ -8,12 +8,12 @@
     Shell.$inject = [
         '$rootScope', '$location', '$state',
         'dataService', 'languageService',
-        'helper', 'defaultSettings'
+        'helper', 'config'
     ];
 
     function Shell($rootScope, $location, $state,
                    dataService, languageService,
-                   helper, defaultSettings) {
+                   helper, config) {
 
         console.log('Shell: inside the controller');
 
@@ -52,7 +52,7 @@
 
             /* LANGUAGE and TRANSLATE */
             oldIso = helper.getLanguageFromPath(path);
-            iso = oldIso || defaultSettings.language;
+            iso = oldIso || config.language;
             languageService.setLanguage(iso);
         }
 

@@ -1,3 +1,4 @@
+/*jshint -W117 */
 (function() {
     'use strict';
 
@@ -16,6 +17,8 @@
         };
 
         return service;
+
+        /////////////////////////////////////////////
 
         function getTranslation(pageName, language) {
             return $http.get('/api/' + pageName + '/' + language)
@@ -42,10 +45,10 @@
             return readyPromise;
         }
 
-        function ready(promise) {
+        function ready(promisesArray) {
             return getReady()
                 .then(function() {
-                    return promise ? $q.all(promise) : readyPromise;
+                    return promisesArray ? $q.all(promisesArray) : readyPromise;
                 })
                 .catch(exception.catcher('"ready" function failed'));
         }
