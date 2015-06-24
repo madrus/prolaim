@@ -34,7 +34,7 @@
                     //.otherwise('/ru/main');
                     .otherwise(function ($injector) {
                         $injector.get('$state')
-                            .go('shell.lang.content.404', {}, {location: false});
+                            .go('shell.lang.base.404', {}, {location: false});
                     });
 
                 var shell = {
@@ -85,15 +85,15 @@
                     }
                 };
 
-                var content = {
-                    name: 'shell.lang.content',
+                var base = {
+                    name: 'shell.lang.base',
                     url: '/',
                     abstract: true,
-                    template: '<ui-view></ui-view>'
+                    templateUrl: 'app/layout/partials/base.html'
                 };
 
                 var main = {
-                    name: 'shell.lang.content.main',
+                    name: 'shell.lang.base.main',
                     url: 'main',
                     templateUrl: 'app/main/main.html',
                     controller: 'Main',
@@ -101,7 +101,7 @@
                 };
 
                 var about = {
-                    name: 'shell.lang.content.about',
+                    name: 'shell.lang.base.about',
                     url: 'about',
                     templateUrl: 'app/about/about.html',
                     controller: 'About',
@@ -109,7 +109,7 @@
                 };
 
                 var jobs = {
-                    name: 'shell.lang.content.jobs',
+                    name: 'shell.lang.base.jobs',
                     url: 'jobs',
                     templateUrl: 'app/jobs/jobs.html',
                     controller: 'Jobs',
@@ -117,7 +117,7 @@
                 };
 
                 var contact = {
-                    name: 'shell.lang.content.contact',
+                    name: 'shell.lang.base.contact',
                     url: 'contact',
                     templateUrl: 'app/contact/contact.html',
                     controller: 'Contact',
@@ -125,7 +125,7 @@
                 };
 
                 var partners = {
-                    name: 'shell.lang.content.partners',
+                    name: 'shell.lang.base.partners',
                     url: 'partners',
                     templateUrl: 'app/partners/partners.html',
                     controller: 'Partners',
@@ -133,7 +133,7 @@
                 };
 
                 var p404 = {
-                    name: 'shell.lang.content.404',
+                    name: 'shell.lang.base.404',
                     url: '404',
                     templateUrl: 'app/404/404.html',
                     controller: 'P404',
@@ -142,7 +142,7 @@
 
                 $stateProvider.state(shell);
                 $stateProvider.state(language);
-                $stateProvider.state(content);
+                $stateProvider.state(base);
                 $stateProvider.state(main);
                 $stateProvider.state(about);
                 $stateProvider.state(jobs);

@@ -7,56 +7,76 @@ describe('Prolaim services tests: ', function () {
 
     // Load your module
     beforeEach(function () {
-        module('prolaim');
+        module('prolaim.core');
     });
 
-    /////////////////   TRANSLATOR   /////////////////
+    /////////////////   DATASERVICE   /////////////////
 
-    describe('translator ->', function () {
-        var scope, translator, $httpBackend, $rootScope, pageName, language, data;
-        var jsonResource = '/src/server/data/';
+    describe('dataService ->', function () {
+        var scope, dataService, $httpBackend, $rootScope, pageName, language, data;
+        var jsonResource = '/api';
 
         // Load inject
         beforeEach(function () {
-            inject(function (_translator_, _$httpBackend_, _$rootScope_) {
-                translator = _translator_;
+            inject(function (_dataService_, _$httpBackend_, _$rootScope_) {
+                dataService = _dataService_;
                 $httpBackend = _$httpBackend_;
+                //$httpFlush = $httpBackend.flush;
                 $rootScope = _$rootScope_;
             });
 
             scope = $rootScope.$new();
 
-            spyOn(translator, 'getTranslation').and.callThrough();
+            spyOn(dataService, 'getTranslation').and.callThrough();
         });
 
         it('should be defined', function () {
-            expect(translator).toBeDefined();
+            expect(dataService).toBeDefined();
         });
 
-        it('should have getTranslation method defined', function () {
-            expect(translator.getTranslation).toBeDefined();
-            expect(translator.getTranslation).toEqual(jasmine.any(Function));
-            expect(angular.isFunction(translator.getTranslation)).toBe(true);
+        describe('"getTranslation" function', function () {
+            it('should exist', function () {
+                expect(dataService.getTranslation).toBeDefined();
+                expect(dataService.getTranslation).toEqual(jasmine.any(Function));
+                expect(angular.isFunction(dataService.getTranslation)).toBe(true);
+            });
+
+            // xit = disable
+            it('"getTranslation" should be called with "jobs" and "ru"', function () {
+                pageName = 'jobs';
+                language = 'ru';
+                dataService.getTranslation(pageName, language);
+                expect(dataService.getTranslation).toHaveBeenCalled();
+                expect(dataService.getTranslation).toHaveBeenCalledWith('jobs', 'ru');
+            });
+
+            using('language', [
+                ['ru', 'Вакансии в ЧП «ПРОЛАЙМ»'],
+                ['ua', 'Вакансії в ПП «ПРОЛАЙМ»']
+            ], function (language, expectedTitle) {
+                it('should get the right jobs page title translation for "' + language + '"',
+                    function (done) {
+                        expect(testJobsTitle(language, expectedTitle, done)).toBeTruthy();
+                    });
+            });
         });
 
-        // xit = disable
-        it('getTranslation should be called with \'jobs\' and \'ru\'', function () {
-            pageName = 'jobs';
-            language = 'ru';
-            translator.getTranslation(pageName, language);
-            expect(translator.getTranslation).toHaveBeenCalled();
-            expect(translator.getTranslation).toHaveBeenCalledWith('jobs', 'ru');
+        describe('"ready" function', function () {
+            it('should exist', function () {
+                expect(dataService.ready).toBeDefined();
+                expect(dataService.ready).toEqual(jasmine.any(Function));
+                expect(angular.isFunction(dataService.ready)).toBe(true);
+            });
+
+            it('should return a resolved promise with the dataService itself', function (done) {
+                dataService.ready().then(function (data) {
+                    expect(data).toEqual(dataService);
+                }).then(done, done);
+                $rootScope.$apply(); // no $http so just flush
+            });
         });
 
-        using('language', [
-            ['ru', 'Вакансии в ЧП «ПРОЛАЙМ»'],
-            ['ua', 'Вакансії в ПП «ПРОЛАЙМ»']
-        ], function (language, expectedTitle) {
-            it('should get the right jobs page title translation for \'' + language + '\'',
-                function (done) {
-                    expect(testJobsTitle(language, expectedTitle, done)).toBeTruthy();
-                });
-        });
+        /////////////////////////////////////////////////////////
 
         function testJobsTitle(language, expectedTitle, done) {
             var result;
@@ -65,13 +85,13 @@ describe('Prolaim services tests: ', function () {
             };
 
             pageName = 'jobs';
-            var jsonPath = jsonResource + pageName + '.' + language + '.json';
+            var jsonPath = jsonResource + '/' + pageName + '/' + language;
 
             $httpBackend
                 .expectGET(jsonPath)
                 .respond(200, mockData);
 
-            translator
+            dataService
                 .getTranslation(pageName, language)
                 .then(testTranslation, failTest)
                 //.catch(failTest)
@@ -90,7 +110,7 @@ describe('Prolaim services tests: ', function () {
                     scope.data = data;
                     result = true;
                 } else {
-                    console.log('No data available from the translator');
+                    console.log('No data available from the dataService');
                 }
 
                 expect(!angular.equals(scope.data), undefined);
@@ -121,41 +141,78 @@ describe('Prolaim services tests: ', function () {
             expect(languageService).toBeDefined();
         });
 
-        it('should have getLanguage method defined', function () {
-            expect(angular.isFunction(languageService.getLanguage)).toBe(true);
+        describe('"getLanguage" function', function () {
+            it('should exist', function () {
+                expect(angular.isFunction(languageService.getLanguage)).toBe(true);
+            });
+
+            it('should determine that the initial language is undefined', function () {
+                expect(!angular.equals($rootScope.language), undefined);
+                var currentLanguage = languageService.getLanguage();
+                expect(angular.equals(currentLanguage, undefined)).toBe(true);
+            });
+
+            it('should determine that the language set via $rootScope is Russian', function () {
+                expect(!angular.equals($rootScope.language), undefined);
+                $rootScope.language = 'ru';
+                var currentLanguage = languageService.getLanguage();
+                expect(angular.equals(currentLanguage, 'ru')).toBe(true);
+            });
         });
 
-        it('should have setLanguage method defined', function () {
-            expect(angular.isFunction(languageService.setLanguage)).toBe(true);
+        describe('"setLanguage" function', function () {
+            it('should exist', function () {
+                expect(angular.isFunction(languageService.setLanguage)).toBe(true);
+            });
+
+            it('should change the current language to Ukrainian', function () {
+                $rootScope.language = 'ru';
+                var currentLanguage = languageService.getLanguage();
+                expect(angular.equals(currentLanguage, 'ru')).toBe(true);
+                languageService.setLanguage('ua');
+                currentLanguage = languageService.getLanguage();
+                expect(angular.equals(currentLanguage, 'ua')).toBe(true);
+            });
+        });
+    });
+
+    /////////////////   HELPER SERVICE   /////////////////
+
+    describe('helper ->', function () {
+        var helper, $rootScope;
+
+        // Load inject
+        beforeEach(function () {
+            inject(function (_helper_, _$rootScope_) {
+                helper = _helper_;
+                $rootScope = _$rootScope_;
+            });
+
+            spyOn(helper, 'getLanguageFromPath').and.callThrough();
+            spyOn(helper, 'getRestOfPath').and.callThrough();
         });
 
-        it('should determine that the initial language is undefined', function () {
-            expect(!angular.equals($rootScope.language), undefined);
-            var currentLanguage = languageService.getLanguage();
-            expect(angular.equals(currentLanguage, undefined)).toBe(true);
+        it('should be defined', function () {
+            expect(helper).toBeDefined();
         });
 
-        it('should determine that the current language set via $rootScope is Russian', function () {
-            expect(!angular.equals($rootScope.language), undefined);
-            $rootScope.language = 'ru';
-            var currentLanguage = languageService.getLanguage();
-            expect(angular.equals(currentLanguage, 'ru')).toBe(true);
+        describe('"getLanguageFromPath" function', function () {
+            it('should exist', function () {
+                expect(angular.isFunction(helper.getLanguageFromPath)).toBe(true);
+            });
         });
 
-        it('should change the current language to Ukrainian', function () {
-            $rootScope.language = 'ru';
-            var currentLanguage = languageService.getLanguage();
-            expect(angular.equals(currentLanguage, 'ru')).toBe(true);
-            languageService.setLanguage('ua');
-            currentLanguage = languageService.getLanguage();
-            expect(angular.equals(currentLanguage, 'ua')).toBe(true);
+        describe('"getRestOfPath" function', function () {
+            it('should exist', function () {
+                expect(angular.isFunction(helper.getRestOfPath)).toBe(true);
+            });
         });
     });
 
     /////////////////   MAP SERVICE   /////////////////
 
     describe('mapService ->', function () {
-        var scope, $rootScope, mapService;
+        var mapService, $rootScope;
 
         // Load inject
         beforeEach(function () {
@@ -171,9 +228,10 @@ describe('Prolaim services tests: ', function () {
             expect(mapService).toBeDefined();
         });
 
-        it('should have getMap method defined', function () {
-            expect(angular.isFunction(mapService.getMap)).toBe(true);
+        describe('"getMap" function', function () {
+            it('should exist', function () {
+                expect(angular.isFunction(mapService.getMap)).toBe(true);
+            });
         });
-
     });
 });

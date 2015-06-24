@@ -7,7 +7,7 @@
         .provider('routerHelper', routerHelperProvider);
 
     routerHelperProvider.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
-    /* @ngInject */
+
     function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider) {
         /* jshint validthis:true */
         var config = {
@@ -22,8 +22,9 @@
         };
 
         this.$get = RouterHelper;
+
         RouterHelper.$inject = ['$location', '$rootScope', '$state', 'logger'];
-        /* @ngInject */
+
         function RouterHelper($location, $rootScope, $state, logger) {
             var handlingStateChangeError = false;
             var hasOtherwise = false;

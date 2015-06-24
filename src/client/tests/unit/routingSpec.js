@@ -27,18 +27,18 @@ describe('While routing the requested path, the route: ', function () {
          * I have to expect all the partial views in between because
          * otherwise goTo fails with unexpected GET requests
          */
-        $httpBackend.expectGET('/src/client/app/layout/shell.html').respond(200);
-        $httpBackend.expectGET('/src/client/app/layout/header/header.html').respond(200);
-        $httpBackend.expectGET('/src/client/app/layout/partials/sidebar.html').respond(200);
-        $httpBackend.expectGET('/src/client/app/layout/partials/content.html').respond(200);
-        $httpBackend.expectGET('/src/client/app/layout/partials/footer.html').respond(200);
-        $httpBackend.expectGET('/src/client/app/layout/header/topnav.html').respond(200);
-        $httpBackend.expectGET('/src/client/app/layout/header/navbar.html').respond(200);
-        $httpBackend.expectGET('/src/client/app/layout/partials/dummy-content.html').respond(200);
+        $httpBackend.expectGET('app/layout/shell.html').respond(200);
+        $httpBackend.expectGET('app/layout/header/header.html').respond(200);
+        $httpBackend.expectGET('app/layout/partials/sidebar.html').respond(200);
+        $httpBackend.expectGET('app/layout/partials/content.html').respond(200);
+        $httpBackend.expectGET('app/layout/partials/footer.html').respond(200);
+        $httpBackend.expectGET('app/layout/header/topnav.html').respond(200);
+        $httpBackend.expectGET('app/layout/header/navbar.html').respond(200);
+        $httpBackend.expectGET('app/layout/partials/base.html').respond(200);
     });
 
     describe('should go to the main state', function () {
-        targetUrl = '/src/client/app/main/main.html';
+        targetUrl = 'app/main/main.html';
 
         beforeEach(function () {
             angular.bind(self, mockTemplate, null, targetUrl);
@@ -46,32 +46,32 @@ describe('While routing the requested path, the route: ', function () {
 
         it('when empty', function () {
             goTo('', targetUrl);
-            expect($state.current.name).toEqual('shell.lang.content.main');
+            expect($state.current.name).toEqual('shell.lang.base.main');
         });
 
         it('when \'\/\'', function () {
             goTo('/', targetUrl);
-            expect($state.current.name).toEqual('shell.lang.content.main');
+            expect($state.current.name).toEqual('shell.lang.base.main');
         });
 
         it('when \'\/ru\'', function () {
             goTo('/ru', targetUrl);
-            expect($state.current.name).toEqual('shell.lang.content.main');
+            expect($state.current.name).toEqual('shell.lang.base.main');
         });
 
         it('when \'\/ru/\'', function () {
             goTo('/ru/', targetUrl);
-            expect($state.current.name).toEqual('shell.lang.content.main');
+            expect($state.current.name).toEqual('shell.lang.base.main');
         });
 
         it('when \'\/ua\'', function () {
             goTo('/ua', targetUrl);
-            expect($state.current.name).toEqual('shell.lang.content.main');
+            expect($state.current.name).toEqual('shell.lang.base.main');
         });
 
         it('when \'\/ua\/\'', function () {
             goTo('/ua/', targetUrl);
-            expect($state.current.name).toEqual('shell.lang.content.main');
+            expect($state.current.name).toEqual('shell.lang.base.main');
         });
     });
 
@@ -79,12 +79,12 @@ describe('While routing the requested path, the route: ', function () {
         var badUrl = '/someNonExistentUrl';
 
         beforeEach(function () {
-            angular.bind(self, mockTemplate, null, '/src/client/app/404/404.html');
+            angular.bind(self, mockTemplate, null, 'app/404/404.html');
         });
 
         it('should go to the 404 state', function () {
             goTo(badUrl);
-            expect($state.current.name).toEqual('shell.lang.content.404');
+            expect($state.current.name).toEqual('shell.lang.base.404');
         });
         it('should not change the url when going to 404 state', function () {
             goTo(badUrl);

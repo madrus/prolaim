@@ -7,9 +7,9 @@
     core.config(toastrConfig);
 
     toastrConfig.$inject = ['toastr'];
-    /* @ngInject */
+
     function toastrConfig(toastr) {
-        toastr.options.timeOut = 4000;
+        toastr.options.timeOut = 10000;
         toastr.options.positionClass = 'toast-bottom-right';
     }
 
@@ -27,7 +27,7 @@
 
     configure.$inject = ['$compileProvider', '$logProvider',
         'routerHelperProvider', 'exceptionHandlerProvider'];
-    /* @ngInject */
+
     function configure($compileProvider, $logProvider,
                        routerHelperProvider, exceptionHandlerProvider) {
         $compileProvider.debugInfoEnabled(true);
@@ -48,7 +48,7 @@
 
             ready.$inject = ['dataService'];
             // if we were not using $inject explicitely, we could also put a code hint
-            /* @ngInject */
+
             function ready(dataService) {
                 return dataService.ready();
             }

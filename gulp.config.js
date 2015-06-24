@@ -19,13 +19,13 @@ module.exports = function () {
         ],
         build: './build/',
         client: client,
+        clientApp: clientApp,
         css: temp + 'styles/styles.css',
         fonts: './bower_components/bootstrap/fonts/*.*',
         images: client + 'images/**/*.*',
         html: clientApp + '**/*.html',
         index: client + 'index.html',
         js: [
-            clientApp + '**/*.module.js',
             clientApp + '**/*.js',
             '!' + clientApp + '**/*.spec.js'
         ],

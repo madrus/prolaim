@@ -11,7 +11,6 @@
 
     ////////////////////////////////////////////////////////
 
-    /* @ngInject */
     function Jobs(dataService, languageService, config) {
 
         console.log('Jobs: inside the controller');
@@ -22,7 +21,7 @@
 
         /* here we specify what the view needs */
         vm.data = {
-            LANGUAGE: ''
+            LANGUAGE: config.language
         };
         vm.translate = translate;
         vm.title = 'Prolaim job offers';

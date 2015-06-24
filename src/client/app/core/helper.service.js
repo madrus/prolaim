@@ -2,14 +2,17 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim')
+    angular
+        .module('prolaim.core')
         .factory('helper', helper);
+
+    helper.$inject = ['logger'];
 
     /////////////////////////////////////////////////////////////
 
-    function helper() {
-
-        var service = {};
+    function helper(logger) {
+        /*jshint validthis: true */
+        var service = this;
 
         service.getLanguageFromPath = getLanguageFromPath;
         service.getRestOfPath = getRestOfPath;
@@ -20,25 +23,29 @@
 
         function getLanguageFromPath(path) {
             if (!path) {
-                return false;
+                return undefined;
             }
-            var languages = path.match(/^\/(ru|ua)(\/.*)?/); // /ru or /ua optionally followed by /...
-            if (!languages || languages.length < 2) {
-                return false;
+            var parts = path.match(/^\/(ru|ua)(\/.*)?/); // /ru or /ua optionally followed by /...
+            if (!parts || parts.length < 2) {
+                return undefined;
             } else {
-                return languages[1];
+                var language = parts[1];
+                logger.info('getLanguageFromPath: language = ' + language);
+                return language;
             }
         }
 
         function getRestOfPath(path) {
             if (!path) {
-                return false;
+                return undefined;
             }
-            var languages = path.match(/^\/(ru|ua)(\/.*)?/); // /ru or /ua optionally followed by /...
-            if (!languages || languages.length < 3) {
-                return false;
+            var parts = path.match(/^\/(ru|ua)(\/.*)?/); // /ru or /ua optionally followed by /...
+            if (!parts || parts.length < 3) {
+                return undefined;
             } else {
-                return languages[2];
+                var rest = parts[2];
+                logger.info('getLanguageFromPath: rest of path = ' + rest);
+                return rest;
             }
         }
     }

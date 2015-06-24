@@ -11,7 +11,6 @@
 
     ///////////////////////////////////////////////////////////////
 
-    /* @ngInject */
     function About(dataService, languageService, config) {
 
         console.log('About: inside the controller');
@@ -23,7 +22,7 @@
 
         /* here we specify what the view needs */
         vm.data = {
-            LANGUAGE: ''
+            LANGUAGE: config.language
         };
         vm.translate = translate;
         vm.title = 'About Prolaim';

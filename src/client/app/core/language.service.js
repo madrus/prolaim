@@ -1,19 +1,16 @@
 /*jshint -W117 */
 (function () {
-
     'use strict';
 
-    angular.module('prolaim')
+    angular
+        .module('prolaim.core')
         .factory('languageService', languageService);
 
-    languageService.$inject = ['$rootScope'];
+    languageService.$inject = ['$rootScope', 'logger'];
 
     ///////////////////////////////////////////////
 
-    function languageService($rootScope) {
-
-        console.log('languageService: inside the service');
-
+    function languageService($rootScope, logger) {
         /*jshint validthis: true */
         var service = this;
 
@@ -28,8 +25,7 @@
             if (language !== getLanguage()) {
                 $rootScope.language = language;
                 console.log('setLanguage called. Language changed to ' + language);
-            } else {
-                console.log('setLanguage called with same language = ' + language);
+                logger.info('Language changed to ' + language);
             }
         }
 

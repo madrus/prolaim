@@ -6,12 +6,12 @@
         .controller('Contact', Contact);
 
     Contact.$inject = [
-        'dataService', 'languageService', 'mapService', 'config'
+        'dataService', 'languageService', 'mapService', 'config', 'logger'
     ];
 
     ////////////////////////////////////////////////////////
 
-    function Contact(dataService, languageService, mapService, config) {
+    function Contact(dataService, languageService, mapService, config, logger) {
 
         console.log('Contact: inside the controller');
 
@@ -21,7 +21,7 @@
 
         /* here we specify what the view needs */
         vm.data = {
-            LANGUAGE: ''
+            LANGUAGE: config.language
         };
         vm.translate = translate;
         vm.prolaimMap = {};
@@ -32,9 +32,11 @@
         ////////////////////////////////////////////////
 
         function activate() {
-            mapService.getMap();
             var iso = languageService.getLanguage() || config.language;
+            console.log('Contact: activated language = ' + iso);
+            logger.info('Contact: activated language = ' + iso);
             vm.translate(iso);
+            mapService.getMap();
         }
 
         function translate(language) {

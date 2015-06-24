@@ -1,6 +1,6 @@
 {
   "name": "prolaim",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A test project with angular",
   "authors": [
     "Madrus"
@@ -15,10 +15,12 @@
     "bower_components"
   ],
   "devDependencies": {
-    "angular-mocks": "1.4.x"
+    "angular-mocks": "1.4.x",
+    "bardjs": "~0.1.4",
+    "sinon": "~1.15.3"
   },
   "dependencies": {
-    "angular": "1.4.x",
+    "angular": "~1.4.1",
     "jquery": "~2.1.1",
     "bootstrap": "~3.3.4",
     "angular-animate": "1.4.x",
@@ -27,7 +29,9 @@
     "angular-resource": "~1.4.0",
     "angular-route": "~1.4.0",
     "toastr": "~2.1.1",
-    "moment": "~2.10.3"
+    "moment": "~2.10.3",
+    "angular-sanitize": "~1.4.1",
+    "font-awesome": "~4.3.0"
   },
   "overrides": {
     "bootstrap": {

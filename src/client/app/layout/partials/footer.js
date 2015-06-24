@@ -11,7 +11,6 @@
 
     /////////////////////////////////////////////////////
 
-    /* @ngInject */
     function Footer(dataService, languageService, config) {
         console.log('Footer: inside the controller');
 
@@ -21,7 +20,7 @@
 
         /* here we specify what the view needs */
         vm.data = {
-            LANGUAGE: ''
+            LANGUAGE: config.language
         };
         vm.translate = translate;
         vm.title = 'Prolaim footer';

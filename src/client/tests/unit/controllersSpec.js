@@ -5,21 +5,21 @@
 describe('Prolaim controllers tests: ', function () {
 
     /* declare service mocks */
-    var data, translatorMock, deferred;
+    var data, dataServiceMock, languageServiceMock, deferred;
 
     beforeEach(module('prolaim'));
 
     beforeEach(function () {
         data = {
-            language: 'ru'
+            LANGUAGE: 'ru'
         };
     });
 
-    //translator = jasmine.createSpyObj('translator', ['getTranslation']);
+    //dataService = jasmine.createSpyObj('dataService', ['getTranslation']);
     //, function ($provide) {
 
     //
-    //mockTranslator = {
+    //mockdataService = {
     //    getTranslation: function (pageName, language) {
     //        deferred = $q.defer();
     //        deferred.resolve({language: language});
@@ -27,19 +27,19 @@ describe('Prolaim controllers tests: ', function () {
     //    }
     //};
     //
-    //$provide.value("translator", mockTranslator);
+    //$provide.value("dataService", mockdataService);
 
-    // Create a "spy object" for our translatorMock.
+    // Create a "spy object" for our dataServiceMock.
     // This will isolate the controller we're testing from any other code.
     // we'll set up the returns for this later
-    //spyOn(mockTranslator, 'getTranslation').andCallThrough();
+    //spyOn(mockdataService, 'getTranslation').andCallThrough();
     //});
 
     /////////////////   SHELL CONTROLLER   /////////////////
 
     describe('Shell', function () {
 
-        var scope, controller, deferred;
+        var scope, state, controller, deferred;
 
         //var location = {
         //    path: function (path) {
@@ -53,28 +53,44 @@ describe('Prolaim controllers tests: ', function () {
             // $rootScope - injected to create a new $scope instance.
             // $controller - injected to create an instance of our controller.
             // $q - injected so we can create promises for our mocks.
-            inject(function ($rootScope, $controller, $q, $location, $state,
-                             $templateCache, $injector) {
-                scope = $rootScope.$new();
+            inject(function ($rootScope, $controller, $q, $location, $state) {
                 deferred = $q.defer();
-                //location.path('/ru');
+                scope = $rootScope.$new();
+                scope.language = 'ru';
+                state = $state;
+                $location.path('/ru');
 
-                translatorMock = {
+                dataServiceMock = {
                     getTranslation: function (language) {
-                        console.log('translatorMock.getTranslation called');
+                        console.log('dataServiceMock.getTranslation called');
                         deferred.resolve(data);
+                        data.LANGUAGE = 'ru';
                         return deferred.promise;
                     }
                 };
 
-                // set up the returns for our translatorMock
+                languageServiceMock = {
+                    getLanguage: function () {
+                        console.log('languageServiceMock.getLanguage called');
+                        return scope.language;
+                    },
+                    setLanguage: function (language) {
+                        console.log('languageServiceMock.setLanguage called');
+                        scope.language = language;
+                    }
+                };
+
+                // set up the returns for our dataServiceMock
                 // $q.when('weee') creates a resolved promise to "weee".
                 // this is important since our service is async and returns
                 // a promise.
-                //translatorMock.getTranslation.andReturn($q.when('weee'));
+                //dataServiceMock.getTranslation.andReturn($q.when('weee'));
 
                 controller = $controller('Shell', {
-                    translator: translatorMock
+                    dataService: dataServiceMock,
+                    languageService: languageServiceMock,
+                    $state: state,
+                    $rootScope: scope
                 });
             });
         });
@@ -87,8 +103,12 @@ describe('Prolaim controllers tests: ', function () {
             expect(controller).toBeDefined();
         });
 
-        it('should show that the default language is \'ru\'', function () {
-            expect(controller.data.language).toBe('ru');
+        it('should have "setLanguageAndTranslate" function defined', function () {
+            expect(angular.isFunction(controller.setLanguageAndTranslate)).toBe(true);
+        });
+
+        it('should show that the default language is "ru"', function () {
+            expect(controller.data.LANGUAGE).toBe('ru');
         });
     });
 
@@ -103,26 +123,26 @@ describe('Prolaim controllers tests: ', function () {
             scope = $rootScope.$new();
             deferred = $q.defer();
 
-            translatorMock = {
+            dataServiceMock = {
                 getTranslation: function (language) {
-                    console.log('translatorMock.getTranslation called');
+                    console.log('dataServiceMock.getTranslation called');
                     deferred.resolve(data);
                     return deferred.promise;
                 }
             };
 
             controller = $controller('Footer', {
-                translator: translatorMock
+                dataService: dataServiceMock
             });
 
-            //spyOn(translator, 'getTranslation').andReturn(data);
+            //spyOn(dataService, 'getTranslation').andReturn(data);
         }));
 
         it('should be defined', function () {
             expect(controller).toBeDefined();
         });
 
-        it('should have translate function defined', function () {
+        it('should have "translate" function defined', function () {
             expect(angular.isFunction(controller.translate)).toBe(true);
         });
 
@@ -136,7 +156,7 @@ describe('Prolaim controllers tests: ', function () {
             }, function (error) {
                 console.log('error in test:\n' + error);
             });
-            expect(controller.data.language).toBe('ru');
+            expect(controller.data.LANGUAGE).toBe('ru');
         });
     });
 
@@ -151,26 +171,26 @@ describe('Prolaim controllers tests: ', function () {
             scope = $rootScope.$new();
             deferred = $q.defer();
 
-            translatorMock = {
+            dataServiceMock = {
                 getTranslation: function (language) {
-                    console.log('translatorMock.getTranslation called');
+                    console.log('dataServiceMock.getTranslation called');
                     deferred.resolve(data);
                     return deferred.promise;
                 }
             };
 
             controller = $controller('About', {
-                translator: translatorMock
+                dataService: dataServiceMock
             });
 
-            //spyOn(translator, 'getTranslation').andReturn(data);
+            //spyOn(dataService, 'getTranslation').andReturn(data);
         }));
 
         it('should be defined', function () {
             expect(controller).toBeDefined();
         });
 
-        it('should have translate function defined', function () {
+        it('should have "translate" function defined', function () {
             expect(angular.isFunction(controller.translate)).toBe(true);
         });
 
@@ -184,7 +204,7 @@ describe('Prolaim controllers tests: ', function () {
             }, function (error) {
                 console.log('error in test:\n' + error);
             });
-            expect(controller.data.language).toBe('ru');
+            expect(controller.data.LANGUAGE).toBe('ru');
         });
     });
 
@@ -199,26 +219,26 @@ describe('Prolaim controllers tests: ', function () {
             scope = $rootScope.$new();
             deferred = $q.defer();
 
-            translatorMock = {
+            dataServiceMock = {
                 getTranslation: function (language) {
-                    console.log('translatorMock.getTranslation called');
+                    console.log('dataServiceMock.getTranslation called');
                     deferred.resolve(data);
                     return deferred.promise;
                 }
             };
 
             controller = $controller('Jobs', {
-                translator: translatorMock
+                dataService: dataServiceMock
             });
 
-            //spyOn(translator, 'getTranslation').andReturn(data);
+            //spyOn(dataService, 'getTranslation').andReturn(data);
         }));
 
         it('should be defined', function () {
             expect(controller).toBeDefined();
         });
 
-        it('should have translate function defined', function () {
+        it('should have "translate" function defined', function () {
             expect(angular.isFunction(controller.translate)).toBe(true);
         });
 
@@ -232,7 +252,7 @@ describe('Prolaim controllers tests: ', function () {
             }, function (error) {
                 console.log('error in test:\n' + error);
             });
-            expect(controller.data.language).toBe('ru');
+            expect(controller.data.LANGUAGE).toBe('ru');
         });
     });
 });

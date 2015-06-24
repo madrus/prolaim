@@ -11,7 +11,6 @@
 
     ///////////////////////////////////////////////////////////////
 
-    /* @ngInject */
     function P404(dataService, languageService, config) {
 
         console.log('P404: inside the controller');
@@ -23,7 +22,7 @@
 
         /* here we specify what the view needs */
         vm.data = {
-            LANGUAGE: ''
+            LANGUAGE: config.language
         };
         vm.translate = translate;
         vm.title = 'Oops! Non-existing page';

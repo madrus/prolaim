@@ -7,11 +7,13 @@
         .factory('dataService', dataService);
 
     dataService.$inject = ['$http', '$location', '$q', 'exception', 'logger'];
-    /* @ngInject */
+
     function dataService($http, $location, $q, exception, logger) {
         var readyPromise;
+        /*jshint validthis: true */
+        var service = this;
 
-        var service = {
+        service = {
             getTranslation: getTranslation,
             ready: ready
         };

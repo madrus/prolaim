@@ -8,7 +8,8 @@ var gulp = require('gulp'),
     del = require('del'),
     path = require('path'),
     port = process.env.PORT || config.defaultPort,
-    reload = browserSync.reload;
+    reload = browserSync.reload,
+    series = require('stream-series');
 
 gulp.task('help', $.taskListing);
 
@@ -69,6 +70,18 @@ gulp.task('clean', function (done) {
     del(files, done);
 });
 
+gulp.task('clean-dev', function (done) {
+    var files = [config.temp];
+    log('CLEAN-DEV: clean: ' + $.util.colors.blue(files));
+    del(files, done);
+});
+
+gulp.task('clean-build', function (done) {
+    var files = [config.build];
+    log('CLEAN-BUILD: clean: ' + $.util.colors.blue(files));
+    del(files, done);
+});
+
 gulp.task('clean-fonts', function (done) {
     clean(config.build + 'fonts/**/*.*', done);
 });
@@ -109,7 +122,7 @@ gulp.task('template-cache', ['clean-template-cache'], function () {
         .src(config.html)
         .pipe($.minifyHtml({
             empty: true
-        })) // 'true' is very important with Angular
+        })) // remove any empty tags in HTML
         .pipe($.angularTemplatecache(
             config.templateCache.file,
             config.templateCache.options
@@ -122,42 +135,44 @@ gulp.task('wiredep', ['vet'], function () {
     log('WIREDEP: inject bower css, js and app js into the html');
     var options = config.getWiredepDefaultOptions();
     var wiredep = require('wiredep').stream;
+    var modulesStream = gulp.src([
+        config.clientApp + '**/*.module.js'
+    ], {read: false});
+    var restStream = gulp.src([
+        config.clientApp + '**/*.js',
+        '!' + config.clientApp + '**/*.module.js',
+        '!' + config.clientApp + '**/*.spec.js'
+    ], {read: false});
 
     return gulp
         .src(config.index)
         .pipe(wiredep(options))
-        .pipe($.inject(gulp.src(config.js), {
-            read: false
-        }))
+        .pipe($.inject(series(modulesStream, restStream)))
         // put index.html back where it belongs
         .pipe(gulp.dest(config.client));
 });
 
 gulp.task('inject', ['wiredep', 'styles', 'template-cache'], function () {
-    log('INJECT: inject the app css into the html and call wiredep');
+    log('INJECT: inject the app css into the html and call wiredep, styles and template-cache');
 
     var templateCache = config.temp + config.templateCache.file;
 
     return gulp
         .src(config.index)
-        .pipe($.inject(gulp.src(config.css)))
-        .pipe($.inject(gulp.src(templateCache, {
-            read: false
-        }), {
+        .pipe($.inject(gulp.src(config.css, {read: false})))
+        .pipe($.inject(gulp.src(templateCache, {read: false}), {
             starttag: '<!-- inject:templates:js -->' // see index.html
         }))
         // put index.html back where it belongs
         .pipe(gulp.dest(config.client));
 });
 
-gulp.task('optimize', ['inject'], function () {
+gulp.task('optimize', ['clean-build', 'inject'], function () {
     log('OPTIMIZE: optimize the javascript, css, html');
-    var assets = $.useref.assets({
-        searchPath: config.root
-    });
+    var assets = $.useref.assets({searchPath: config.root});
     var cssFilter = $.filter('**/' + config.optimized.css);
-    var jsAppFilter = $.filter('**/' + config.optimized.app);
     var jsLibFilter = $.filter('**/' + config.optimized.lib);
+    var jsAppFilter = $.filter('**/' + config.optimized.app);
 
     return gulp
         .src(config.index)
@@ -167,17 +182,31 @@ gulp.task('optimize', ['inject'], function () {
         .pipe(cssFilter)
         .pipe($.csso())
         .pipe(cssFilter.restore())
-        // minify app.js
-        .pipe(jsAppFilter)
-        .pipe($.uglify())
-        .pipe(jsAppFilter.restore())
         //minify lib.js
         .pipe(jsLibFilter)
         .pipe($.uglify())
         .pipe(jsLibFilter.restore())
+        // minify app.js
+        .pipe(jsAppFilter)
+        .pipe($.ngAnnotate())
+        .pipe($.uglify())
+        .pipe(jsAppFilter.restore())
+        .pipe($.rev())// app.js --> app-1j88d80dkj.js
         .pipe(assets.restore())
         .pipe($.useref())
+        .pipe($.revReplace()) // change the injected name accordingly
+        .pipe(gulp.dest(config.build))
+        .pipe($.filesize())
+        .pipe($.rev.manifest())
         .pipe(gulp.dest(config.build));
+});
+
+gulp.task('js-prettify', function () {
+    return gulp
+        .src(config.build + 'js/*.js')
+        .pipe($.jsPrettify())
+        .pipe($.print())
+        .pipe(gulp.dest(config.temp + 'js/'));
 });
 
 gulp.task('build-dev', ['inject', 'fonts', 'images'], function () {
@@ -203,6 +232,36 @@ gulp.task('build', ['optimize', 'fonts', 'images'], function () {
     del(config.temp);
     log(msg);
     notify(msg);
+});
+
+/**
+ * Bump the version
+ * --type=pre will bump the prerelease version *.*.*-x
+ * --type=patch or no flag will bump the patch version *.*.x
+ * --type=minor will bump the minor version *.x.*
+ * --type=major will bump the major version x.*.*
+ * --version=1.2.3 will bump to a specific version and ignore other flags
+ */
+gulp.task('bump', function () {
+    var msg = 'BUMP: bump the version';
+    var type = args.type || 'patch';
+    var version = args.version;
+    var options = {};
+
+    if (version) {
+        options.version = version;
+        msg += ' to ' + version;
+    } else {
+        options.type = type;
+        msg += ' to ' + type;
+    }
+    log(msg);
+
+    return gulp
+        .src(config.packages)
+        .pipe($.bump(options))
+        .pipe($.print())
+        .pipe(gulp.dest(config.root));
 });
 
 gulp.task('serve-dev', ['build-dev'], function () {
@@ -290,9 +349,11 @@ function startBrowserSync(isDev) {
     var options = {
         proxy: 'localhost:' + port,
         port: 3000,
-        //server: {
-        //  baseDir: isDev ? './src/client/' : './build/'
-        //},
+        files: isDev ? [
+            config.client + '**/*.*',
+            '!' + config.less, // don't watch less files
+            config.temp + '**/*.css'
+        ] : [], // don't watch these files in build mode
         ghostMode: {
             clicks: true,
             location: false,
