@@ -6,11 +6,9 @@
         .module('prolaim.core')
         .factory('helper', helper);
 
-    helper.$inject = ['logger'];
-
     /////////////////////////////////////////////////////////////
 
-    function helper(logger) {
+    function helper() {
         /*jshint validthis: true */
         var service = this;
 
@@ -25,12 +23,13 @@
             if (!path) {
                 return undefined;
             }
+
             var parts = path.match(/^\/(ru|ua)(\/.*)?/); // /ru or /ua optionally followed by /...
             if (!parts || parts.length < 2) {
                 return undefined;
             } else {
                 var language = parts[1];
-                logger.info('getLanguageFromPath: language = ' + language);
+                console.log('getLanguageFromPath: language = ' + language);
                 return language;
             }
         }
@@ -39,12 +38,13 @@
             if (!path) {
                 return undefined;
             }
+
             var parts = path.match(/^\/(ru|ua)(\/.*)?/); // /ru or /ua optionally followed by /...
             if (!parts || parts.length < 3) {
                 return undefined;
             } else {
                 var rest = parts[2];
-                logger.info('getLanguageFromPath: rest of path = ' + rest);
+                console.log('getRestOfPath: rest = ' + rest);
                 return rest;
             }
         }

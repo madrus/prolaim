@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.sidebar', [])
+    angular.module('prolaim.layout')
         .controller('Sidebar', Sidebar);
 
     function Sidebar() {

@@ -6,40 +6,43 @@
         .controller('P404', P404);
 
     P404.$inject = [
-        'dataService', 'languageService', 'config'
+        '$rootScope', 'dataService', 'languageService'
     ];
 
     ///////////////////////////////////////////////////////////////
 
-    function P404(dataService, languageService, config) {
+    function P404($rootScope, dataService, languageService) {
 
         console.log('P404: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
         var pageName = 'P404';
-        var defaultLanguage;
 
         /* here we specify what the view needs */
-        vm.data = {
-            LANGUAGE: config.language
-        };
-        vm.translate = translate;
+        vm.data = {};
         vm.title = 'Oops! Non-existing page';
+        vm.translate = translate;
 
         activate();
 
         ////////////////////////////////////////////
 
         function activate() {
-            console.log('defaultSettings.language = ' + config.language);
-            var iso = languageService.getLanguage() || config.language;
-            vm.translate(iso);
+            var language = languageService.getLanguage();
+            vm.translate(language);
         }
 
-        function translate(language) {
+        function initWatch() {
+            $rootScope.$on('languageChanged', function (event, obj) {
+                console.log('404.ON: language changed to ' + obj.language);
+                translate(obj.language);
+            });
+        }
+
+        function translate(newLanguage) {
             return dataService
-                .getTranslation(pageName, language)
+                .getTranslation(pageName, newLanguage)
                 .then(function (data) {
                     if (data) {
                         vm.data = data;

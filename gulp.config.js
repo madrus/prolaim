@@ -22,8 +22,8 @@ module.exports = function () {
         clientApp: clientApp,
         css: temp + 'styles/styles.css',
         fonts: './bower_components/bootstrap/fonts/*.*',
+        html: clientApp + '**/*.html', // this does not hit the index.html !!!
         images: client + 'images/**/*.*',
-        html: clientApp + '**/*.html',
         index: client + 'index.html',
         js: [
             clientApp + '**/*.js',
@@ -52,8 +52,8 @@ module.exports = function () {
         templateCache: {
             file: 'templates.js',
             options: {
-                module: 'prolaim.templates',
-                standAlone: false,
+                module: 'prolaim.core',
+                standAlone: false, // it depends on 'prolaim.core'
                 root: 'app/'
             }
         },
@@ -74,15 +74,16 @@ module.exports = function () {
             directory: './bower_components',
             ignorePath: ['../..']
         },
+        packages: [
+            './package.json',
+            './bower.json'
+        ],
+
         /**
          * Node settings
          */
         defaultPort: 7203,
-        nodeServer: './src/server/app.js',
-        packages: [
-            './package.json',
-            './bower.json'
-        ]
+        nodeServer: './src/server/app.js'
     };
 
     config.getWiredepDefaultOptions = function () {

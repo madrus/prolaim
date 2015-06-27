@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.content', [])
+    angular.module('prolaim.layout')
         .controller('Content', Content);
 
     function Content() {

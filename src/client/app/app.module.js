@@ -7,36 +7,35 @@
         'prolaim.core',
 
         /* feature areas */
-        'prolaim.templates',
-        'prolaim.shell',
+        'prolaim.layout',
         'prolaim.about',
         'prolaim.contact',
         'prolaim.jobs',
         'prolaim.main',
         'prolaim.partners',
-        'prolaim.sidebar',
-        'prolaim.content',
-        'prolaim.footer',
         'prolaim.404'
     ]);
 
     angular.module('prolaim')
-        .config(['$urlRouterProvider', '$stateProvider',
-            function ($urlRouterProvider, $stateProvider) {
+        .config(['$urlRouterProvider', '$stateProvider', '$locationProvider',
+            function ($urlRouterProvider, $stateProvider, $locationProvider) {
+                $locationProvider.html5Mode(true);
 
                 $urlRouterProvider
-                    .when('', '/ru/main')
+                    // .when('/ru/', '/ru/main')
+                    // .when('/ru', '/ru/main')
+                    // .when('/ua/', '/ua/main')
+                    // .when('/ua', '/ua/main')
                     .when('/', '/ru/main')
-                    .when('/ru', '/ru/main')
-                    .when('/ru/', '/ru/main')
-                    .when('/ua', '/ua/main')
-                    .when('/ua/', '/ua/main')
-                    //.otherwise('/ru/main');
-                    .otherwise(function ($injector) {
-                        $injector.get('$state')
-                            .go('shell.lang.base.404', {}, {location: false});
+                    .when('', 'ru/main')
+                    .otherwise(function ($injector, $location) {
+                        $location.url('/ru/main');
                     });
-
+                // .otherwise(function ($injector) {
+                //     $injector.get('$state')
+                //         .go('shell.lang.base.404', {}, {location: false});
+                // });
+ 
                 var shell = {
                     name: 'shell',
                     abstract: true,

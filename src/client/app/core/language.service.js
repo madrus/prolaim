@@ -1,16 +1,16 @@
 /*jshint -W117 */
-(function () {
+(function() {
     'use strict';
 
     angular
         .module('prolaim.core')
         .factory('languageService', languageService);
 
-    languageService.$inject = ['$rootScope', 'logger'];
+    languageService.$inject = ['$rootScope', 'logger', 'config'];
 
     ///////////////////////////////////////////////
 
-    function languageService($rootScope, logger) {
+    function languageService($rootScope, logger, config) {
         /*jshint validthis: true */
         var service = this;
 
@@ -21,18 +21,24 @@
 
         //////////////////////////////////
 
-        function setLanguage(language) {
-            if (language !== getLanguage()) {
-                $rootScope.language = language;
-                console.log('setLanguage called. Language changed to ' + language);
-                logger.info('Language changed to ' + language);
+        function setLanguage(newLanguage) {
+            if (newLanguage !== getLanguage()) {
+                $rootScope.language = newLanguage;
+                $rootScope.$broadcast('languageChanged', {
+                    language: newLanguage
+                });
+                console.log('$rootScope.language changed to ' + newLanguage);
+                logger.info('Language changed to ' + getLanguage());
             }
         }
 
         function getLanguage() {
-            var iso = $rootScope.language;
-            console.log('$rootScope.language = ' + iso);
-            return iso;
+            var currentLanguage = $rootScope.language;
+            console.log('$rootScope.language = ' + currentLanguage);
+            if (!currentLanguage) {
+                currentLanguage = config.language;
+            }
+            return currentLanguage;
         }
     }
 

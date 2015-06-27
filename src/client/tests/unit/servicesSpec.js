@@ -146,10 +146,10 @@ describe('Prolaim services tests: ', function () {
                 expect(angular.isFunction(languageService.getLanguage)).toBe(true);
             });
 
-            it('should determine that the initial language is undefined', function () {
-                expect(!angular.equals($rootScope.language), undefined);
+            it('should determine that the initial language is Russian', function () {
+                expect(angular.equals($rootScope.language), undefined);
                 var currentLanguage = languageService.getLanguage();
-                expect(angular.equals(currentLanguage, undefined)).toBe(true);
+                expect(angular.equals(currentLanguage, 'ru')).toBe(true);
             });
 
             it('should determine that the language set via $rootScope is Russian', function () {

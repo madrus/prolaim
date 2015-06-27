@@ -64,7 +64,6 @@ describe('Prolaim controllers tests: ', function () {
                     getTranslation: function (language) {
                         console.log('dataServiceMock.getTranslation called');
                         deferred.resolve(data);
-                        data.LANGUAGE = 'ru';
                         return deferred.promise;
                     }
                 };
@@ -88,15 +87,9 @@ describe('Prolaim controllers tests: ', function () {
 
                 controller = $controller('Shell', {
                     dataService: dataServiceMock,
-                    languageService: languageServiceMock,
-                    $state: state,
-                    $rootScope: scope
+                    languageService: languageServiceMock
                 });
             });
-        });
-
-        it('should pass the dummy test', function () {
-            expect(true).toBe(true);
         });
 
         it('should be defined', function () {
@@ -107,8 +100,8 @@ describe('Prolaim controllers tests: ', function () {
             expect(angular.isFunction(controller.setLanguageAndTranslate)).toBe(true);
         });
 
-        it('should show that the default language is "ru"', function () {
-            expect(controller.data.LANGUAGE).toBe('ru');
+        it('should show that the default language setting is undefined', function () {
+            expect(controller.data.LANGUAGE).not.toBeDefined();
         });
     });
 

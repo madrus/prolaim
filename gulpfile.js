@@ -152,7 +152,7 @@ gulp.task('wiredep', ['vet'], function () {
         .pipe(gulp.dest(config.client));
 });
 
-gulp.task('inject', ['wiredep', 'styles', 'template-cache'], function () {
+gulp.task('inject', ['wiredep', 'styles', 'template-cache', 'fonts', 'images'], function () {
     log('INJECT: inject the app css into the html and call wiredep, styles and template-cache');
 
     var templateCache = config.temp + config.templateCache.file;
@@ -167,7 +167,7 @@ gulp.task('inject', ['wiredep', 'styles', 'template-cache'], function () {
         .pipe(gulp.dest(config.client));
 });
 
-gulp.task('optimize', ['clean-build', 'inject'], function () {
+gulp.task('optimize', ['clean-build', 'inject', 'fonts', 'images'], function () {
     log('OPTIMIZE: optimize the javascript, css, html');
     var assets = $.useref.assets({searchPath: config.root});
     var cssFilter = $.filter('**/' + config.optimized.css);
@@ -187,10 +187,10 @@ gulp.task('optimize', ['clean-build', 'inject'], function () {
         .pipe($.uglify())
         .pipe(jsLibFilter.restore())
         // minify app.js
-        .pipe(jsAppFilter)
-        .pipe($.ngAnnotate())
-        .pipe($.uglify())
-        .pipe(jsAppFilter.restore())
+        // .pipe(jsAppFilter)
+        // .pipe($.ngAnnotate())
+        // .pipe($.uglify())
+        // .pipe(jsAppFilter.restore())
         .pipe($.rev())// app.js --> app-1j88d80dkj.js
         .pipe(assets.restore())
         .pipe($.useref())
@@ -209,7 +209,7 @@ gulp.task('js-prettify', function () {
         .pipe(gulp.dest(config.temp + 'js/'));
 });
 
-gulp.task('build-dev', ['inject', 'fonts', 'images'], function () {
+gulp.task('build-dev', ['inject'], function () {
     log('BUILD-DEV: run "inject" task and copy fonts and images');
 
     var msg = {
@@ -221,7 +221,7 @@ gulp.task('build-dev', ['inject', 'fonts', 'images'], function () {
     notify(msg);
 });
 
-gulp.task('build', ['optimize', 'fonts', 'images'], function () {
+gulp.task('build', ['optimize'], function () {
     log('BUILD: run "optimize" task and copy fonts and images');
 
     var msg = {
@@ -229,7 +229,7 @@ gulp.task('build', ['optimize', 'fonts', 'images'], function () {
         subtitle: 'Deployed to the build folder',
         message: 'You can now run "gulp serve-build"'
     };
-    del(config.temp);
+    // del(config.temp);
     log(msg);
     notify(msg);
 });

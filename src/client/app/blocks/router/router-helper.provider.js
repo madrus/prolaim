@@ -70,7 +70,7 @@
                         handlingStateChangeError = true;
                         var msg = formatErrorMessage(error);
                         logger.warning(msg, [toState]);
-                        $location.path('/');
+                        $location.path('/ru/main');
 
                         function formatErrorMessage(error) {
                             var dest = (toState && (toState.title || toState.name ||

@@ -6,40 +6,44 @@
         .controller('About', About);
 
     About.$inject = [
-        'dataService', 'languageService', 'config'
+        '$rootScope', 'dataService', 'languageService'
     ];
 
     ///////////////////////////////////////////////////////////////
 
-    function About(dataService, languageService, config) {
+    function About($rootScope, dataService, languageService) {
 
         console.log('About: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
         var pageName = 'about';
-        var defaultLanguage;
 
         /* here we specify what the view needs */
-        vm.data = {
-            LANGUAGE: config.language
-        };
-        vm.translate = translate;
+        vm.data = {};
         vm.title = 'About Prolaim';
+        vm.translate = translate;
 
         activate();
 
         ////////////////////////////////////////////
 
         function activate() {
-            console.log('defaultSettings.language = ' + config.language);
-            var iso = languageService.getLanguage() || config.language;
-            vm.translate(iso);
+            var language = languageService.getLanguage();
+            vm.translate(language);
+            initWatch();
         }
 
-        function translate(language) {
+        function initWatch() {
+            $rootScope.$on('languageChanged', function (event, obj) {
+                console.log('ABOUT.ON: language changed to ' + obj.language);
+                translate(obj.language);
+            });
+        }
+
+        function translate(newLanguage) {
             return dataService
-                .getTranslation(pageName, language)
+                .getTranslation(pageName, newLanguage)
                 .then(function (data) {
                     if (data) {
                         vm.data = data;
