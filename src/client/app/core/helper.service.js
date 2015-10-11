@@ -23,8 +23,8 @@
             if (!path) {
                 return undefined;
             }
-
-            var parts = path.match(/^\/(ru|ua)(\/.*)?/); // /ru or /ua optionally followed by /...
+            // /ru or /ua optionally followed by /...
+            var parts = path.match(/^\/(ru|ua)(\/.*)?/);
             if (!parts || parts.length < 2) {
                 return undefined;
             } else {
@@ -39,7 +39,8 @@
                 return undefined;
             }
 
-            var parts = path.match(/^\/(ru|ua)(\/.*)?/); // /ru or /ua optionally followed by /...
+            // /ru or /ua optionally followed by /...
+            var parts = path.match(/^\/(ru|ua)(\/.*)?/);
             if (!parts || parts.length < 3) {
                 return undefined;
             } else {

@@ -1,6 +1,6 @@
 /*jshint -W117 */
 var gulp = require('gulp'),
-    $ = require('gulp-load-plugins')({lazy: true}),
+    $ = require('gulp-load-plugins')({ lazy: true }),
     _ = require('lodash'),
     args = require('yargs').argv,
     browserSync = require('browser-sync'),
@@ -44,7 +44,7 @@ gulp.task('images', ['clean-images'], function () {
 
     return gulp
         .src(config.images)
-        .pipe($.imagemin({optimizationLevel: 4})) // default is 3
+        .pipe($.imagemin({ optimizationLevel: 4 })) // default is 3
         .pipe(gulp.dest(config.temp + 'images'))
         .pipe(gulp.dest(config.build + 'images'));
 });
@@ -56,16 +56,16 @@ gulp.task('styles', ['clean-styles'], function () {
         .src(config.less)
         .pipe($.plumber())
         .pipe($.less())
-        .pipe($.autoprefixer({browsers: ['last 2 version', '> 5%']}))
+        .pipe($.autoprefixer({ browsers: ['last 2 version', '> 5%'] }))
         .pipe(gulp.dest(config.temp + 'styles'))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 
 gulp.task('clean', function (done) {
     var files = [].concat(
         config.build,
         config.temp
-    );
+        );
     log('CLEAN: clean: ' + $.util.colors.blue(files));
     del(files, done);
 });
@@ -104,7 +104,7 @@ gulp.task('clean-code', function (done) {
         config.temp + 'templates.js',
         config.build + '**/*.html',
         config.build + 'js/**/*.js'
-    );
+        );
     clean(files, done);
 });
 
@@ -126,9 +126,9 @@ gulp.task('template-cache', ['clean-template-cache'], function () {
         .pipe($.angularTemplatecache(
             config.templateCache.file,
             config.templateCache.options
-        ))
+            ))
         .pipe(gulp.dest(config.temp))
-        .pipe(reload({stream: true}));
+        .pipe(reload({ stream: true }));
 });
 
 gulp.task('wiredep', ['vet'], function () {
@@ -137,18 +137,18 @@ gulp.task('wiredep', ['vet'], function () {
     var wiredep = require('wiredep').stream;
     var modulesStream = gulp.src([
         config.clientApp + '**/*.module.js'
-    ], {read: false});
+    ], { read: false });
     var restStream = gulp.src([
         config.clientApp + '**/*.js',
         '!' + config.clientApp + '**/*.module.js',
         '!' + config.clientApp + '**/*.spec.js'
-    ], {read: false});
+    ], { read: false });
 
     return gulp
         .src(config.index)
         .pipe(wiredep(options))
         .pipe($.inject(series(modulesStream, restStream)))
-        // put index.html back where it belongs
+    // put index.html back where it belongs
         .pipe(gulp.dest(config.client));
 });
 
@@ -159,17 +159,17 @@ gulp.task('inject', ['wiredep', 'styles', 'template-cache', 'fonts', 'images'], 
 
     return gulp
         .src(config.index)
-        .pipe($.inject(gulp.src(config.css, {read: false})))
-        .pipe($.inject(gulp.src(templateCache, {read: false}), {
+        .pipe($.inject(gulp.src(config.css, { read: false })))
+        .pipe($.inject(gulp.src(templateCache, { read: false }), {
             starttag: '<!-- inject:templates:js -->' // see index.html
         }))
-        // put index.html back where it belongs
+    // put index.html back where it belongs
         .pipe(gulp.dest(config.client));
 });
 
 gulp.task('optimize', ['clean-build', 'inject', 'fonts', 'images'], function () {
     log('OPTIMIZE: optimize the javascript, css, html');
-    var assets = $.useref.assets({searchPath: config.root});
+    var assets = $.useref.assets({ searchPath: config.root });
     var cssFilter = $.filter('**/' + config.optimized.css);
     var jsLibFilter = $.filter('**/' + config.optimized.lib);
     var jsAppFilter = $.filter('**/' + config.optimized.app);
@@ -178,19 +178,19 @@ gulp.task('optimize', ['clean-build', 'inject', 'fonts', 'images'], function () 
         .src(config.index)
         .pipe($.plumber())
         .pipe(assets)
-        // minify css
+    // minify css
         .pipe(cssFilter)
         .pipe($.csso())
         .pipe(cssFilter.restore())
-        //minify lib.js
+    //minify lib.js
         .pipe(jsLibFilter)
         .pipe($.uglify())
         .pipe(jsLibFilter.restore())
-        // minify app.js
-        // .pipe(jsAppFilter)
-        // .pipe($.ngAnnotate())
-        // .pipe($.uglify())
-        // .pipe(jsAppFilter.restore())
+    // minify app.js
+        .pipe(jsAppFilter)
+        .pipe($.ngAnnotate({ add: true, 'single_quotes': true }))
+// .pipe($.uglify())
+        .pipe(jsAppFilter.restore())
         .pipe($.rev())// app.js --> app-1j88d80dkj.js
         .pipe(assets.restore())
         .pipe($.useref())
@@ -301,7 +301,7 @@ function serve(isDev) {
             // wait for nodemon to restart
             setTimeout(function () {
                 browserSync.notify('Reloading browser-sync now ...');
-                reload({stream: false});
+                reload({ stream: false });
             }, config.browserReloadDelay);
         })
         .on('crash', function () {

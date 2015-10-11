@@ -86,7 +86,8 @@
 
             var lang = helper.getLanguageFromPath(path);
             var rest = helper.getRestOfPath(path);
-            //var urlMatcher = new $urlMatcherFactory.compile('^\/(ru|ua)(\/.*)?', {caseInsensitive: false});
+            //var urlMatcher = new $urlMatcherFactory.compile('^\/(ru|ua)(\/.*)?',
+            //                 {caseInsensitive: false});
             console.log('lang: ' + lang + ', rest: ' + rest);
 
             var newPath = '/' + iso + rest;

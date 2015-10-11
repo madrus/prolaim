@@ -11,7 +11,6 @@
 
     /////////////////////////////////////////////////////
 
-    /* @ngInject */
     function Footer(translator, languageService, defaultSettings) {
         console.log('Footer: inside the controller');
 
