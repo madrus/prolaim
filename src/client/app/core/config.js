@@ -1,5 +1,4 @@
 /*jshint -W117 */
-/* global toastr:false, moment:false */
 (function () {
     'use strict';
 
@@ -29,7 +28,7 @@
         'routerHelperProvider', 'exceptionHandlerProvider'];
 
     function configure($compileProvider, $logProvider,
-                       routerHelperProvider, exceptionHandlerProvider) {
+        routerHelperProvider, exceptionHandlerProvider) {
         $compileProvider.debugInfoEnabled(true);
 
         // turn debugging off/on (no info or warn)
@@ -46,8 +45,8 @@
                 ready: ready
             };
 
-            ready.$inject = ['dataService'];
             // if we were not using $inject explicitely, we could also put a code hint
+            ready.$inject = ['dataService'];
 
             function ready(dataService) {
                 return dataService.ready();
