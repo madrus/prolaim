@@ -5,8 +5,6 @@
     angular.module('prolaim')
         .factory('helper', helper);
 
-    /////////////////////////////////////////////////////////////
-
     function helper() {
 
         var service = {};

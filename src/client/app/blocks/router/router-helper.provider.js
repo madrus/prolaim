@@ -43,7 +43,7 @@
 
             return service;
 
-            ///////////////
+            /////////////////////////////////////////////////////////
 
             function configureStates(states, otherwisePath) {
                 states.forEach(function(state) {

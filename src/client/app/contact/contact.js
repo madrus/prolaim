@@ -9,8 +9,6 @@
         '$rootScope', 'dataService', 'languageService', 'mapService', 'logger'
     ];
 
-    ////////////////////////////////////////////////////////
-
     function Contact($rootScope, dataService, languageService, mapService, logger) {
 
         console.log('Contact: inside the controller');
@@ -20,9 +18,7 @@
         var pageName = 'contact';
 
         /* here we specify what the view needs */
-        vm.data = {
-            LANGUAGE: ''
-        };
+        vm.data = {};
         vm.translate = translate;
         vm.prolaimMap = {};
         vm.title = 'Contact Prolaim';
@@ -33,24 +29,22 @@
 
         function activate() {
             var language = languageService.getLanguage();
-            console.log('Contact: activated language = ' + language);
-            logger.info('Contact: activated language = ' + language);
             vm.translate(language);
+            // console.log('Contact: activated language = ' + language);
+            logger.info('CONTACT: activated language = ' + language);
             mapService.getMap();
             initWatch();
         }
 
         function initWatch() {
-            $rootScope.$on('languageChanged', function (event, obj) {
-                vm.translate(obj.language);
-                console.log('CONTACT.ON: languageChanged to ' + obj.language);
-
+            $rootScope.$on('languageChanged', function (event, scope) {
+                vm.translate(scope.language);
+                logger.info('CONTACT: language changed to ' + scope.language);
             });
         }
 
         function translate(newLanguage) {
-            return dataService
-                .getTranslation(pageName, newLanguage)
+            return dataService.getTranslation(pageName, newLanguage)
                 .then(function (data) {
                     if (data) {
                         vm.data = data;

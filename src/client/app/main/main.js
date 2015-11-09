@@ -9,8 +9,6 @@
         '$rootScope', 'dataService', 'languageService'
     ];
 
-    ////////////////////////////////////////////////////////
-
     function Main($rootScope, dataService, languageService) {
 
         console.log('Main: inside the controller');

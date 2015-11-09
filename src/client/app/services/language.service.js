@@ -8,8 +8,6 @@
 
     languageService.$inject = ['$rootScope'];
 
-    ///////////////////////////////////////////////
-
     function languageService($rootScope) {
 
         console.log('languageService: inside the service');

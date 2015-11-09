@@ -8,8 +8,6 @@
 
     languageService.$inject = ['$rootScope', 'logger', 'config'];
 
-    ///////////////////////////////////////////////
-
     function languageService($rootScope, logger, config) {
         /*jshint validthis: true */
         var service = this;

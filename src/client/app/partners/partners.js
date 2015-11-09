@@ -9,8 +9,6 @@
         '$rootScope', 'dataService', 'languageService'
     ];
 
-    ///////////////////////////////////////////////////////
-
     function Partners($rootScope, dataService, languageService) {
 
         console.log('Partners: inside the controller');

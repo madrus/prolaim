@@ -6,12 +6,10 @@
         .controller('About', About);
 
     About.$inject = [
-        '$rootScope', 'dataService', 'languageService'
+        '$rootScope', 'dataService', 'languageService', 'logger'
     ];
 
-    ///////////////////////////////////////////////////////////////
-
-    function About($rootScope, dataService, languageService) {
+    function About($rootScope, dataService, languageService, logger) {
 
         console.log('About: inside the controller');
 
@@ -31,19 +29,19 @@
         function activate() {
             var language = languageService.getLanguage();
             vm.translate(language);
+            logger.info('ABOUT: activated language = ' + language);
             initWatch();
         }
 
         function initWatch() {
-            $rootScope.$on('languageChanged', function (event, obj) {
-                console.log('ABOUT.ON: language changed to ' + obj.language);
-                translate(obj.language);
+            $rootScope.$on('languageChanged', function (event, scope) {
+                logger.info('ABOUT: language changed to ' + scope.language);
+                translate(scope.language);
             });
         }
 
         function translate(newLanguage) {
-            return dataService
-                .getTranslation(pageName, newLanguage)
+            return dataService.getTranslation(pageName, newLanguage)
                 .then(function (data) {
                     if (data) {
                         vm.data = data;

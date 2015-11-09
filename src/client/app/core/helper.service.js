@@ -6,8 +6,6 @@
         .module('prolaim.core')
         .factory('helper', helper);
 
-    /////////////////////////////////////////////////////////////
-
     function helper() {
         /*jshint validthis: true */
         var service = this;

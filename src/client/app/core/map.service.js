@@ -8,8 +8,6 @@
 
     mapService.$inject = ['logger'];
 
-    ///////////////////////////////////////
-
     function mapService(logger) {
         /*jshint validthis: true */
         var service = this;
@@ -18,7 +16,7 @@
 
         return service;
 
-        ////////////////////////
+        ///////////////////////////////////////////
 
         function getMap() {
             var map;

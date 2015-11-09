@@ -178,18 +178,18 @@ gulp.task('optimize', ['clean-build', 'inject', 'fonts', 'images'], function () 
         .src(config.index)
         .pipe($.plumber())
         .pipe(assets)
-    // minify css
+    /* minify css */
         .pipe(cssFilter)
         .pipe($.csso())
         .pipe(cssFilter.restore())
-    //minify lib.js
+    /* minify lib.js */
         .pipe(jsLibFilter)
         .pipe($.uglify())
         .pipe(jsLibFilter.restore())
-    // minify app.js
+    /* minify app.js */
         .pipe(jsAppFilter)
         .pipe($.ngAnnotate({ add: true, 'single_quotes': true }))
-// .pipe($.uglify())
+    // .pipe($.uglify()) // TODO: make this work!!!
         .pipe(jsAppFilter.restore())
         .pipe($.rev())// app.js --> app-1j88d80dkj.js
         .pipe(assets.restore())

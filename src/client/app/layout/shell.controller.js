@@ -6,10 +6,10 @@
         .controller('Shell', Shell);
 
     Shell.$inject = [
-        '$location', '$rootScope', 'dataService', 'languageService', 'helper', 'config'
+        '$location', '$rootScope', 'dataService', 'languageService', 'helper', 'config', 'logger'
     ];
 
-    function Shell($location, $rootScope, dataService, languageService, helper, config) {
+    function Shell($location, $rootScope, dataService, languageService, helper, config, logger) {
 
         console.log('Shell: inside the controller');
 
@@ -31,7 +31,7 @@
         function activate() {
             var language = initLanguage();
             setLanguageAndTranslate(language);
-            console.log('SHELL: relocating to /' + language + '/main');
+            logger.info('LAYOUT.SHELL: relocating to /' + language + '/main');
             $location.url('/' + language + '/main').replace();
             initWatch();
         }
@@ -46,7 +46,7 @@
         function initWatch() {
             $rootScope.$on('languageChanged', function (event, obj) {
                 translate(obj.language);
-                console.log('SHELL.ON: languageChanged to ' + obj.language);
+                logger.info('LAYOUT.SHELL: languageChanged to ' + obj.language);
             });
         }
 
@@ -56,10 +56,9 @@
         }
 
         function translate(newLanguage) {
-            console.log('SHELL: translate is called with language = ' + newLanguage);
+            logger.info('LAYOUT.SHELL: translate is called with language = ' + newLanguage);
 
-            return dataService
-                .getTranslation(pageName, newLanguage)
+            return dataService.getTranslation(pageName, newLanguage)
                 .then(function (data) {
                     if (data) {
                         vm.data = data;

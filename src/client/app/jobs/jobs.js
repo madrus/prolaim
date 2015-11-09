@@ -6,12 +6,10 @@
         .controller('Jobs', Jobs);
 
     Jobs.$inject = [
-        '$rootScope', 'dataService', 'languageService'
+        '$rootScope', 'dataService', 'languageService', 'logger'
     ];
 
-    ////////////////////////////////////////////////////////
-
-    function Jobs($rootScope, dataService, languageService) {
+    function Jobs($rootScope, dataService, languageService, logger) {
 
         console.log('Jobs: inside the controller');
 
@@ -31,19 +29,19 @@
         function activate() {
             var language = languageService.getLanguage();
             vm.translate(language);
+            logger.info('JOBS: activated language = ' + language);
             initWatch();
         }
 
         function initWatch() {
             $rootScope.$on('languageChanged', function (event, obj) {
-                console.log('JOBS.ON: language changed to ' + obj.language);
+                logger.info('JOBS: language changed to ' + obj.language);
                 translate(obj.language);
             });
         }
 
         function translate(newLanguage) {
-            return dataService
-                .getTranslation(pageName, newLanguage)
+            return dataService.getTranslation(pageName, newLanguage)
                 .then(function (data) {
                     if (data) {
                         vm.data = data;

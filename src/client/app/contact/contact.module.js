@@ -2,5 +2,5 @@
 (function() {
     'use strict';
 
-    angular.module('prolaim.contact', ['prolaim.core']);
+    angular.module('prolaim.contact', []);
 })();

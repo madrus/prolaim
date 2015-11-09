@@ -1,3 +1,4 @@
+/* global ymaps */
 /*jshint -W117 */
 (function () {
 
@@ -5,8 +6,6 @@
 
     angular.module('prolaim')
         .factory('mapService', mapService);
-
-    ///////////////////////////////////////
 
     function mapService() {
         var service = {};
@@ -16,24 +15,26 @@
         return service;
     }
 
+    ///////////////////////////////////////
+
     function getMap() {
         var map;
-        //        var ymapsSource = 'https://api-maps.yandex.ru/2.1.26/?load=package.standard&lang=uk-RU';
-        //        loadScript(ymapsSource, function () {
-        //            console.log('ymaps has been loaded, now we are ready');
-        //            ymaps.ready(function () {
-        //                // инициализируем карту
-        //                map = initializeMap();
-        //                // создаем маркер преприятия
-        //                var marker = initializeMarker();
-        //                // Добавляем метку на карту.
-        //                console.log('before placing marker');
-        //                map.geoObjects.add(marker);
-        //                console.log('marker placed');
-        //            });
-        //        });
-        //
-        //        console.log('map is ready to be returned to the caller');
+            var ymapsSource = 'https://api-maps.yandex.ru/2.1.26/?load=package.standard&lang=uk-RU';
+            loadScript(ymapsSource, function () {
+                console.log('ymaps has been loaded, now we are ready');
+                ymaps.ready(function () {
+                    // инициализируем карту
+                    map = initializeMap();
+                    // создаем маркер преприятия
+                    var marker = initializeMarker();
+                    // Добавляем метку на карту.
+                    console.log('before placing marker');
+                    map.geoObjects.add(marker);
+                    console.log('marker placed');
+                });
+            });
+    
+            console.log('map is ready to be returned to the caller');
         return map;
     }
 
@@ -117,5 +118,4 @@
         console.log('marker initialized');
         return marker;
     }
-
 })();

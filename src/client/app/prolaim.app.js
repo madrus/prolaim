@@ -16,6 +16,8 @@
         'prolaim.404'
     ]);
 
+    // TODO make extra module for routing
+
     angular.module('prolaim')
         .config(['$urlRouterProvider', '$stateProvider', '$locationProvider',
             function ($urlRouterProvider, $stateProvider, $locationProvider) {
@@ -35,7 +37,7 @@
                 //     $injector.get('$state')
                 //         .go('shell.lang.base.404', {}, {location: false});
                 // });
- 
+
                 var shell = {
                     name: 'shell',
                     abstract: true,

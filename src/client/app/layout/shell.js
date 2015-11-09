@@ -6,16 +6,13 @@
         .controller('Shell', Shell);
 
     Shell.$inject = [
-        '$location',
-        'translator', 'languageService',
-        'helper', 'defaultSettings'
+        '$location', 'translator', 'languageService', 'helper', 'defaultSettings', 'logger'
     ];
 
-    function Shell($location,
-        translator, languageService,
-        helper, defaultSettings) {
+    function Shell($location, translator, languageService,
+        helper, defaultSettings, logger) {
 
-        console.log('Shell: inside the controller');
+        logger.info('SHELL: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
@@ -41,7 +38,7 @@
 
         function activate() {
             init();
-            console.log('shell: translate activated with language ' + iso);
+            logger.info('SHELL: translate activated with language ' + iso);
             translate(iso);
         }
 
@@ -50,7 +47,7 @@
             console.log('inside init language function');
 
             var path = $location.path();
-            console.log('shell: path from $location: ' + path);
+            logger.info('SHELL: path from $location: ' + path);
 
             /* LANGUAGE and TRANSLATE */
             oldIso = helper.getLanguageFromPath(path);
@@ -79,7 +76,7 @@
                     if (iso !== oldIso) {
                         $location.path(iso).replace();
                     }
-                    console.log('shell: path after relocation: ' + $location.path());
+                    logger.info('SHELL: path after relocation: ' + $location.path());
                     //                    return vm.data;
                 }
             });
@@ -94,7 +91,7 @@
             console.log('newPath: ' + newPath);
 
             if (oldIso !== iso) {
-                console.log('relocating to ' + newPath);
+                logger.info('SHELL relocating to ' + newPath);
                 $location.path(newPath).replace();
             }
         }

@@ -12,8 +12,6 @@
 
     translatorResource.$inject = ['$resource'];
 
-    //////////////////////////////////////////////////////////////
-
     function translatorResource($resource) {
         var pathToJsonFile = '/src/server/data/:fileName';
         var resource = $resource(pathToJsonFile);
@@ -21,6 +19,8 @@
     }
 
     /////////////////////////////////////////////////////////
+
+    // TODO make separate modules for translatorResource and translator
 
     /**
      * translator service (no $resource dependency)
@@ -32,8 +32,6 @@
 
     translator.$inject = ['translatorResource', '$q'];
 
-    /////////////////////////////////////////////////////////////////////
-
     function translator(translatorResource, $q) {
 
         var service = {};
@@ -42,7 +40,7 @@
 
         return service;
 
-        //////////////////////////////////
+        /////////////////////////////////////////////////
 
         function getTranslation(pageName, language) {
 
