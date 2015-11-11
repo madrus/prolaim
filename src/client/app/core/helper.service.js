@@ -7,11 +7,10 @@
         .factory('helper', helper);
 
     function helper() {
-        /*jshint validthis: true */
-        var service = this;
-
-        service.getLanguageFromPath = getLanguageFromPath;
-        service.getRestOfPath = getRestOfPath;
+        var service = {
+            getLanguageFromPath: getLanguageFromPath,
+            getRestOfPath: getRestOfPath
+        };
 
         return service;
 
@@ -27,7 +26,7 @@
                 return undefined;
             } else {
                 var language = parts[1];
-                console.log('getLanguageFromPath: language = ' + language);
+                console.log('HELPER.getLanguageFromPath: language = ' + language);
                 return language;
             }
         }
@@ -43,7 +42,7 @@
                 return undefined;
             } else {
                 var rest = parts[2];
-                console.log('getRestOfPath: rest = ' + rest);
+                console.log('HELPER.getRestOfPath: rest = ' + rest);
                 return rest;
             }
         }

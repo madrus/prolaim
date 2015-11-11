@@ -7,7 +7,7 @@
         'prolaim.core',
 
         /* feature areas */
-        'prolaim.layout',
+        'prolaim.shell',
         'prolaim.about',
         'prolaim.contact',
         'prolaim.jobs',

@@ -2,24 +2,24 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.jobs')
-        .controller('Jobs', Jobs);
+    angular.module('prolaim.about')
+        .controller('About', About);
 
-    Jobs.$inject = [
+    About.$inject = [
         '$rootScope', 'dataService', 'languageService', 'logger'
     ];
 
-    function Jobs($rootScope, dataService, languageService, logger) {
+    function About($rootScope, dataService, languageService, logger) {
 
-        console.log('Jobs: inside the controller');
+        console.log('ABOUT: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
-        var pageName = 'jobs';
+        var pageName = 'about';
 
         /* here we specify what the view needs */
         vm.data = {};
-        vm.title = 'Prolaim job offers';
+        vm.title = 'About Prolaim';
         vm.translate = translate;
 
         activate();
@@ -29,14 +29,14 @@
         function activate() {
             var language = languageService.getLanguage();
             vm.translate(language);
-            logger.info('JOBS: activated language = ' + language);
+            console.log('ABOUT: activated language = ' + language);
             initWatch();
         }
 
         function initWatch() {
-            $rootScope.$on('languageChanged', function (event, obj) {
-                logger.info('JOBS: language changed to ' + obj.language);
-                translate(obj.language);
+            $rootScope.$on('languageChanged', function (event, scope) {
+                logger.info('ABOUT: language changed to ' + scope.language);
+                translate(scope.language);
             });
         }
 

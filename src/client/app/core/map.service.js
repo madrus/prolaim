@@ -9,11 +9,11 @@
     mapService.$inject = ['logger'];
 
     function mapService(logger) {
-        /*jshint validthis: true */
-        var service = this;
-
-        service.getMap = getMap;
-
+        
+        var service = {
+            getMap: getMap
+        };
+        
         return service;
 
         ///////////////////////////////////////////
@@ -29,13 +29,13 @@
                     // создаем маркер преприятия
                     var marker = initializeMarker();
                     // Добавляем метку на карту.
+                    console.log('MAPSERVICE.getMap: before placing marker');
                     map.geoObjects.add(marker);
-                    console.log('marker placed');
+                    console.log('MAPSERVICE.getMap: marker placed');
                 });
             });
 
-            console.log('map is ready to be returned to the caller');
-            logger.info('Map is ready');
+            logger.info('MAPSERVICE.getMap: Map is ready');
             return map;
         }
 
@@ -79,9 +79,9 @@
                 behaviors: ['default', 'scrollZoom']
             };
 
-            console.log('before ymaps.Map');
+            console.log('MAPSERVICE.initializeMap: before new ymaps.Map');
             var prolaimMap = new ymaps.Map(mapContainer, config);
-            console.log('after ymaps.Map');
+            console.log('MAPSERVICE.initializeMap: after new ymaps.Map');
             //prolaimMap.controls.add('routeEditor');
 
             //var zoomOffset = -3;
@@ -116,7 +116,7 @@
                 draggable: true
             });
 
-            console.log('marker initialized');
+            console.log('MAPSERVICE.initializeMarker: marker initialized');
             return marker;
         }
     }

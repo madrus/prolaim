@@ -11,7 +11,7 @@
 
     function Shell($location, $rootScope, dataService, languageService, helper, config, logger) {
 
-        console.log('SHELL: inside the controller');
+        console.log('Shell: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
@@ -31,7 +31,7 @@
         function activate() {
             var language = initLanguage();
             setLanguageAndTranslate(language);
-            logger.info('SHELL.activate: routing to /' + language + '/main');
+            logger.info('LAYOUT.SHELL: relocating to /' + language + '/main');
             $location.url('/' + language + '/main').replace();
             initWatch();
         }
@@ -44,9 +44,9 @@
         }
 
         function initWatch() {
-            $rootScope.$on('languageChanged', function (event, scope) {
-                translate(scope.language);
-                logger.info('SHELL.initWatch: languageChanged to ' + scope.language);
+            $rootScope.$on('languageChanged', function (event, obj) {
+                translate(obj.language);
+                logger.info('LAYOUT.SHELL: languageChanged to ' + obj.language);
             });
         }
 
@@ -56,7 +56,7 @@
         }
 
         function translate(newLanguage) {
-            logger.info('SHELL.translate: language ' + newLanguage);
+            logger.info('LAYOUT.SHELL: translate is called with language = ' + newLanguage);
 
             return dataService.getTranslation(pageName, newLanguage)
                 .then(function (data) {

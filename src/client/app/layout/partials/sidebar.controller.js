@@ -2,11 +2,18 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.layout')
+    angular.module('shell.sidebar')
         .controller('Sidebar', Sidebar);
 
-    function Sidebar() {
-        console.log('Sidebar placeholder');
+    Sidebar.$inject = [
+        '$rootScope', 'dataService', 'languageService', 'logger'
+    ];
+    
+    ///////////////////////////////////////////////////////////////////
+
+    function Sidebar($rootScope, dataService, languageService, logger) {
+
+        console.log('SIDEBAR: inside the controller');
     }
 
 })();

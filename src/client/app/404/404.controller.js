@@ -2,44 +2,41 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.contact')
-        .controller('Contact', Contact);
+    angular.module('prolaim.404')
+        .controller('P404', P404);
 
-    Contact.$inject = [
-        '$rootScope', 'dataService', 'languageService', 'mapService', 'logger'
+    P404.$inject = [
+        '$rootScope', 'dataService', 'languageService', 'logger'
     ];
 
-    function Contact($rootScope, dataService, languageService, mapService, logger) {
+    function P404($rootScope, dataService, languageService, logger) {
 
-        console.log('Contact: inside the controller');
+        console.log('P404: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
-        var pageName = 'contact';
+        var pageName = 'P404';
 
         /* here we specify what the view needs */
         vm.data = {};
+        vm.title = 'Oops! Non-existing page';
         vm.translate = translate;
-        vm.prolaimMap = {};
-        vm.title = 'Contact Prolaim';
 
         activate();
 
-        ////////////////////////////////////////////////
+        ////////////////////////////////////////////
 
         function activate() {
             var language = languageService.getLanguage();
             vm.translate(language);
-            // console.log('Contact: activated language = ' + language);
-            logger.info('CONTACT: activated language = ' + language);
-            mapService.getMap();
+            console.log('404: activated language = ' + language);
             initWatch();
         }
 
         function initWatch() {
             $rootScope.$on('languageChanged', function (event, scope) {
-                vm.translate(scope.language);
-                logger.info('CONTACT: language changed to ' + scope.language);
+                logger.info('404: language changed to ' + scope.language);
+                translate(scope.language);
             });
         }
 

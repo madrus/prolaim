@@ -12,11 +12,11 @@
     function Shell($location, translator, languageService,
         helper, defaultSettings, logger) {
 
-        logger.info('SHELL: inside the controller');
+        logger.info('shell: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
-        var firstTime, iso, oldIso, path;
+        var iso, oldIso, path;
 
         vm.data = {
             language: ''
@@ -76,7 +76,7 @@
                     if (iso !== oldIso) {
                         $location.path(iso).replace();
                     }
-                    logger.info('SHELL: path after relocation: ' + $location.path());
+                    logger.info('shell: path after relocation: ' + $location.path());
                     //                    return vm.data;
                 }
             });
@@ -91,7 +91,7 @@
             console.log('newPath: ' + newPath);
 
             if (oldIso !== iso) {
-                logger.info('SHELL relocating to ' + newPath);
+                logger.info('shell relocating to ' + newPath);
                 $location.path(newPath).replace();
             }
         }

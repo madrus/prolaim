@@ -3,6 +3,8 @@ module.exports = function() {
         getJsonFromFile: getJsonFromFile
     };
     return service;
+    
+    /////////////////////////////////////////
 
     function getJsonFromFile(file) {
         var fs = require('fs');

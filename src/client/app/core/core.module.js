@@ -6,7 +6,7 @@
         .module('prolaim.core', [
             /* angular modules */
             //'ui.router',
-            //'ngResource'
+            'ngResource',
 
             /* Cross-app modules */
             'blocks.router',

@@ -2,11 +2,18 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.layout')
+    angular.module('shell.content')
         .controller('Content', Content);
 
-    function Content() {
-        console.log('Content placeholder');
+    Content.$inject = [
+        '$rootScope', 'dataService', 'languageService', 'logger'
+    ];
+    
+    ///////////////////////////////////////////////////////////////////
+
+    function Content($rootScope, dataService, languageService, logger) {
+
+        console.log('CONTENT: inside the controller');
     }
 
 })();

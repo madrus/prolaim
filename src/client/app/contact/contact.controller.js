@@ -2,41 +2,44 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.about')
-        .controller('About', About);
+    angular.module('prolaim.contact')
+        .controller('Contact', Contact);
 
-    About.$inject = [
-        '$rootScope', 'dataService', 'languageService', 'logger'
+    Contact.$inject = [
+        '$rootScope', 'dataService', 'languageService', 'mapService', 'logger'
     ];
 
-    function About($rootScope, dataService, languageService, logger) {
+    function Contact($rootScope, dataService, languageService, mapService, logger) {
 
-        console.log('About: inside the controller');
+        console.log('CONTACT: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
-        var pageName = 'about';
+        var pageName = 'contact';
 
         /* here we specify what the view needs */
         vm.data = {};
-        vm.title = 'About Prolaim';
         vm.translate = translate;
+        vm.prolaimMap = {};
+        vm.title = 'Contact Prolaim';
 
         activate();
 
-        ////////////////////////////////////////////
+        ////////////////////////////////////////////////
 
         function activate() {
             var language = languageService.getLanguage();
             vm.translate(language);
-            logger.info('ABOUT: activated language = ' + language);
+            // console.log('Contact: activated language = ' + language);
+            console.log('CONTACT: activated language = ' + language);
+            mapService.getMap();
             initWatch();
         }
 
         function initWatch() {
             $rootScope.$on('languageChanged', function (event, scope) {
-                logger.info('ABOUT: language changed to ' + scope.language);
-                translate(scope.language);
+                vm.translate(scope.language);
+                logger.info('CONTACT: language changed to ' + scope.language);
             });
         }
 

@@ -6,14 +6,12 @@
         .module('prolaim.core')
         .factory('dataService', dataService);
 
-    dataService.$inject = ['$http', '$location', '$q', 'exception', 'logger'];
+    dataService.$inject = ['$http', '$location', '$q', 'exception', 'logger', 'config'];
 
-    function dataService($http, $location, $q, exception, logger) {
+    function dataService($http, $location, $q, exception, logger, config) {
         var readyPromise;
-        /*jshint validthis: true */
-        var service = this;
 
-        service = {
+        var service = {
             getTranslation: getTranslation,
             ready: ready
         };
@@ -23,7 +21,7 @@
         /////////////////////////////////////////////
 
         function getTranslation(pageName, language) {
-            console.log('getTranslation: pageName = ' + pageName + ', language = ' + language);
+            logger.info('DATASERVICE.getTranslation: pageName = ' + pageName + ', language = ' + language);
             return $http.get('/api/' + pageName + '/' + language)
                 .then(getTranslationComplete)
                 .catch(function(message) {

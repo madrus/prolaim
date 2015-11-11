@@ -2,24 +2,26 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.partners')
-        .controller('Partners', Partners);
+    angular.module('prolaim.main')
+        .controller('Main', Main);
 
-    Partners.$inject = [
-        '$rootScope', 'dataService', 'languageService'
+    Main.$inject = [
+        '$rootScope', 'dataService', 'languageService', 'logger'
     ];
 
-    function Partners($rootScope, dataService, languageService) {
+    ///////////////////////////////////////////////////////////////
 
-        console.log('Partners: inside the controller');
+    function Main($rootScope, dataService, languageService, logger) {
+
+        console.log('MAIN: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
-        var pageName = 'partners';
+        var pageName = 'main';
 
         /* here we specify what the view needs */
         vm.data = {};
-        vm.title = 'Partners of Prolaim';
+        vm.title = 'Prolaim main page';
         vm.translate = translate;
 
         activate();
@@ -29,13 +31,14 @@
         function activate() {
             var language = languageService.getLanguage();
             vm.translate(language);
+            console.log('MAIN.activate: language = ' + language);
             initWatch();
         }
 
         function initWatch() {
-            $rootScope.$on('languageChanged', function (event, obj) {
-                console.log('PARTNERS.ON: language changed to ' + obj.language);
-                translate(obj.language);
+            $rootScope.$on('languageChanged', function (event, scope) {
+                logger.info('MAIN.initWatch: calling ' + scope.language + ' translation');
+                translate(scope.language);
             });
         }
 

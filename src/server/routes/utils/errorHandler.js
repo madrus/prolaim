@@ -4,6 +4,8 @@ module.exports = function() {
         logErrors: logErrors
     };
     return service;
+    
+    ///////////////////////////////////////
 
     function init(err, req, res, next) {
         var status = err.statusCode || 500;

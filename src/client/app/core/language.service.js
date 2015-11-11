@@ -9,6 +9,8 @@
     languageService.$inject = ['$rootScope', 'logger', 'config'];
 
     function languageService($rootScope, logger, config) {
+        console.log('LANGUAGESERVICE:');
+        
         /*jshint validthis: true */
         var service = this;
 
@@ -25,14 +27,13 @@
                 $rootScope.$broadcast('languageChanged', {
                     language: newLanguage
                 });
-                console.log('$rootScope.language changed to ' + newLanguage);
-                logger.info('Language changed to ' + getLanguage());
+                logger.info('LANGUAGESERVICE.setLanguage: $rootScope.language changed to ' + newLanguage);
             }
         }
 
         function getLanguage() {
             var currentLanguage = $rootScope.language;
-            console.log('$rootScope.language = ' + currentLanguage);
+            console.log('LANGUAGESERVICE.getLanguage: $rootScope.language = ' + currentLanguage);
             if (!currentLanguage) {
                 currentLanguage = config.language;
             }

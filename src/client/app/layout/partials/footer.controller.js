@@ -2,17 +2,18 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.layout')
+    angular.module('shell.footer')
         .controller('Footer', Footer);
 
     Footer.$inject = [
-        '$rootScope', 'dataService', 'languageService'
+        '$rootScope', 'dataService', 'languageService', 'logger'
     ];
 
-    /////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////
 
-    function Footer($rootScope, dataService, languageService) {
-        console.log('Footer: inside the controller');
+    function Footer($rootScope, dataService, languageService, logger) {
+
+        console.log('FOOTER: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
@@ -20,8 +21,8 @@
 
         /* here we specify what the view needs */
         vm.data = {};
-        vm.translate = translate;
         vm.title = 'Prolaim footer';
+        vm.translate = translate;
 
         activate();
 
@@ -30,13 +31,14 @@
         function activate() {
             var language = languageService.getLanguage();
             vm.translate(language);
+            console.log('FOOTER.activate: language = ' + language);
             initWatch();
         }
 
         function initWatch() {
-            $rootScope.$on('languageChanged', function(event, obj) {
-                console.log('FOOTER.ON: language changed to ' + obj.language);
-                translate(obj.language);
+            $rootScope.$on('languageChanged', function (event, scope) {
+                logger.info('FOOTER.initWatch: calling ' + scope.language + ' translation');
+                translate(scope.language);
             });
         }
 

@@ -2,24 +2,26 @@
 (function () {
     'use strict';
 
-    angular.module('prolaim.404')
-        .controller('P404', P404);
+    angular.module('prolaim.partners')
+        .controller('Partners', Partners);
 
-    P404.$inject = [
+    Partners.$inject = [
         '$rootScope', 'dataService', 'languageService', 'logger'
     ];
+    
+    /////////////////////////////////////////////////////////////////////
 
-    function P404($rootScope, dataService, languageService, logger) {
+    function Partners($rootScope, dataService, languageService, logger) {
 
-        console.log('P404: inside the controller');
+        console.log('PARTNERS: inside the controller');
 
         /*jshint validthis: true */
         var vm = this;
-        var pageName = 'P404';
+        var pageName = 'partners';
 
         /* here we specify what the view needs */
         vm.data = {};
-        vm.title = 'Oops! Non-existing page';
+        vm.title = 'Partners of Prolaim';
         vm.translate = translate;
 
         activate();
@@ -29,19 +31,20 @@
         function activate() {
             var language = languageService.getLanguage();
             vm.translate(language);
-            logger.info('404: activated language = ' + language);
+            logger.info('PARTNERS.activate: language = ' + language);
             initWatch();
         }
 
         function initWatch() {
             $rootScope.$on('languageChanged', function (event, scope) {
-                logger.info('404: language changed to ' + scope.language);
+                logger.info('PARTNERS.initWatch: calling ' + scope.language + ' translation');
                 translate(scope.language);
             });
         }
 
         function translate(newLanguage) {
-            return dataService.getTranslation(pageName, newLanguage)
+            return dataService
+                .getTranslation(pageName, newLanguage)
                 .then(function (data) {
                     if (data) {
                         vm.data = data;
